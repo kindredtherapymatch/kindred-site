@@ -5146,12 +5146,21 @@ function confirmDeleteAccount() {
     deck.length = 0;
     deckIndex = 0;
     browseAll = false;
-    /* Nothing server-side to remove while clientDataPersistence is false. When
-       it flips, this needs an RPC that deletes their client_inquiries too --
-       the copy above promises everything is gone, and it has to stay true. */
     clearClientState();
-    showToast('Your account has been deleted.');
-    logout();
+    /* THE ACCOUNT ITSELF, not just what is on this device. Without this the
+       auth user survived with their email on it and they could sign straight
+       back in -- while the button said "Deleting is permanent". The RPC takes
+       no arguments so it can only ever delete the caller, and it removes their
+       inquiries and waitlist row too (migration 0056).
+
+       The toast follows the RESULT: telling someone their account is gone and
+       signing them out on a lie is the failure being fixed here, not a smaller
+       version of it. */
+    deleteAccountEverywhere().then(ok => {
+      showToast(ok ? 'Your account has been deleted.'
+                   : 'Your device is cleared, but we could not delete the account itself \u2014 please try again.');
+      logout();
+    });
   });
 }
 
@@ -7521,6 +7530,20 @@ function openActivateProfile() {
       renderTherapistInsights();
     }, 1200);
   });
+}
+
+/* Deletes the auth user, their inquiries and their waitlist row. Returns false
+   for anything other than a confirmed deletion, so the caller can tell the
+   truth about what happened. Never throws -- a network failure must still leave
+   the device cleared and the person signed out. */
+async function deleteAccountEverywhere() {
+  if (!authReady() || !loadAuthSession()) return false;
+  try {
+    const res = await authRest('/rpc/delete_my_account', { method: 'POST', body: '{}' });
+    if (!res || !res.ok) return false;
+    const n = await res.json().catch(() => 0);
+    return Number(n) >= 1;
+  } catch (e) { return false; }
 }
 
 function logout() {
