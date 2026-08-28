@@ -24,47 +24,144 @@
 <link rel="stylesheet" href="/style.css?v=50">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z' fill='%23422448'/><path d='M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z' fill='%23B8A3C4'/><path d='M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z' fill='%23BE765F'/></svg>">
 
+<!-- Hide the letter until the cover has been seen. Runs before first paint so
+     the inside never flashes. Absent when motion is reduced, or if JS never
+     runs — the letter is the page, the cover is only a way of arriving at it. -->
+<script>
+(function () {
+  try {
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('inv-pending');
+    }
+  } catch (e) {}
+})();
+</script>
+
 <style>
   /* An invitation is a card, not a site. No nav, one column, one action.
      Anything that invites you to go elsewhere makes it a landing page again. */
-  body { background: var(--cream-2, #F4F4F9); margin: 0; }
-  .inv-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center;
-    padding: clamp(1.25rem, 5vw, 3.5rem); box-sizing: border-box; }
-  .inv-card { background: var(--cream, #FCFCFE); max-width: 620px; width: 100%;
+  body {
+    background: #F1EBF3;
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  .inv-scene { position: relative; min-height: 100vh; width: 100%;
+    max-width: 100%; overflow-x: hidden; }
+
+  /* Kindred's organic shapes, quiet, behind the paper. They are the life the
+     stationery conventions didn't have — warm, not festive. */
+  .inv-blob {
+    position: absolute; border-radius: 50% 60% 55% 45% / 55% 45% 60% 50%;
+    pointer-events: none; z-index: 0; filter: blur(2px);
+    animation: invDrift 22s ease-in-out infinite;
+  }
+  .inv-blob-clay { width: 280px; height: 320px; background: #E7B9A8;
+    opacity: .42; top: -80px; right: -70px; }
+  .inv-blob-lilac { width: 240px; height: 280px; background: var(--lilac, #B8A3C4);
+    opacity: .38; left: -90px; bottom: 8%; animation-delay: -7s; }
+  .inv-blob-gold { width: 180px; height: 180px; background: #E8C687;
+    opacity: .22; right: 12%; bottom: -50px; animation-delay: -13s; }
+
+  .inv-wrap { position: relative; z-index: 1; min-height: 100vh; width: 100%;
+    max-width: 100%; min-width: 0; box-sizing: border-box;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: clamp(1.25rem, 5vw, 3.5rem); }
+
+  .inv-paper {
+    background-color: #FFFCFA;
     background-image:
       radial-gradient(rgba(43,34,51,.022) 1px, transparent 1px),
       radial-gradient(rgba(43,34,51,.018) 1px, transparent 1px);
     background-size: 13px 13px, 21px 21px;
     background-position: 0 0, 7px 9px;
+  }
+
+  /* ---------- cover: the closed invitation ---------- */
+  /* Cover is a viewport overlay so it never shares layout with the letter.
+     The letter stays in the document (screen readers, no-js); overflow is
+     clipped while sealed so the hidden letter cannot scroll into view. */
+  .inv-cover-slot {
+    display: none;
+    position: fixed; inset: 0; z-index: 4;
+    align-items: center; justify-content: center;
+    padding: 1.25rem; pointer-events: none;
+  }
+  .inv-cover {
+    pointer-events: auto;
+    width: min(340px, calc(100vw - 2.5rem));
+    max-width: 100%;
+    min-height: 430px;
+    box-sizing: border-box;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: .35rem;
+    padding: 2.4rem 1.8rem 2rem;
+    border: 1px solid rgba(66, 36, 72, .12);
+    border-radius: 22px;
+    box-shadow: 0 28px 64px -28px rgba(66, 36, 72, .45),
+                0 1px 0 rgba(255,255,255,.7) inset;
+    cursor: pointer; font: inherit; color: inherit; text-align: center;
+    appearance: none; -webkit-appearance: none;
+  }
+  .inv-cover:focus-visible { outline: 2px solid var(--clay, #BE765F); outline-offset: 4px; }
+
+  .inv-cover-kicker {
+    font-family: 'Literata', Georgia, serif; font-style: italic; font-weight: 400;
+    font-size: 1.05rem; color: var(--clay-text, #8F5340); margin: 1.15rem 0 0; }
+  .inv-cover-to {
+    font-family: 'Literata', Georgia, serif; font-weight: 500;
+    font-size: clamp(1.55rem, 5vw, 2rem); line-height: 1.2;
+    color: var(--aubergine, #422448); margin: .2rem 0 .15rem;
+    text-wrap: balance; }
+  .inv-cover-to:empty { display: none; }
+  .inv-cover-from {
+    font-family: 'Literata', Georgia, serif; font-size: 1rem;
+    color: var(--aubergine, #422448); margin: 1.4rem 0 0; }
+  .inv-cover-hint {
+    font-family: 'Inter', system-ui, sans-serif; font-size: .72rem; font-weight: 600;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: var(--clay-text, #8F5340); margin-top: 1.6rem; opacity: .7; }
+
+  /* ---------- the letter ---------- */
+  .inv-card { background: #FFFCFA; width: min(620px, 100%); min-width: 0;
+    box-sizing: border-box;
     border: 1px solid var(--line-warm, #E9E7F0); border-radius: 20px;
-    padding: clamp(2rem, 6vw, 3.6rem);
+    padding: clamp(1.6rem, 5vw, 3.6rem);
     box-shadow: 0 24px 60px -30px rgba(43, 34, 51, .28); }
 
-  /* Invitation conventions, borrowed carefully: the mark centred like a crest,
-     a double rule under the header, generous margins. NOT centred body text --
-     long centred prose is hard to read, and this still has to be read. */
-  .inv-head { text-align: center; padding-bottom: 1.6rem; margin-bottom: 1.9rem;
-    border-bottom: 3px double var(--line-warm, #E9E7F0); }
+  .inv-head { text-align: center; padding-bottom: 1.4rem; margin-bottom: 1.7rem; }
 
-  /* The mark as a pressed seal rather than a logo in a corner. */
-  .inv-seal { width: 58px; height: 58px; margin: 0 auto; display: flex;
+  /* Wax, not a pale logo chip. Same mark, pressed. */
+  .inv-wax {
+    width: 68px; height: 68px; margin: 0 auto; display: flex;
     align-items: center; justify-content: center; border-radius: 50%;
-    background: var(--cream-2, #F4F4F9);
-    box-shadow: inset 0 0 0 1px var(--line-warm, #E9E7F0),
-                inset 0 2px 5px rgba(43, 34, 51, .07); }
-  .inv-mark { width: 26px; height: 26px; display: block; }
-  .inv-eyebrow { font-family: 'Inter', system-ui, sans-serif; font-size: .68rem; font-weight: 600;
-    letter-spacing: .3em; text-transform: uppercase; color: var(--clay-text, #8F5340);
-    margin: 1.1rem 0 0; }
-  .inv-card h1 { text-align: center; }
-  .inv-card h1 { font-family: 'Literata', Georgia, serif; font-weight: 500;
-    font-size: clamp(1.75rem, 4.6vw, 2.5rem); line-height: 1.18; letter-spacing: -.01em;
-    color: var(--aubergine, #422448); margin: 0 0 1.5rem; text-wrap: balance; }
+    background: radial-gradient(circle at 34% 30%, #6A3D72 0%, #422448 48%, #301A35 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.22),
+      inset 0 -4px 8px rgba(0,0,0,.28),
+      0 8px 18px rgba(66, 36, 72, .32);
+  }
+  .inv-wax-lg { width: 78px; height: 78px; }
+  .inv-mark { width: 32px; height: 32px; display: block; }
+  .inv-wax-lg .inv-mark { width: 36px; height: 36px; }
+
+  .inv-flourish { display: block; width: 92px; height: 12px; margin: .85rem auto 0; }
+  .inv-flourish path {
+    fill: none; stroke: var(--gold, #E8C687); stroke-width: 2.4;
+    stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0;
+  }
+
+  .inv-card h1 { text-align: center; font-family: 'Literata', Georgia, serif; font-weight: 500;
+    font-size: clamp(1.85rem, 4.8vw, 2.65rem); line-height: 1.16; letter-spacing: -.015em;
+    color: var(--aubergine, #422448); margin: 0; text-wrap: balance; }
+  .inv-lede { text-align: center; font-family: 'Literata', Georgia, serif;
+    font-size: clamp(1.05rem, 2.4vw, 1.2rem); line-height: 1.45;
+    color: var(--aubergine, #422448); margin: .55rem 0 0; text-wrap: balance; }
 
   .inv-body { font-family: 'Inter', system-ui, sans-serif; color: var(--ink, #2B2233);
     font-size: 1.02rem; line-height: 1.72; }
   .inv-body p { margin: 0 0 1.05rem; }
-  .inv-greet { font-family: 'Literata', Georgia, serif; font-size: 1.1rem;
+  .inv-body .inv-greet { font-family: 'Literata', Georgia, serif; font-size: 1.15rem;
     color: var(--aubergine, #422448); margin-bottom: 1.1rem; }
 
   /* The personal line. Set apart and in the serif so it reads as written to
@@ -81,91 +178,220 @@
     padding: .95rem 0; border-bottom: 1px solid var(--line-warm, #E9E7F0);
     font-family: 'Inter', system-ui, sans-serif; font-size: .95rem; line-height: 1.6;
     color: var(--ink, #2B2233); }
+  .inv-points li span { min-width: 0; }
   .inv-points b { color: var(--aubergine, #422448); font-weight: 600; }
   .inv-tick { flex: 0 0 auto; width: 18px; height: 18px; margin-top: .2rem;
-    color: var(--lilac-deep, #8E77A0); }
+    color: var(--clay, #BE765F); }
+  .inv-tick path { stroke-dasharray: 1; stroke-dashoffset: 0; }
 
-  .inv-offer { background: var(--cream-2, #F4F4F9); border-radius: 12px;
+  .inv-body .inv-ps { background: rgba(232, 198, 135, .16); border-radius: 12px;
     padding: 1rem 1.2rem; margin: 1.7rem 0 1.5rem;
     font-family: 'Inter', system-ui, sans-serif; font-size: 1rem; color: var(--ink, #2B2233); }
-  .inv-offer s { color: var(--ink-soft, #6E6172); text-decoration-thickness: 1.5px; margin-right: .45rem; }
-  .inv-offer b { color: var(--aubergine, #422448); font-weight: 600; }
+  .inv-ps-label { font-family: 'Literata', Georgia, serif; font-style: italic;
+    color: var(--aubergine, #422448); margin-right: .4rem; }
+  .inv-ps s { color: var(--ink-soft, #6E6172); text-decoration-thickness: 1.5px; margin-right: .45rem; }
+  .inv-ps b { color: var(--aubergine, #422448); font-weight: 600; }
 
   .inv-cta { display: inline-flex; align-items: center; gap: .55rem;
     background: var(--aubergine, #422448); color: #fff; text-decoration: none;
     font-family: 'Inter', system-ui, sans-serif; font-weight: 600; font-size: 1rem;
-    padding: .95rem 1.7rem; border-radius: 999px; transition: background .15s ease; }
-  .inv-cta:hover { background: var(--aubergine-deep, #301A35); }
+    padding: .95rem 1.7rem; border-radius: 999px;
+    transition: background .15s ease, transform .15s ease, box-shadow .15s ease;
+    box-shadow: 0 8px 20px rgba(66, 36, 72, .28);
+    position: relative; overflow: hidden; }
+  .inv-cta:hover { background: var(--aubergine-deep, #301A35); transform: translateY(-1px); }
   .inv-cta:focus-visible { outline: 2px solid var(--clay, #BE765F); outline-offset: 3px; }
 
-  .inv-fine { font-family: 'Inter', system-ui, sans-serif; font-size: .82rem;
+  .inv-body .inv-fine { font-family: 'Inter', system-ui, sans-serif; font-size: .82rem;
     color: var(--ink-soft, #6E6172); margin: .95rem 0 0; line-height: 1.6; }
-  .inv-sign { font-family: 'Literata', Georgia, serif; font-size: 1rem;
+  .inv-body .inv-sign { font-family: 'Literata', Georgia, serif; font-size: 1rem;
     color: var(--aubergine, #422448); margin: 2rem 0 0;
     padding-top: 1.5rem; border-top: 1px solid var(--line-warm, #E9E7F0); }
-  .inv-foot { font-family: 'Inter', system-ui, sans-serif; font-size: .85rem;
+  .inv-body .inv-foot { font-family: 'Inter', system-ui, sans-serif; font-size: .85rem;
     color: var(--ink-soft, #6E6172); margin: 1.1rem 0 0; }
-  .inv-foot a { color: var(--lilac-text, #6B5480); }
+  .inv-foot a { color: var(--lilac-text, #6B5480); text-decoration: underline;
+    text-underline-offset: 2px; }
 
-  @media (prefers-reduced-motion: reduce) { .inv-cta { transition: none; } }
+  /* ---------- motion: sealed ---------- */
+  html.inv-pending body { overflow: hidden; }
+  html.inv-pending .inv-scene { height: 100vh; overflow: hidden; }
+  html.inv-pending .inv-cover-slot { display: flex; }
+  html.inv-pending .inv-cover { animation: invCoverIn .8s cubic-bezier(.16, 1, .3, 1) both; }
+  html.inv-pending .inv-cover .inv-flourish path {
+    stroke-dashoffset: 1; animation: invDraw .8s ease .45s both; }
+  html.inv-pending .inv-card { opacity: 0; visibility: hidden; pointer-events: none; }
+  html.inv-pending .inv-card .inv-flourish path,
+  html.inv-pending .inv-tick path { stroke-dashoffset: 1; }
+
+  html.inv-pending .inv-wax-lg { animation: invWaxBreathe 2.8s ease-in-out infinite .9s; }
+
+  /* ---------- motion: opening ---------- */
+  html.inv-pending.inv-in body { overflow: auto; }
+  html.inv-pending.inv-in .inv-scene { height: auto; overflow: visible; overflow-x: hidden; }
+  html.inv-pending.inv-in .inv-cover {
+    animation: invCoverAway .55s ease forwards; pointer-events: none; }
+  html.inv-pending.inv-in .inv-card {
+    visibility: visible; pointer-events: auto;
+    animation: invArrive .85s cubic-bezier(.16, 1, .3, 1) both; }
+
+  html.inv-in .inv-wax-letter { animation: invStamp .6s cubic-bezier(.2, .85, .3, 1.15) .18s both; }
+  html.inv-in .inv-card .inv-flourish path {
+    animation: invDraw .8s ease .28s both; }
+  html.inv-in .inv-head { animation: invRise .7s cubic-bezier(.16, 1, .3, 1) .1s both; }
+  html.inv-in h1 { animation: invRise .7s cubic-bezier(.16, 1, .3, 1) .18s both; }
+  html.inv-in .inv-lede { animation: invRise .7s cubic-bezier(.16, 1, .3, 1) .24s both; }
+  html.inv-in .inv-greet { animation: invRise .7s cubic-bezier(.16, 1, .3, 1) .32s both; }
+  html.inv-in .inv-note { animation: invRise .7s cubic-bezier(.16, 1, .3, 1) .38s both; }
+  html.inv-in .inv-copy { animation: invRise .7s cubic-bezier(.16, 1, .3, 1) .44s both; }
+  html.inv-in .inv-points li:nth-child(1) { animation: invRise .6s cubic-bezier(.16, 1, .3, 1) .52s both; }
+  html.inv-in .inv-points li:nth-child(2) { animation: invRise .6s cubic-bezier(.16, 1, .3, 1) .6s both; }
+  html.inv-in .inv-points li:nth-child(3) { animation: invRise .6s cubic-bezier(.16, 1, .3, 1) .68s both; }
+  html.inv-in .inv-points li:nth-child(1) .inv-tick path { animation: invDraw .4s ease .7s both; }
+  html.inv-in .inv-points li:nth-child(2) .inv-tick path { animation: invDraw .4s ease .78s both; }
+  html.inv-in .inv-points li:nth-child(3) .inv-tick path { animation: invDraw .4s ease .86s both; }
+  html.inv-in .inv-ps { animation: invRise .7s cubic-bezier(.16, 1, .3, 1) .8s both; }
+  html.inv-in .inv-cta { animation: invRise .7s cubic-bezier(.16, 1, .3, 1) .9s both; }
+  html.inv-in .inv-cta::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.16) 50%, transparent 60%);
+    transform: translateX(-120%); animation: invSheen 1.1s ease 1.4s both; }
+  html.inv-in .inv-fine { animation: invRise .7s cubic-bezier(.16, 1, .3, 1) .98s both; }
+  html.inv-in .inv-sign { animation: invRise .7s cubic-bezier(.16, 1, .3, 1) 1.06s both; }
+  html.inv-in .inv-foot { animation: invRise .7s cubic-bezier(.16, 1, .3, 1) 1.12s both; }
+
+  @keyframes invDrift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(14px, -18px) rotate(7deg); }
+  }
+  @keyframes invCoverIn {
+    from { transform: translateY(14px); }
+    to   { transform: none; }
+  }
+  @keyframes invArrive {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes invCoverAway {
+    to { opacity: 0; transform: translateY(-12px) scale(1.03); }
+  }
+  @keyframes invRise {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes invStamp {
+    from { opacity: 0; transform: scale(1.45) rotate(-10deg); }
+    62%  { opacity: 1; transform: scale(.94) rotate(1.5deg); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes invWaxBreathe {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.045); }
+  }
+  @keyframes invDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @keyframes invSheen { from { transform: translateX(-120%); } to { transform: translateX(120%); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .inv-blob { animation: none; }
+    .inv-cover-slot, .inv-cover { display: none !important; animation: none !important; }
+    .inv-card, .inv-head, h1, .inv-lede, .inv-greet, .inv-note, .inv-copy,
+    .inv-points li, .inv-ps, .inv-cta, .inv-fine, .inv-sign, .inv-foot, .inv-wax-letter {
+      opacity: 1 !important; visibility: visible !important; transform: none !important;
+      animation: none !important; pointer-events: auto !important; }
+    .inv-flourish path, .inv-tick path { stroke-dashoffset: 0 !important; animation: none !important; }
+    .inv-cta { transition: none; }
+    .inv-cta::after { display: none; }
+    html.inv-pending body { overflow: auto; }
+    html.inv-pending .inv-scene { height: auto; overflow: visible; overflow-x: hidden; }
+  }
 </style>
 </head>
 <body>
 
-<main class="inv-wrap">
-  <article class="inv-card">
-    <div class="inv-head">
-    <div class="inv-seal">
-    <svg class="inv-mark" viewBox="0 0 100 100" aria-label="Kindred" role="img">
-      <path d="M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z" fill="#422448"/>
-      <path d="M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z" fill="#B8A3C4"/>
-      <path d="M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z" fill="#BE765F"/>
+<a class="skip-link" href="#inv-card" id="inv-skip">Skip to invitation</a>
+
+<div class="inv-cover-slot" id="inv-cover-slot">
+  <button type="button" class="inv-cover inv-paper" id="inv-cover" aria-label="Open your invitation">
+    <span class="inv-wax inv-wax-lg" aria-hidden="true">
+      <svg class="inv-mark" viewBox="0 0 100 100">
+        <path d="M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z" fill="#F6EFE4"/>
+        <path d="M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z" fill="#E8C687"/>
+        <path d="M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z" fill="#E7B9A8"/>
+      </svg>
+    </span>
+    <span class="inv-cover-kicker">An invitation</span>
+    <span class="inv-cover-to" id="inv-cover-to"></span>
+    <svg class="inv-flourish" viewBox="0 0 120 12" aria-hidden="true">
+      <path pathLength="1" d="M4 8 Q40 2 70 7 T116 5"/>
     </svg>
+    <span class="inv-cover-from">Kindred</span>
+    <span class="inv-cover-hint">Open</span>
+  </button>
+</div>
 
-    </div>
-    <p class="inv-eyebrow">An invitation</p>
-    </div>
-    <h1>You&rsquo;re invited to be one of the first therapists on Kindred.</h1>
+<div class="inv-scene">
+  <i class="inv-blob inv-blob-clay" aria-hidden="true"></i>
+  <i class="inv-blob inv-blob-lilac" aria-hidden="true"></i>
+  <i class="inv-blob inv-blob-gold" aria-hidden="true"></i>
 
-    <div class="inv-body">
-      <p class="inv-greet" id="inv-greet">Hello,</p>
+  <main class="inv-wrap">
+    <article class="inv-card inv-paper" id="inv-card">
+      <div class="inv-head">
+        <div class="inv-wax inv-wax-letter">
+          <svg class="inv-mark" viewBox="0 0 100 100" aria-label="Kindred" role="img">
+            <path d="M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z" fill="#F6EFE4"/>
+            <path d="M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z" fill="#E8C687"/>
+            <path d="M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z" fill="#E7B9A8"/>
+          </svg>
+        </div>
+      </div>
+      <h1>You&rsquo;re invited.</h1>
+      <p class="inv-lede">To be one of the first therapists on Kindred.</p>
+      <svg class="inv-flourish" viewBox="0 0 120 12" aria-hidden="true">
+        <path pathLength="1" d="M4 8 Q40 2 70 7 T116 5"/>
+      </svg>
 
-      <!-- Optional. Absent by default and hidden unless a note is passed, so an
-           invitation without one reads as finished rather than as missing a bit. -->
-      <blockquote class="inv-note" id="inv-note" hidden></blockquote>
+      <div class="inv-body">
+        <p class="inv-greet" id="inv-greet">Hello,</p>
 
-      <p>Kindred is a new way for clients to find a therapist. Instead of scrolling a
-      list and guessing, they answer a few questions about what they need and how they
-      want to be worked with &mdash; and we match them to the therapists who actually fit.</p>
+        <!-- Optional. Absent by default and hidden unless a note is passed, so an
+             invitation without one reads as finished rather than as missing a bit. -->
+        <blockquote class="inv-note" id="inv-note" hidden></blockquote>
 
-      <p>We&rsquo;re opening to a small founding group before we open to clients at scale.
-      The therapists who join now shape how matching works.</p>
+        <div class="inv-copy">
+          <p>Kindred is a new way for clients to find a therapist. Instead of scrolling a
+          list and guessing, they answer a few questions about what they need and how they
+          want to be worked with &mdash; and we match them to the therapists who actually fit.</p>
 
-      <ul class="inv-points">
-        <li><svg class="inv-tick" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span><b>Verified before anyone sees you.</b> Every license is checked against the state board, and identity is confirmed. No exceptions.</span></li>
-        <li><svg class="inv-tick" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span><b>No paid placement, ever.</b> You can&rsquo;t buy your way up the list, and neither can anyone else.</span></li>
-        <li><svg class="inv-tick" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span><b>A profile that sounds like you.</b> Your words, your photos, and a website of your own &mdash; not a directory row.</span></li>
-      </ul>
+          <p>We&rsquo;re opening to a small founding group before we open to clients at scale.
+          The therapists who join now shape how matching works.</p>
+        </div>
 
-      <div class="inv-offer"><s>$29.99/month</s> <b>Your first 6 months are free</b> &mdash; starting the day you go live, not the day you sign up.</div>
+        <ul class="inv-points">
+          <li><svg class="inv-tick" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path pathLength="1" d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span><b>Verified before anyone sees you.</b> Every license is checked against the state board, and identity is confirmed. No exceptions.</span></li>
+          <li><svg class="inv-tick" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path pathLength="1" d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span><b>No paid placement, ever.</b> You can&rsquo;t buy your way up the list, and neither can anyone else.</span></li>
+          <li><svg class="inv-tick" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path pathLength="1" d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span><b>A profile that sounds like you.</b> Your words, your photos, and a website of your own &mdash; not a directory row.</span></li>
+        </ul>
 
-      <a class="inv-cta" href="/app/#therapist-signup">Accept your invitation <span aria-hidden="true">&rarr;</span></a>
+        <p class="inv-ps"><span class="inv-ps-label">P.S.</span><s>$29.99/month</s> <b>Your first 6 months are free</b> &mdash; starting the day you go live, not the day you sign up.</p>
 
-      <p class="inv-fine">Free to build, free to be listed, free to be matched. No card up front,
-      and you decide before anything changes.</p>
+        <a class="inv-cta" href="/app/#therapist-signup">Accept your invitation <span aria-hidden="true">&rarr;</span></a>
 
-      <p class="inv-sign">With warmth,<br>The Kindred team</p>
+        <p class="inv-fine">Free to build, free to be listed, free to be matched. No card up front,
+        and you decide before anything changes.</p>
 
-      <p class="inv-foot">
-        Already have a profile? <a href="/app/#therapist-signin">Sign in</a>
-        &nbsp;&middot;&nbsp; Want the detail first? <a href="/therapists.html">Read more for therapists</a>
-      </p>
-    </div>
-  </article>
-</main>
+        <p class="inv-sign">With warmth,<br>The Kindred team</p>
+
+        <p class="inv-foot">
+          Already have a profile? <a href="/app/#therapist-signin">Sign in</a>
+          &nbsp;&middot;&nbsp; Want the detail first? <a href="/therapists.html">Read more for therapists</a>
+        </p>
+      </div>
+    </article>
+  </main>
+</div>
 
 <script>
   /* GREETING SOURCES, IN ORDER OF TRUST.
@@ -179,11 +405,24 @@
     var SB  = 'https://izukppxgoerqtustfbnk.supabase.co';
     var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml6dWtwcHhnb2VycXR1c3RmYm5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4NTAzMTYsImV4cCI6MjEwMDQyNjMxNn0.FeJFOu4PmOJAbk2OqfMH1sQX6DlynKmTyhc-dtKfvZk';
     var q   = new URLSearchParams(location.search);
+    var html = document.documentElement;
+    var pending = html.classList.contains('inv-pending');
+    var opened = !pending;
+    var openTimer;
+
+    var cover = document.getElementById('inv-cover');
+    var card  = document.getElementById('inv-card');
+
+    if (pending) card.inert = true;
 
     function paint(name, note) {
       if (name) {
         var n = String(name).replace(/[^\p{L}\p{M}'’.\- ]/gu, '').trim().slice(0, 40);
-        if (n) document.getElementById('inv-greet').textContent = 'Hello, ' + n + ',';
+        if (n) {
+          document.getElementById('inv-greet').textContent = 'Hello, ' + n + ',';
+          var to = document.getElementById('inv-cover-to');
+          if (to) to.textContent = 'for ' + n;
+        }
       }
       if (note) {
         /* Prose cannot be reduced to a name's character set: strip anything
@@ -197,14 +436,38 @@
       }
     }
 
+    function openInvite() {
+      if (opened) return;
+      opened = true;
+      if (openTimer) clearTimeout(openTimer);
+      html.classList.add('inv-in');
+      cover.setAttribute('aria-hidden', 'true');
+      cover.inert = true;
+      card.inert = false;
+      cover.addEventListener('animationend', function () {
+        var slot = document.getElementById('inv-cover-slot');
+        if (slot) slot.style.display = 'none';
+      }, { once: true });
+    }
+
+    function scheduleOpen() {
+      if (opened) return;
+      openTimer = setTimeout(openInvite, 1400);
+    }
+
+    cover.addEventListener('click', openInvite);
+    document.getElementById('inv-skip').addEventListener('click', openInvite);
+
     var token = (q.get('i') || '').replace(/[^a-z0-9]/gi, '').slice(0, 16);
+    var greeted = Promise.resolve();
+
     if (token) {
       /* Carry the token to signup so an acceptance can be tied back to the
          invitation that produced it. */
       var cta = document.querySelector('.inv-cta');
       if (cta) cta.href = '/app/#therapist-signup?inv=' + encodeURIComponent(token);
 
-      fetch(SB + '/rest/v1/rpc/invitation_greeting', {
+      greeted = fetch(SB + '/rest/v1/rpc/invitation_greeting', {
         method: 'POST',
         headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' },
         body: JSON.stringify({ p_token: token })
@@ -220,10 +483,17 @@
         headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' },
         body: JSON.stringify({ p_token: token })
       }).catch(function () {});
-      return;
+    } else {
+      paint(q.get('to'), q.get('note'));
     }
 
-    paint(q.get('to'), q.get('note'));
+    if (pending) {
+      /* Hold the cover long enough to be read — and long enough for a named
+         greeting to land on it — then open. A slow lookup must not trap anyone:
+         900ms is the ceiling, and the cover itself is the skip. */
+      var cap = new Promise(function (res) { setTimeout(res, 900); });
+      Promise.race([greeted, cap]).then(scheduleOpen);
+    }
   })();
 </script>
 
