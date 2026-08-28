@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kindred — Therapy, matched to you.</title>
-<meta name="description" content="Kindred makes finding a therapist feel less like searching a database and more like recognizing a person you can actually talk to. Articles, tools, and real support for your mind, your daily life, and your relationships.">
+<meta name="description" content="Find a therapist who fits how you work — or join as a founding therapist. Matched by understanding, never by who pays more.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://kindredtherapymatch.com/">
 <meta property="og:title" content="Kindred — Therapy, matched to you.">
@@ -13,15 +13,211 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Kindred — Therapy, matched to you.">
 <meta name="twitter:description" content="Find a therapist who fits how you work — or join as a founding therapist.">
+<link rel="canonical" href="https://kindredtherapymatch.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..600;1,7..72,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=51">
+<link rel="stylesheet" href="style.css?v=52">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z' fill='%23422448'/><path d='M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z' fill='%23B8A3C4'/><path d='M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z' fill='%23BE765F'/></svg>">
+<style>
+  /* Same field as the therapist create-account page. */
+  body { background: #F1EBF3; }
+  body::before, body::after {
+    content: "";
+    position: fixed; pointer-events: none; z-index: 0;
+    border-radius: 50% 60% 55% 45% / 55% 45% 60% 50%;
+    filter: blur(2px);
+  }
+  body::before {
+    width: 280px; height: 320px; background: #E7B9A8; opacity: .42;
+    top: -80px; right: -70px;
+  }
+  body::after {
+    width: 240px; height: 280px; background: var(--lilac, #B8A3C4); opacity: .38;
+    left: -90px; bottom: 8%;
+  }
+  main, .site-footer { position: relative; z-index: 1; }
+
+  .pv-hero {
+    max-width: 780px; margin: 0 auto; padding: clamp(1.6rem, 5vh, 3.2rem) 1.4rem .6rem;
+    text-align: center;
+  }
+  .pv-kicker {
+    font-size: .72rem; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--clay-text); margin: 0 0 .6rem;
+  }
+  .pv-hero h1 {
+    font-size: clamp(2rem, 5.4vw, 3.15rem); line-height: 1.14;
+    letter-spacing: -.02em; margin: 0 0 .8rem; text-wrap: balance;
+  }
+  .pv-hero h1 span { display: block; color: var(--clay-text); font-size: .72em; font-weight: 500; margin-top: .25em; }
+  .pv-sub { color: var(--ink-soft); font-size: 1.08rem; line-height: 1.55; max-width: 40ch; margin: 0 auto 1.6rem; }
+  .pv-ctas { display: flex; flex-wrap: wrap; gap: .7rem; justify-content: center; }
+  .pv-fine { margin: 1rem 0 0; font-size: .85rem; color: var(--ink-soft); }
+
+  .pv-notify {
+    max-width: 520px; margin: 1.4rem auto 0; text-align: left;
+    background: #FFFCFA;
+    background-image:
+      radial-gradient(rgba(43,34,51,.022) 1px, transparent 1px),
+      radial-gradient(rgba(43,34,51,.018) 1px, transparent 1px);
+    background-size: 13px 13px, 21px 21px;
+    background-position: 0 0, 7px 9px;
+    border: 1px solid var(--line); border-radius: 20px;
+    padding: 1.4rem 1.4rem 1.25rem;
+    box-shadow: 0 24px 60px -30px rgba(43, 34, 51, .28);
+  }
+  .pv-notify h2 {
+    font-size: 1.35rem; margin: 0 0 .45rem; letter-spacing: -.015em;
+  }
+  .pv-notify p { color: var(--ink-soft); font-size: .95rem; line-height: 1.6; margin: 0 0 1rem; }
+  .pv-notify label {
+    display: block; font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+    text-transform: uppercase; color: var(--ink-soft); margin: .85rem 0 .35rem;
+  }
+  .pv-notify input, .pv-notify select {
+    width: 100%; font: inherit; font-size: 1rem; padding: .75rem .9rem;
+    border: 1.5px solid var(--line); border-radius: 12px; background: #fff; color: var(--ink);
+  }
+  .pv-notify input:focus, .pv-notify select:focus {
+    outline: 2px solid var(--clay); outline-offset: 2px; border-color: transparent;
+  }
+  .pv-notify .btn { margin-top: 1.1rem; width: 100%; }
+  .pv-notify-note { font-size: .85rem; margin: .8rem 0 0; min-height: 1.2em; }
+  .pv-notify-note.is-err { color: #8a3a32; }
+  .pv-notify-fine { font-size: .8rem; color: var(--ink-soft); margin: .7rem 0 0; line-height: 1.5; }
+
+  .pv-stage { max-width: 1040px; margin: 1.8rem auto 0; padding: 0 1.2rem 1rem; }
+  .pv-profile {
+    display: grid;
+    grid-template-columns: minmax(260px, 38%) 1fr;
+    background: #FFFCFA;
+    background-image:
+      radial-gradient(rgba(43,34,51,.022) 1px, transparent 1px),
+      radial-gradient(rgba(43,34,51,.018) 1px, transparent 1px);
+    background-size: 13px 13px, 21px 21px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 28px 64px -32px rgba(43, 34, 51, .35);
+    position: relative;
+  }
+  #match-inner { display: contents; }
+  #match-live { position: absolute; }
+  .pv-photo { position: relative; grid-row: 1 / 3; background: #E8DFD4; min-height: 420px; }
+  .pv-photo img { width: 100%; height: 100%; object-fit: cover; display: block; position: absolute; inset: 0; }
+  .pv-badge {
+    position: absolute; top: 1rem; left: 1rem; z-index: 2;
+    background: var(--aubergine); color: #F6EFE4; font-size: .66rem; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; padding: .4rem .75rem; border-radius: 999px;
+  }
+  .pv-body { padding: 1.45rem 1.6rem 1.1rem; min-width: 0; }
+  .pv-body h2 { font-size: clamp(1.45rem, 2.6vw, 1.9rem); margin: 0 0 .15rem; letter-spacing: -.015em; }
+  .pv-creds { color: var(--ink-soft); font-size: .92rem; margin: 0 0 .45rem; }
+  .pv-facts {
+    display: flex; flex-wrap: wrap; gap: .25rem 1rem;
+    font-size: .86rem; color: var(--ink-soft); margin: 0 0 .55rem;
+  }
+  .pv-verified {
+    display: inline-block; width: max-content;
+    font-size: .68rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    background: rgba(95,115,85,.12); color: #4d5f45;
+    border: 1px solid rgba(95,115,85,.25);
+    padding: .28em .75em; border-radius: 999px; margin: 0 0 .85rem;
+  }
+  .pv-statement {
+    font-size: 1.08rem; line-height: 1.45; font-weight: 500;
+    margin: 0 0 1rem; color: var(--ink);
+  }
+  .pv-prompts { display: grid; gap: .85rem; margin: 0 0 1rem; }
+  .pv-prompt dt {
+    font-size: .66rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--clay-text); margin: 0 0 .22rem;
+  }
+  .pv-prompt dd {
+    font-size: 1rem; line-height: 1.5; margin: 0; color: var(--ink);
+  }
+  .pv-chips { display: flex; flex-wrap: wrap; gap: .35rem; margin: 0 0 1rem; padding: 0; list-style: none; }
+  .pv-chips li {
+    font-size: .78rem; color: var(--ink-soft); background: var(--cream-2);
+    padding: .25rem .6rem; border-radius: 999px;
+  }
+  .pv-profile .pillar-link { font-weight: 600; }
+  .pv-ex { font-size: .88rem; color: var(--ink-soft); font-style: italic; margin: 0; }
+  .pv-controls {
+    grid-column: 2;
+    display: flex; align-items: center; gap: .55rem;
+    padding: 0 1.6rem 1.05rem;
+  }
+  .pv-controls .match-count { margin-left: auto; }
+  .pv-rest {
+    max-width: 640px; margin: 1.2rem auto 0; padding: 0 1.4rem;
+    color: var(--ink-soft); font-size: .95rem; line-height: 1.65; text-align: center;
+  }
+
+  .pv-why { max-width: 1040px; margin: 3.2rem auto 0; padding: 0 1.2rem 1rem; }
+  .pv-why-head { max-width: 38rem; margin: 0 auto 1.8rem; text-align: center; }
+  .pv-why-head h2 {
+    font-size: clamp(1.55rem, 3vw, 2.1rem); margin: 0 0 .75rem; letter-spacing: -.02em;
+  }
+  .pv-why-head p { color: var(--ink-soft); font-size: 1.05rem; line-height: 1.65; margin: 0; }
+  .pv-why-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+  }
+  .pv-claim {
+    background: #FFFCFA;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 1.3rem 1.35rem 1.4rem;
+  }
+  .pv-claim h3 { font-size: 1.12rem; margin: 0 0 .5rem; letter-spacing: -.01em; }
+  .pv-claim p { color: var(--ink-soft); font-size: .94rem; line-height: 1.6; margin: 0; }
+  .pv-sources {
+    margin: 1.15rem auto 0; max-width: 52rem;
+    font-size: .82rem; color: var(--ink-soft); line-height: 1.55;
+  }
+  .pv-sources summary {
+    cursor: pointer; font-weight: 600; color: var(--ink); list-style: none;
+  }
+  .pv-sources summary::-webkit-details-marker { display: none; }
+  .pv-sources summary::after { content: ' +'; color: var(--clay-text); font-weight: 700; }
+  .pv-sources[open] summary::after { content: ' −'; }
+  .pv-sources ul { margin: .65rem 0 0; padding: 0; display: grid; gap: .45rem; }
+  .pv-sources a { text-decoration: underline; text-underline-offset: 2px; }
+
+  .pv-use { max-width: 1040px; margin: 2.6rem auto 0; padding: 0 1.2rem; }
+  .pv-use h2 {
+    text-align: center; font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+    margin: 0 0 1.4rem; letter-spacing: -.015em;
+  }
+  .pv-use-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem 1.6rem; }
+  .pv-use-grid h3 { font-size: 1.05rem; margin: 0 0 .4rem; }
+  .pv-use-grid p { color: var(--ink-soft); font-size: .95rem; line-height: 1.6; margin: 0; }
+
+  .pv-doors {
+    max-width: 1040px; margin: 2.8rem auto 3.6rem; padding: 0 1.2rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  }
+  .pv-door {
+    background: #FFFCFA;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 1.5rem 1.5rem 1.45rem;
+  }
+  .pv-door h2 { font-size: 1.3rem; margin: 0 0 .45rem; letter-spacing: -.015em; }
+  .pv-door p { color: var(--ink-soft); margin: 0 0 1.1rem; font-size: .95rem; line-height: 1.6; }
+
+  @media (max-width: 820px) {
+    .pv-profile { grid-template-columns: 1fr; }
+    .pv-photo { grid-row: auto; min-height: 0; aspect-ratio: 4/5; max-height: 300px; }
+    .pv-body { padding: 1.2rem 1.2rem .9rem; }
+    .pv-controls { grid-column: 1; justify-content: center; padding: 0 1.2rem 1.05rem; }
+    .pv-controls .match-count { margin-left: 0; }
+    .pv-why-grid, .pv-use-grid, .pv-doors { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
-
-<!-- ======================= HEADER ======================= -->
 <a class="skip-link" href="#top">Skip to content</a>
 <header class="site-header">
   <a class="brand" href="#top" aria-label="Kindred home">
@@ -35,7 +231,6 @@
       <span class="brand-tag">Therapy, matched to you</span>
     </span>
   </a>
-
   <nav class="main-nav" id="primary-nav" aria-label="Primary">
     <details class="nav-explore">
       <summary>Explore</summary>
@@ -47,380 +242,126 @@
         <a href="therapy.html">Therapy</a>
       </div>
     </details>
-    <a class="nav-cta nav-cta-dark" data-app-link="match" href="/app/#match">Find a Therapist</a>
+    <a class="nav-cta nav-cta-dark" href="#notify">Find a Therapist</a>
   </nav>
-
   <div class="header-actions">
-    <button class="icon-btn" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-    </button>
-    
-    <a class="btn btn-dark btn-sm" data-app-link="match" href="/app/#match">Find a Therapist</a>
+    <a class="btn btn-dark btn-sm" href="#notify">Find a Therapist</a>
     <span class="header-sep" aria-hidden="true"></span>
     <a class="nav-pro" href="therapists.html">For Therapists</a>
   </div>
-
   <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </header>
 
 <main id="top" tabindex="-1">
-
-<!-- ======================= HERO ======================= -->
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-copy">
-      <h1>
-        <em class="hl-moss">Understand yourself.</em><br>
-        <em class="hl-clay">Feel a little better.</em><br>
-        <em class="hl-lilac">Find support you need.</em>
-      </h1>
-      <p class="hero-sub">Articles, tools, and real support for your mind, your daily life, and your relationships.</p>
-      <div class="hero-ctas">
-        <a data-app-link="match" class="btn btn-dark" href="/app/#match">Find a Therapist</a>
-        <a class="btn btn-outline" href="therapists.html">I&rsquo;m a therapist</a>
-      </div>
-      <p class="hero-trust">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-        Private. Secure. Judgement-free.
-      </p>
+  <section class="pv-hero">
+    <p class="pv-kicker">Kindred</p>
+    <h1>Find a therapist who fits.<span>Or be the one they find.</span></h1>
+    <p class="pv-sub">Matched by how you work and what you need — never by who pays more. Free to start, on both sides.</p>
+    <div class="pv-ctas">
+      <a class="btn btn-dark" id="pv-find" href="#notify">Find a therapist</a>
+      <a class="btn btn-outline" href="therapists.html">I&rsquo;m a therapist</a>
     </div>
+    <p class="pv-fine">Every therapist is license-checked and identity-verified before anyone sees them.</p>
 
-    <div class="hero-visual">
-      <div class="hero-photo">
-        <img class="hero-illust" src="assets/hero.jpg" alt="A woman relaxing on a sofa with a warm mug, looking out a bright window">
-        <span class="blob blob-clay" aria-hidden="true"></span>
-        <span class="blob blob-lilac" aria-hidden="true"></span>
-      </div>
-
-      <aside class="hero-card">
-        <svg class="hero-card-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5C7 16.5 3.5 13.3 3.5 9.6 3.5 7 5.5 5 8 5c1.6 0 3.1.8 4 2.1C12.9 5.8 14.4 5 16 5c2.5 0 4.5 2 4.5 4.6 0 3.7-3.5 6.9-8.5 10.9z"/></svg>
-        <p class="hero-card-lead">You don't have to have it all figured out.</p>
-        <p class="hero-card-body">We'll help you take the next right step.</p>
-        <svg class="hero-card-underline" viewBox="0 0 120 12" aria-hidden="true"><path d="M4 8 Q40 2 70 7 T116 5" fill="none" stroke="#E8C687" stroke-width="3" stroke-linecap="round"/></svg>
-      </aside>
+    <div class="pv-notify" id="notify" hidden>
+      <h2>We&rsquo;re still building the list.</h2>
+      <p>Kindred is onboarding founding therapists now. When someone in your area is live and verified, we&rsquo;ll write — not before. Leave an email and where you are.</p>
+      <form id="pv-wait" novalidate>
+        <label for="pv-email">Email</label>
+        <input id="pv-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+        <label for="pv-state">Your state</label>
+        <select id="pv-state" name="state" required>
+          <option value="">Select a state&hellip;</option>
+        </select>
+        <button class="btn btn-dark" type="submit">Notify me when someone is live</button>
+        <p class="pv-notify-note" id="pv-wait-note" role="status" aria-live="polite"></p>
+        <p class="pv-notify-fine">Your email, so we can write. Nothing about why you&rsquo;re looking. We&rsquo;ll only send when someone in that state is live and verified.</p>
+      </form>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ======================= FIND YOUR THERAPIST ======================= -->
-<section class="match-band" id="find-therapist">
-  <div class="match-inner">
-    <div class="match-copy">
-      <p class="eyebrow">Find your therapist</p>
-      <h2>Therapy is personal.<br>Finding it should be too.</h2>
-      <p>Kindred matches beyond specialties and credentials. Discover therapists based on what you need, how you communicate, and what helps you feel understood.</p>
-      <p class="match-trustline">Credentials matter. Connection does too.</p>
-      <div class="match-ctas">
-        <a data-app-link="match" class="btn btn-dark" href="/app/#match">Find a Therapist</a>
-        <a class="btn btn-outline home-therapist-cta" href="therapists.html">I&rsquo;m a therapist — build my profile</a>
-      </div>
-      <!-- The reassurance existed further down the page; it belongs where the
-           decision is made. Numbers are real: the questionnaire is 8-10 steps
-           depending on your answers, and the client side needs no account. -->
-      <p class="match-expect">About 10 questions, three or four minutes. Free, and you don&rsquo;t need an account to start.</p>
-      <!-- Vetting is what a careful person wants before trusting a match, and it
-           is now true rather than aspirational. -->
-      <ul class="match-vetting">
-        <li><strong>Every license is checked by hand</strong> against the issuing state board &mdash; one per state they practise in.</li>
-        <li><strong>Every therapist verifies their identity</strong> through Stripe before a profile can go live.</li>
-        <li><strong>Matched to you, never to the highest bidder.</strong> Membership makes a therapist matchable; it can never move them up your list.</li>
-      </ul>
-    </div>
-
-    <div class="match-card" id="match-card">
-      <div class="match-photo">
-        <span class="match-badge" id="match-badge">Kindred Match</span>
-        <div class="match-portrait" id="match-portrait">
-          <img src="assets/therapist-maya.jpg" alt="Maya Chen, LMFT">
-        </div>
-      </div>
-      <div class="match-info">
-        <h3 class="match-name" id="match-name">Maya Chen, LMFT</h3>
-        <p class="match-meta" id="match-meta">She/Her&ensp;•&ensp;Licensed in CA</p>
-        <div class="match-pills" id="match-pills">
-          <span>Warm</span><span>Direct</span><span>Collaborative</span>
-        </div>
-        <p class="match-prompt-label" id="match-prompt-label">You may be right for each other if…</p>
-        <blockquote class="match-quote" id="match-quote">"You look fine on paper but feel exhausted from being the strong one."</blockquote>
-      </div>
-      <div class="match-side">
-        <p class="match-spec-label">Specialties</p>
-        <ul id="match-specs">
-          <li>Anxiety</li><li>Life Transitions</li><li>Relationship issues</li><li>Burnout</li><li>Self-Esteem</li>
-        </ul>
-        <a data-app-link class="pillar-link" href="/app/#match">View profile <span aria-hidden="true">→</span></a>
-      </div>
+  <div class="pv-stage">
+    <article class="pv-profile" id="match-card">
+      <div id="match-inner"></div>
       <p class="sr-only" id="match-live" role="status" aria-live="polite"></p>
-        <div class="match-controls">
-        <button class="match-arrow" id="match-prev" aria-label="Previous therapist">&#8249;</button>
-        <div class="match-dots" role="tablist" aria-label="Featured therapists">
-          <button class="dot active" data-idx="0" aria-label="Therapist 1"></button>
-          <button class="dot" data-idx="1" aria-label="Therapist 2"></button>
-          <button class="dot" data-idx="2" aria-label="Therapist 3"></button>
-          <button class="dot" data-idx="3" aria-label="Therapist 4"></button>
-        </div>
-        <button class="match-arrow" id="match-next" aria-label="Next therapist">&#8250;</button>
-        <span class="match-count" id="match-count">1 of 4</span>
+      <div class="pv-controls">
+        <button class="match-arrow" id="match-prev" type="button" aria-label="Previous therapist">&#8249;</button>
+        <div class="match-dots" role="tablist" aria-label="Featured therapists" id="match-dots"></div>
+        <button class="match-arrow" id="match-next" type="button" aria-label="Next therapist">&#8250;</button>
+        <span class="match-count" id="match-count"></span>
+      </div>
+    </article>
+  </div>
+
+  <p class="pv-rest">Desirae is live. The others are examples of how a Kindred profile reads — arrows to look, not a roster to pick from.</p>
+
+  <section class="pv-why" id="why">
+    <div class="pv-why-head">
+      <p class="pv-kicker">Why the match matters</p>
+      <h2>The person in the chair is not a detail.</h2>
+      <p>Therapy uses methods. What most reliably predicts whether it works for you is whether you and this person can actually work. Directories treat therapists like a filter. The research treats the relationship like part of the treatment.</p>
+    </div>
+    <div class="pv-why-grid">
+      <article class="pv-claim">
+        <h3>The relationship tracks with better outcomes</h3>
+        <p>Across 295 studies and more than 30,000 people, the quality of the working alliance — agreement on what you&rsquo;re doing, and a real bond — is one of the most consistent predictors of how therapy goes. It holds in the room and on video, and it still holds after you account for how someone was doing when they started.</p>
+      </article>
+      <article class="pv-claim">
+        <h3>Fit is how people stay</h3>
+        <p>When clients get a therapist and a style they actually prefer, they improve more and they are about a third less likely to leave early. Matching how a therapist works to how you work is not a nicety. It is one of the more reliable ways to improve the odds.</p>
+      </article>
+      <article class="pv-claim">
+        <h3>Who the therapist is matters</h3>
+        <p>The therapist&rsquo;s half of the relationship matters more than the client&rsquo;s. Some therapists form a working alliance across a range of people, and those clients do better. Who you sit with is not interchangeable — and assignment that ignores that does worse.</p>
+      </article>
+    </div>
+    <details class="pv-sources">
+      <summary>The research this is based on</summary>
+      <ul>
+        <li>Flückiger, Del Re, Wampold &amp; Horvath, 2018. Meta-analysis of the alliance in adult psychotherapy: 295 studies, r ≈ .28 with outcome — a medium effect, and one of the most replicated findings in the field. Same pattern in internet-based therapy. <a href="https://societyforpsychotherapy.org/the-alliance-in-adult-psychotherapy/" target="_blank" rel="noopener">Summary</a></li>
+        <li>Flückiger et al., 2020. The alliance still predicts outcome after you adjust for intake characteristics and other process variables. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7529648/" target="_blank" rel="noopener">Open access</a></li>
+        <li>Norcross &amp; Wampold, 2019. Third APA interdivisional task force on evidence-based relationships: the relationship contributes to improvement as much as the particular treatment method.</li>
+        <li>Swift, Callahan &amp; colleagues. Clients matched to their treatment, role, and therapist preferences have better outcomes and are about a third less likely to drop out.</li>
+        <li>Del Re, Flückiger, Horvath, Symonds &amp; Wampold, 2012. Therapist variability in the alliance matters more than patient variability.</li>
+        <li>Constantino et al., 2021. Matching patients to therapists with a track record on their presenting concerns improved outcomes versus usual assignment. <a href="https://www.ncbi.nlm.nih.gov/books/NBK606376/" target="_blank" rel="noopener">PCORI report</a></li>
+      </ul>
+    </details>
+  </section>
+
+  <section class="pv-use" id="how">
+    <h2>What Kindred does with that.</h2>
+    <div class="pv-use-grid">
+      <div>
+        <h3>You meet a person</h3>
+        <p>Profiles are written in the therapist&rsquo;s own voice — how they work, who they work well with, what a session actually feels like. Specialties come after that, not instead of it.</p>
+      </div>
+      <div>
+        <h3>Nobody buys a better match</h3>
+        <p>Membership makes a therapist matchable. It cannot move them up your list. Ads do not. We match by how you work, never by who pays more.</p>
+      </div>
+      <div>
+        <h3>Then we check the rest</h3>
+        <p>Every license is checked by hand against the issuing state board. Every therapist verifies their identity before a profile can go live. Connection is the point. Credentials still have to be real.</p>
       </div>
     </div>
+  </section>
+
+  <div class="pv-doors">
+    <article class="pv-door">
+      <h2>Looking for a therapist</h2>
+      <p>Kindred is onboarding founding therapists now. Leave an email and we&rsquo;ll write when someone in your area is live and verified — not before.</p>
+      <a class="btn btn-dark" href="#notify">Get notified</a>
+    </article>
+    <article class="pv-door">
+      <h2>I&rsquo;m a therapist</h2>
+      <p>Build a profile that sounds like you. Six months free for founding therapists. Matched by compatibility, never by paid placement.</p>
+      <a class="btn btn-outline" href="/app/#therapist-signup">Create a profile</a>
+    </article>
   </div>
-</section>
+</main>
 
-
-<!-- ======================= CHECK-IN ======================= -->
-<section class="checkin" id="checkin">
-  <h2 class="section-title">How are you, really?</h2>
-  <p class="section-sub">There's no right answer. We're here for wherever you are today.</p>
-
-  <div class="mood-grid" role="group" aria-label="How are you feeling today?">
-    <button class="mood" data-mood="Overwhelmed" style="--chip:#F2DFD6">
-      <svg aria-hidden="true" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 26c3-9 8-14 14-13s9 6 7 11-8 7-12 4 0-10 6-10 10 4 9 9-6 8-11 7"/></svg>
-      <span>Overwhelmed</span>
-    </button>
-    <button class="mood" data-mood="Anxious" style="--chip:#E9E1EE">
-      <svg aria-hidden="true" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 18c4-4 8-4 12 0s8 4 12 0 6-3 8-1M8 26c4-4 8-4 12 0s8 4 12 0 6-3 8-1M8 34c4-4 8-4 12 0s8 4 12 0 6-3 8-1"/></svg>
-      <span>Anxious</span>
-    </button>
-    <button class="mood" data-mood="Low" style="--chip:#E6E4EC">
-      <svg aria-hidden="true" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 30a8 8 0 1 1 2-15.8A10 10 0 0 1 35 17a7 7 0 0 1-1 13.9z"/></svg>
-      <span>Low</span>
-    </button>
-    <button class="mood" data-mood="Stuck" style="--chip:#E3E8E1">
-      <svg aria-hidden="true" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="24" cy="24" r="4"/><circle cx="24" cy="24" r="10"/><circle cx="24" cy="24" r="16"/></svg>
-      <span>Stuck</span>
-    </button>
-    <button class="mood" data-mood="Disconnected" style="--chip:#F6EBD8">
-      <svg aria-hidden="true" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="15" r="6"/><path d="M12 38c1-8 6-12 12-12s11 4 12 12"/></svg>
-      <span>Disconnected</span>
-    </button>
-    <button class="mood" data-mood="Exhausted" style="--chip:#F3E4C9">
-      <svg aria-hidden="true" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="16" width="28" height="16" rx="4"/><path d="M36 21h4v6h-4"/><rect x="13" y="21" width="7" height="6" rx="1.5" fill="currentColor" stroke="none" opacity=".8"/></svg>
-      <span>Exhausted</span>
-    </button>
-    <button class="mood" data-mood="Hurting" style="--chip:#F0DBD9">
-      <svg aria-hidden="true" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 39C15 32 9 26.5 9 20.4 9 16 12.4 13 16.5 13c3 0 5.7 1.5 7.5 3.9 1.8-2.4 4.5-3.9 7.5-3.9 4.1 0 7.5 3 7.5 7.4C39 26.5 33 32 24 39z"/></svg>
-      <span>Hurting</span>
-    </button>
-    <button class="mood" data-mood="Not sure" style="--chip:#ECE5EF">
-      <svg aria-hidden="true" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="16"/><path d="M19 19a5 5 0 0 1 9.6 2c0 3-4.6 3.4-4.6 6.5"/><circle cx="24" cy="32.5" r=".5" fill="currentColor"/></svg>
-      <span>Not sure</span>
-    </button>
-  </div>
-
-  <button class="btn btn-dark checkin-cta" id="checkin-cta">Take the Kindred Check-In</button>
-</section>
-
-<!-- ======================= PILLARS ======================= -->
-<section class="pillars">
-  <article class="pillar" id="understand-yourself">
-    <div class="pillar-photo" role="img" aria-label="An open journal, pen, and mug on a soft blanket">
-      <svg viewBox="0 0 400 220" aria-hidden="true">
-        <rect width="400" height="220" fill="#EDE0D4"/>
-        <path d="M0 0 q120 40 90 120 q-20 70 -90 60z" fill="#8C9C87" opacity=".7"/>
-        <path d="M30 -10 q80 30 60 90 q-15 50 -70 45z" fill="#687A65" opacity=".6"/>
-        <rect x="120" y="70" width="180" height="110" rx="6" fill="#FFF8EF" transform="rotate(-4 210 125)"/>
-        <line x1="210" y1="62" x2="202" y2="176" stroke="#E3D4C0" stroke-width="3"/>
-        <g stroke="#CFBEA6" stroke-width="2.4" stroke-linecap="round">
-          <line x1="138" y1="94" x2="192" y2="90"/><line x1="140" y1="108" x2="194" y2="104"/><line x1="142" y1="122" x2="188" y2="118"/>
-          <line x1="222" y1="88" x2="278" y2="84"/><line x1="224" y1="102" x2="280" y2="98"/>
-        </g>
-        <rect x="245" y="130" width="90" height="8" rx="4" fill="#422448" transform="rotate(18 290 134)"/>
-        <ellipse cx="340" cy="80" rx="34" ry="30" fill="#687A65"/>
-        <ellipse cx="340" cy="74" rx="26" ry="10" fill="#8C9C87"/>
-      </svg>
-    </div>
-    <span class="pillar-icon" style="--pic:#687A65">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#FFF8EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-1.5-1.6-3.7-2-6-2v14c2.3 0 4.5.4 6 2 1.5-1.6 3.7-2 6-2V4c-2.3 0-4.5.4-6 2z"/><path d="M12 6v14"/></svg>
-    </span>
-    <h3 class="pillar-title t-moss">Understand Yourself</h3>
-    <p class="pillar-desc">Explore what you're feeling and why. Learn with articles, guides, and expert answers.</p>
-    <ul class="pillar-list">
-      <li>Anxiety</li><li>Burnout</li><li>Self-esteem</li><li>Trauma</li><li>People pleasing</li>
-    </ul>
-    <a class="pillar-link" href="understand-yourself.html">Explore topics <span aria-hidden="true">→</span></a>
-  </article>
-
-  <article class="pillar" id="feel-better">
-    <div class="pillar-photo" role="img" aria-label="A lit candle beside a warm cup of tea on linen">
-      <svg viewBox="0 0 400 220" aria-hidden="true">
-        <rect width="400" height="220" fill="#F0E5D8"/>
-        <path d="M0 220 q120 -50 400 -20 v20z" fill="#E2D2C0"/>
-        <ellipse cx="150" cy="168" rx="60" ry="14" fill="#DAC8B0"/>
-        <path d="M105 110 q45 -16 90 0 l-8 58 q-37 12 -74 0z" fill="#FFF8EF"/>
-        <rect x="146" y="86" width="8" height="20" rx="4" fill="#EFDFC7"/>
-        <path d="M150 62 q-10 14 0 24 q10 -10 0 -24z" fill="#D99B54"/>
-        <ellipse cx="285" cy="160" rx="58" ry="16" fill="#CDB99A"/>
-        <path d="M240 118 q45 -14 90 0 l-10 40 q-35 10 -70 0z" fill="#B8A3C4"/>
-        <ellipse cx="285" cy="118" rx="45" ry="10" fill="#CBBAD4"/>
-        <ellipse cx="285" cy="118" rx="34" ry="7" fill="#BA8B66"/>
-        <path d="M262 100 q8 -14 20 -8 M292 98 q10 -10 18 -2" stroke="#F4EADC" stroke-width="4" fill="none" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <span class="pillar-icon" style="--pic:#B8A3C4">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#422448" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20c-4 0-7-2.4-7-6 1.8.2 3 .8 4 1.8C9 12 10 8 12 5c2 3 3 7 3 10.8 1-1 2.2-1.6 4-1.8 0 3.6-3 6-7 6z"/></svg>
-    </span>
-    <h3 class="pillar-title t-lilac">Feel Better</h3>
-    <p class="pillar-desc">Tools and exercises to support your mind in the moments that matter.</p>
-    <ul class="pillar-list">
-      <li>Calm your mind</li><li>Manage stress</li><li>Sleep better</li><li>Build confidence</li><li>Stop a spiral</li>
-    </ul>
-    <a class="pillar-link" href="feel-better.html">Find what helps <span aria-hidden="true">→</span></a>
-  </article>
-
-  <article class="pillar" id="life-relationships">
-    <div class="pillar-photo" role="img" aria-label="Two people holding hands on a cozy blanket">
-      <svg viewBox="0 0 400 220" aria-hidden="true">
-        <rect width="400" height="220" fill="#EFDFD2"/>
-        <path d="M0 140 q100 -30 200 0 t200 -10 v90 h-400z" fill="#E4CFB9"/>
-        <path d="M0 170 q120 -24 240 0 t160 -6 v56 h-400z" fill="#D7C1A6"/>
-        <path d="M150 120 q14 -26 40 -18 q10 -22 34 -12 q22 8 16 32 l-10 34 q-30 16 -62 2 z" fill="#BE765F"/>
-        <path d="M168 132 q20 -12 44 -2" stroke="#A05F4B" stroke-width="4" fill="none" stroke-linecap="round"/>
-        <path d="M120 96 q18 -10 34 6" stroke="#BA8B66" stroke-width="12" fill="none" stroke-linecap="round"/>
-        <path d="M252 92 q22 -6 30 14" stroke="#8C5F41" stroke-width="12" fill="none" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <span class="pillar-icon" style="--pic:#BE765F">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#FFF8EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="3.2"/><circle cx="16.5" cy="10.5" r="2.6"/><path d="M4 19c.6-3.4 2.6-5 5-5s4.4 1.6 5 5"/><path d="M14.5 15.6c1.6.4 2.9 1.6 3.5 3.4"/></svg>
-    </span>
-    <h3 class="pillar-title t-clay">Life &amp; Relationships</h3>
-    <p class="pillar-desc">Support for the relationships and real life you're navigating.</p>
-    <ul class="pillar-list">
-      <li>Relationships</li><li>Family</li><li>Work &amp; life</li><li>Transitions</li><li>Boundaries</li>
-    </ul>
-    <a class="pillar-link" href="life-relationships.html">Get support <span aria-hidden="true">→</span></a>
-  </article>
-
-  <article class="pillar" id="therapy">
-    <div class="pillar-photo" role="img" aria-label="A calm therapy room with an armchair and plants">
-      <svg viewBox="0 0 400 220" aria-hidden="true">
-        <rect width="400" height="220" fill="#F1E7DA"/>
-        <rect x="250" y="20" width="120" height="150" rx="6" fill="#FFF6E6"/>
-        <rect x="250" y="20" width="120" height="150" rx="6" fill="none" stroke="#DECDB2" stroke-width="5"/>
-        <line x1="310" y1="20" x2="310" y2="170" stroke="#DECDB2" stroke-width="4"/>
-        <path d="M70 190 q-16 -70 44 -76 q8 -40 54 -34 q46 6 44 50 q30 20 14 60z" fill="#5B3A63"/>
-        <path d="M96 122 q40 -14 84 0 l-6 52 q-36 12 -72 0z" fill="#6F4B77"/>
-        <rect x="88" y="170" width="110" height="12" rx="6" fill="#422448"/>
-        <path d="M330 150 q-20 -34 -6 -60 q18 14 12 38 q8 -26 22 -32 q6 30 -16 54z" fill="#687A65"/>
-        <ellipse cx="335" cy="158" rx="22" ry="8" fill="#BA8B66"/>
-        <ellipse cx="205" cy="204" rx="150" ry="10" fill="#E2D2BC"/>
-      </svg>
-    </div>
-    <span class="pillar-icon" style="--pic:#422448">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#FFF8EF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11V8a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v3"/><path d="M4 11a2 2 0 0 1 2 2v1h12v-1a2 2 0 0 1 4 0v3a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-3a2 2 0 0 1 2-2z"/><path d="M6 19v2M18 19v2"/></svg>
-    </span>
-    <h3 class="pillar-title t-aubergine">Therapy</h3>
-    <p class="pillar-desc">Learn about therapy, approaches, and how to find the right therapist.</p>
-    <ul class="pillar-list">
-      <li>Do I need therapy?</li><li>How it works</li><li>Types of therapy</li><li>What it costs</li><li>The quiet worries</li>
-    </ul>
-    <a class="pillar-link" href="therapy.html">Learn more <span aria-hidden="true">→</span></a>
-  </article>
-</section>
-
-<!-- ======================= KINDRED MOMENTS ======================= -->
-<section class="moments">
-  <div class="moments-head">
-    <h2>Support for<br>the moment you're in.</h2>
-    <p>Kindred Moments are quick, evidence-informed tools to help you feel more like yourself.</p>
-    <a class="pillar-link" href="feel-better.html">Browse all tools <span aria-hidden="true">→</span></a>
-  </div>
-
-  <div class="moments-row" id="moments-row">
-    <a class="moment" href="feel-better.html#play=spiral" style="--chip:#F2DFD6">
-      <span class="moment-time">1 min</span>
-      <span class="moment-icon">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 26c3-9 8-14 14-13s9 6 7 11-8 7-12 4 0-10 6-10 10 4 9 9-6 8-11 7"/></svg>
-      </span>
-      <h3>Stop a Spiral</h3>
-      <p>Ground yourself fast when your mind races.</p>
-    </a>
-    <a class="moment" href="feel-better.html#cat=talk" style="--chip:#E9E1EE">
-      <span class="moment-time">3 min</span>
-      <span class="moment-icon">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12h22a4 4 0 0 1 4 4v9a4 4 0 0 1-4 4H20l-8 7v-7h-2a4 4 0 0 1-4-4v-9a4 4 0 0 1 4-4z"/><path d="M14 19h16M14 25h10"/></svg>
-      </span>
-      <h3>Before You Send That Text</h3>
-      <p>Pause. Breathe. Choose what aligns with you.</p>
-    </a>
-    <a class="moment" href="feel-better.html#cat=reset" style="--chip:#F3E4C9">
-      <span class="moment-time">5 min</span>
-      <span class="moment-icon">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="24" cy="26" r="8"/><path d="M24 10v4M35.3 14.7l-2.8 2.8M40 26h-4M12.7 14.7l2.8 2.8M8 26h4M6 36h36" /></svg>
-      </span>
-      <h3>Reset After a Hard Day</h3>
-      <p>Release the heaviness and reset your mind.</p>
-    </a>
-    <a class="moment" href="feel-better.html#cat=sleep" style="--chip:#E6E4EC">
-      <span class="moment-time">3 min</span>
-      <span class="moment-icon">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M36 30a14 14 0 0 1-17.8-17.8A14 14 0 1 0 36 30z"/></svg>
-      </span>
-      <h3>Fall Asleep Easier</h3>
-      <p>Quiet your thoughts and rest deeper.</p>
-    </a>
-    <a class="moment" href="feel-better.html#cat=steady" style="--chip:#E3E8E1">
-      <span class="moment-time">2 min</span>
-      <span class="moment-icon">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 40V22"/><path d="M24 26c0-8-6-12-14-12 0 8 6 12 14 12zM24 20c0-7 5-10 12-10 0 7-5 10-12 10z"/></svg>
-      </span>
-      <h3>You're Not Alone</h3>
-      <p>A reminder for when it all feels too much.</p>
-    </a>
-  </div>
-
-  <button class="moments-arrow" id="moments-arrow" aria-label="See more tools">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>
-  </button>
-</section>
-
-<!-- ======================= MY KINDRED TEASER ======================= -->
-<!-- ======================= NEWSLETTER ======================= -->
-<!-- In the body rather than the footer: it is the only "stay in touch" ask on
-     the site in V1, and under the footer links nobody saw it. -->
-<section class="news-band" id="newsletter">
-  <div class="news-inner">
-    <div class="news-copy">
-      <p class="eyebrow">Stay close</p>
-      <h2>Kindred, in your inbox.</h2>
-      <p>Tools that actually help, a note when therapists join in your state, and what we&rsquo;re learning about finding the right therapist. No more than twice a month.</p>
-    </div>
-    <form class="news-signup news-signup--band" novalidate>
-      <div class="ns-row">
-        <input class="ns-input" type="email" name="email" inputmode="email" autocomplete="email"
-               aria-label="Email address" placeholder="you@example.com" required>
-        <button class="ns-btn" type="submit">Sign up</button>
-      </div>
-      <p class="ns-note" role="status" aria-live="polite"></p>
-      <p class="ns-fine">Your address, and nothing else &mdash; never sold, never shared, and never tied to what you searched for. Unsubscribe in one click.</p>
-    </form>
-  </div>
-</section>
-
-
-<!-- ======================= TRUST BAR ======================= -->
-<!-- What survived the app band. The rest of it -- a phone mockup greeting a
-     visitor as Jamie, and copy promising check-ins and saved tools -- was a
-     preview of the signed-in experience that V1 no longer has. -->
-<section class="trust-bar" aria-label="What Kindred promises">
-  <ul class="trust-inner">
-    <li>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.4 3 8.4 7 9.5 4-1.1 7-5.1 7-9.5V6z"/><path d="m9.5 12 2 2 3.5-3.8"/></svg>
-      <div><strong>Private &amp; Secure</strong> <span>Your privacy is our priority. Always.</span></div>
-    </li>
-    <li>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><circle cx="16.5" cy="9.5" r="2.6"/><path d="M4 19c.6-3.4 2.6-5 5-5s4.4 1.6 5 5"/><path d="M14.5 15.6c1.6.4 2.9 1.6 3.5 3.4"/></svg>
-      <div><strong>Made for Real Life</strong> <span>Tools that fit in your life, not the other way around.</span></div>
-    </li>
-    <li>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5C7 16.5 3.5 13.3 3.5 9.6 3.5 7 5.5 5 8 5c1.6 0 3.1.8 4 2.1C12.9 5.8 14.4 5 16 5c2.5 0 4.5 2 4.5 4.6 0 3.7-3.5 6.9-8.5 10.9z"/></svg>
-      <div><strong>You Belong Here</strong> <span>Judgement-free support for every part of you.</span></div>
-    </li>
-  </ul>
-</section>
-
-<!-- ======================= FOOTER ======================= -->
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-brand">
@@ -434,7 +375,6 @@
         <p class="brand-tag">Therapy, matched to you</p>
       </div>
     </div>
-
     <nav class="footer-col" aria-label="About">
       <h4>About</h4>
       <a href="about.html">About Us</a><a href="about.html#values">Our Values</a><a href="find-a-therapist.html">For Clients</a><a href="therapists.html">For Therapists</a><a href="about.html#careers">Careers</a>
@@ -445,297 +385,191 @@
     </nav>
     <nav class="footer-col" aria-label="Connect">
       <h4>Connect</h4>
-      <a href="https://www.instagram.com/kindred.therapymatch" target="_blank" rel="noopener">Instagram</a><a href="#newsletter">Newsletter</a><a href="mailto:info@kindredtherapymatch.com">Email us</a>
+      <a href="https://www.instagram.com/kindred.therapymatch" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:info@kindredtherapymatch.com">Email us</a>
     </nav>
-
     <div class="footer-crisis">
       <h4>Need help now?</h4>
       <p>If you or someone you know is in crisis, help is available 24/7. Call or text <strong>988</strong> (Suicide &amp; Crisis Lifeline).</p>
       <a class="btn btn-clay" href="tel:988">Get immediate help</a>
     </div>
-
   </div>
   <p class="footer-fine">© 2026 Kindred. Kindred is not a substitute for professional diagnosis or emergency care.</p>
 </footer>
 
-</main>
-<!-- ======================= AUDIENCE ROUTER (first visit) ======================= -->
-<style>
-  /* self-contained pop-up styles (kaud-) — kept inline to avoid touching shared stylesheets */
-  .kaud-overlay {
-    position: fixed; inset: 0; z-index: 200; background: rgba(48, 26, 53, .55);
-    backdrop-filter: blur(4px); display: grid; place-items: center; padding: 1.2rem;
-    opacity: 0; transition: opacity .3s ease;
-  }
-  .kaud-overlay.kaud-show { opacity: 1; }
-  .kaud-overlay[hidden] { display: none; }
-  .kaud-modal {
-    position: relative; width: min(560px, 100%); background: #FFFDF8; border-radius: 26px;
-    padding: clamp(1.8rem, 4vw, 2.6rem); text-align: center;
-    box-shadow: 0 30px 80px rgba(20, 10, 24, .45);
-    transform: translateY(14px); transition: transform .3s ease;
-  }
-  .kaud-overlay.kaud-show .kaud-modal { transform: none; }
-  .kaud-mark { width: 44px; height: 44px; margin: 0 auto .8rem; }
-  .kaud-kicker { font-size: .68rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #BE765F; }
-  .kaud-title { font-family: 'Literata', Georgia, serif; font-weight: 500; font-size: clamp(1.5rem, 3vw, 1.9rem); color: #422448; margin-top: .4rem; line-height: 1.15; }
-  .kaud-cards { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; margin-top: 1.6rem; }
-  .kaud-card {
-    display: grid; justify-items: center; gap: .45rem; padding: 1.4rem 1.1rem;
-    border-radius: 18px; border: 2px solid transparent; cursor: pointer; text-align: center;
-    transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
-    font: inherit;
-  }
-  .kaud-card:hover { transform: translateY(-3px); border-color: #422448; box-shadow: 0 10px 26px rgba(66, 36, 72, .16); }
-  .kaud-card-client { background: #F4E3DB; }
-  .kaud-card-therapist { background: #E6EAE2; }
-  .kaud-icon { width: 48px; height: 48px; border-radius: 50%; background: rgba(255, 253, 248, .75); display: grid; place-items: center; color: #422448; }
-  .kaud-icon svg { width: 26px; height: 26px; }
-  .kaud-card strong { font-size: 1rem; color: #35263B; }
-  .kaud-card span { font-size: .78rem; color: #6E6172; line-height: 1.4; }
-  .kaud-sub { margin-top: .6rem; font-size: .86rem; color: #6E6172; }
-  /* Not an escape hatch -- a third path. This modal has no exit, and holding
-     someone in crisis behind a marketing question is not a trade this site
-     makes. Leaving by this route is always allowed. */
-  .kaud-crisis { margin-top: 1.5rem; padding-top: 1.1rem; border-top: 1px solid #EADFCC; font-size: .82rem; color: #6E6172; line-height: 1.5; }
-  .kaud-crisis a { color: #422448; font-weight: 700; text-decoration: underline; }
-  .kaud-crisis a:hover { color: #BE765F; }
-  .kaud-card:focus-visible { outline: 3px solid #422448; outline-offset: 3px; }
-  /* The page behind must not scroll while the modal owns the screen.
-     It has to go on <html> as well as <body>: this site's scroller is the
-     root element, so locking body alone does nothing at all. */
-  html.kaud-locked, body.kaud-locked { overflow: hidden; }
-  @media (max-width: 560px) { .kaud-cards { grid-template-columns: 1fr; } }
-</style>
-
-<div class="kaud-overlay" id="kaud" hidden>
-  <div class="kaud-modal" role="dialog" aria-modal="true" aria-labelledby="kaud-title">
-    <svg class="kaud-mark" viewBox="0 0 100 100" aria-hidden="true">
-      <path d="M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z" fill="#422448"/>
-      <path d="M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z" fill="#B8A3C4"/>
-      <path d="M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z" fill="#BE765F"/>
-    </svg>
-    <p class="kaud-kicker">Welcome to Kindred</p>
-    <h2 class="kaud-title" id="kaud-title">Which brings you here today?</h2>
-    <p class="kaud-sub">Pick one so we can show you the right side of Kindred.</p>
-    <div class="kaud-cards">
-      <button class="kaud-card kaud-card-client" id="kaud-client">
-        <span class="kaud-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5C7 16.5 3.5 13.3 3.5 9.6 3.5 7 5.5 5 8 5c1.6 0 3.1.8 4 2.1C12.9 5.8 14.4 5 16 5c2.5 0 4.5 2 4.5 4.6 0 3.7-3.5 6.9-8.5 10.9z"/></svg>
-        </span>
-        <strong>I'm looking for therapy</strong>
-        <span>Support, tools, and a therapist who actually gets you.</span>
-      </button>
-      <button class="kaud-card kaud-card-therapist" id="kaud-therapist">
-        <span class="kaud-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="3.2"/><circle cx="16.5" cy="10.5" r="2.6"/><path d="M4 19c.6-3.4 2.6-5 5-5s4.4 1.6 5 5"/><path d="M14.5 15.6c1.6.4 2.9 1.6 3.5 3.4"/></svg>
-        </span>
-        <strong>I'm a therapist</strong>
-        <span>Meet clients who are right for you — founding spots open.</span>
-      </button>
-    </div>
-    <p class="kaud-crisis">
-      In crisis right now? Call or text <a href="tel:988" id="kaud-988">988</a> &mdash;
-      the Suicide &amp; Crisis Lifeline, free and open every hour of the day.
-    </p>
-  </div>
-</div>
-
-<script>
-(() => {
-  const KEY = 'kindred-audience';
-  const WINDOW_MS = 4 * 60 * 60 * 1000;   /* ask at most once per 4 hours */
-
-  /* Stored as {choice, at}. Anything else counts as stale — including the old
-     bare-string format, which had no timestamp and so gated a visitor forever
-     once they'd answered. Those visitors get asked once more, then fall into
-     the normal 4-hour cycle.
-     localStorage throws in some privacy modes; an unguarded read there would
-     kill this whole block and the popup would never open at all. */
-  let last = null;
-  try { last = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { last = null; }
-  if (last && typeof last.at === 'number' && Date.now() - last.at < WINDOW_MS) return;
-
-  const remember = choice => {
-    try { localStorage.setItem(KEY, JSON.stringify({ choice, at: Date.now() })); } catch (e) {}
-  };
-  const overlay = document.getElementById('kaud');
-  const modal   = overlay.querySelector('.kaud-modal');
-
-  /* Every way out of this modal is a choice. No close button, no backdrop
-     click, no Escape -- the only exits are picking a side or ringing 988.
-     That makes two things mandatory rather than nice to have:
-
-     1. A focus trap. Tab must not wander behind an overlay that cannot be
-        closed, or a keyboard user ends up stranded in a page they cannot see
-        with no way back to the buttons.
-     2. `inert` on everything else, which also hides the page behind from
-        screen readers. Browsers without `inert` fall back to the manual trap. */
-  const FOCUSABLE = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
-  /* Collected when the modal opens, not when this script parses. ui.js is
-     deferred and appends the back-to-top button after this runs, and the
-     crisis link and search overlay land later too -- computing the list early
-     left three focusable things behind an overlay that cannot be closed.
-     Tab could not reach them (the trap below holds), but a screen reader
-     browsing by virtual cursor still could. */
-  let outside = [];
-
-  const trap = e => {
-    if (e.key === 'Tab') {
-      const f = [...modal.querySelectorAll(FOCUSABLE)].filter(el => el.offsetParent !== null);
-      if (!f.length) return;
-      const first = f[0], last = f[f.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    }
-    /* Escape is swallowed on purpose. Letting it through would be a silent
-       exit that only keyboard users get. */
-    if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); }
-  };
-
-  const open = () => {
-    overlay.hidden = false;
-    outside = [...document.body.children].filter(el => el !== overlay);
-    document.body.classList.add('kaud-locked');
-    document.documentElement.classList.add('kaud-locked');
-    outside.forEach(el => el.setAttribute('inert', ''));
-    document.addEventListener('keydown', trap, true);
-    setTimeout(() => overlay.classList.add('kaud-show'), 30); /* not rAF -- throttled tabs never fire it */
-    document.getElementById('kaud-client').focus();
-  };
-
-  const close = (choice) => {
-    remember(choice);
-    document.removeEventListener('keydown', trap, true);
-    outside.forEach(el => el.removeAttribute('inert'));
-    document.body.classList.remove('kaud-locked');
-    document.documentElement.classList.remove('kaud-locked');
-    overlay.classList.remove('kaud-show');
-    setTimeout(() => overlay.hidden = true, 300);
-  };
-
-  document.getElementById('kaud-client').addEventListener('click', () => close('client'));
-  document.getElementById('kaud-therapist').addEventListener('click', () => {
-    remember('therapist');
-    window.location.href = 'therapists.html';
-  });
-  /* Reaching for 988 counts as answered -- nobody should meet this again on
-     the way back. */
-  document.getElementById('kaud-988').addEventListener('click', () => remember('crisis'));
-
-  setTimeout(open, 400);
-})();
-</script>
-
-<script src="app.js?v=13"></script>
-<!-- ======================= SITE SEARCH ======================= -->
-<style>
-  .ksearch-overlay {
-    position: fixed; inset: 0; z-index: 210; background: rgba(48,26,53,.55); backdrop-filter: blur(4px);
-    display: grid; justify-items: center; align-items: start; padding: 10vh 1.2rem 1.2rem;
-  }
-  .ksearch-overlay[hidden] { display: none; }
-  .ksearch-box { width: min(560px, 100%); background: #FFFDF8; border-radius: 20px; box-shadow: 0 30px 80px rgba(20,10,24,.45); overflow: hidden; }
-  .ksearch-input {
-    width: 100%; font: inherit; font-size: 1.05rem; padding: 1.1rem 1.4rem; border: none; outline: none;
-    background: #FFFDF8; color: #35263B; border-bottom: 1px solid #EADFCC;
-  }
-  .ksearch-results { max-height: 50vh; overflow-y: auto; padding: .5rem; }
-  .ksearch-item { display: block; padding: .7rem .9rem; border-radius: 10px; }
-  .ksearch-item:hover, .ksearch-item.active { background: #F1E8F3; }
-  .ksearch-item strong { display: block; font-size: .92rem; color: #422448; }
-  .ksearch-item span { font-size: .74rem; color: #6E6172; }
-  .ksearch-empty { padding: 1rem 1.2rem 1.2rem; font-size: .85rem; color: #6E6172; font-style: italic; }
-</style>
-<div class="ksearch-overlay" id="ksearch" hidden>
-  <div class="ksearch-box" role="dialog" aria-modal="true" aria-label="Search Kindred">
-    <input class="ksearch-input" id="ksearch-input" type="text" placeholder="Search — anxiety, sleep, boundaries, box breathing…" autocomplete="off">
-    <div class="ksearch-results" id="ksearch-results"></div>
-  </div>
-</div>
-<script>
-(() => {
-  const INDEX = [
-    ['Start Here', 'Not sure where to begin? Six gentle paths.', 'start-here.html', 'begin help lost overwhelmed crisis support'],
-    ['Take the Kindred Check-In', 'A few minutes of honest noticing.', 'start-here.html#path=checkin', 'check in checkin assessment mood'],
-    ['I need help right now', 'Immediate support — 988, call, text, chat.', 'start-here.html#path=now', 'crisis urgent 988 emergency unsafe suicidal'],
-    ['Understand Yourself', 'Start with the feeling, not the label.', 'understand-yourself.html', 'feelings topics explore discovery'],
-    ['Feel Better', '25 quick tools — most under five minutes.', 'feel-better.html', 'tools moments exercises relief'],
-    ['Life & Relationships', 'Partners, family, work, big changes.', 'life-relationships.html', 'relationship partner family friends work change'],
-    ['Therapy', 'What it is like, what it costs, when it helps.', 'therapy.html', 'therapist cost insurance types faq'],
-    ['Find Your Therapist', 'Matched to you — open the Kindred app.', 'APP', 'match therapist app find'],
-    ['For Therapists', 'Six months free for therapists, then $29.99/month.', 'therapists.html', 'therapist join pricing founding membership free'],
-    ['Anxiety', 'When worry starts taking up too much room.', 'understand-yourself.html#topic=anxiety', 'anxious worry panic nervous'],
-    ['Depression', "When low isn't lifting.", 'understand-yourself.html#topic=depression', 'sad low numb hopeless'],
-    ['Burnout', "Running on empty isn't a character flaw.", 'understand-yourself.html#topic=burnout', 'exhausted tired work drained'],
-    ['OCD', 'Unwanted thoughts and repetitive responses.', 'understand-yourself.html#topic=ocd', 'intrusive compulsion checking'],
-    ['ADHD', 'More than being distracted.', 'understand-yourself.html#topic=adhd', 'focus attention distracted'],
-    ['Trauma', 'When the past stays present.', 'understand-yourself.html#topic=trauma', 'ptsd flashback hypervigilant'],
-    ['Grief', 'Carrying a loss, at your own pace.', 'understand-yourself.html#topic=grief', 'loss death mourning'],
-    ['Boundaries', 'Where you end and others begin.', 'understand-yourself.html#topic=boundaries', 'saying no limits'],
-    ['People pleasing', "Why it's so hard to say no.", 'understand-yourself.html#topic=peoplepleasing', 'pleaser approval'],
-    ['Attachment', 'The patterns underneath your relationships.', 'understand-yourself.html#topic=attachment', 'anxious avoidant secure'],
-    ['Sleep & mental health', 'It goes both ways.', 'understand-yourself.html#topic=sleep', 'insomnia tired rest'],
-    ['Loneliness', 'Feeling alone, even around people.', 'understand-yourself.html#topic=loneliness', 'lonely isolated alone'],
-    ['Chronic stress', 'When the pressure never quite lets up.', 'understand-yourself.html#topic=stress', 'stressed pressure overwhelmed'],
-    ['Perfectionism', 'When good enough never feels good enough.', 'understand-yourself.html#topic=perfectionism', 'perfect standards critic'],
-    ['Self-esteem', 'The way you talk to yourself matters.', 'understand-yourself.html#topic=selfesteem', 'confidence worth insecure'],
-    ['When your mind won\'t stop', 'Racing thoughts, explored gently.', 'mind-wont-stop.html', 'overthinking racing rumination replay'],
-    ['Stop a Spiral', 'Playable · 1 min grounding sequence.', 'feel-better.html#play=spiral', 'spiral racing ground tool'],
-    ['Box Breathing', 'Playable · four even sides to steady yourself.', 'feel-better.html#play=box', 'breathe breathing calm'],
-    ['4-7-8 Breathing', 'Playable · the long exhale.', 'feel-better.html#play=478', 'breathe breathing sleep calm'],
-    ['5-4-3-2-1 Grounding', 'Playable · back to the room through your senses.', 'feel-better.html#play=senses', 'grounding panic senses'],
-    ['Brain Dump, Then Sort', 'Playable · move the mental pile somewhere visible.', 'feel-better.html#play=dump', 'todo overwhelm sort worry'],
-    ['Sleep tools', 'Moments for nights when rest won\'t come.', 'feel-better.html#cat=sleep', 'sleep insomnia night'],
-    ['Before hard conversations', 'Tools for saying the hard thing.', 'feel-better.html#cat=talk', 'conversation conflict text argument'],
-    ['My partner & romantic life', 'The person closest can be hardest to talk to.', 'life-relationships.html#context=partner', 'partner marriage couple relationship'],
-    ['My family', 'Love people, still need to recover from them.', 'life-relationships.html#context=family', 'family parents mom dad'],
-    ['Worried about someone', 'How to help without saying the wrong thing.', 'life-relationships.html#context=someone', 'friend help support loved one'],
-    ['Do I need therapy?', 'An honest readiness check — no test to pass.', 'therapy.html#tp-ready', 'ready need therapy should i'],
-    ['Privacy at Kindred', 'No personal data, by design.', 'privacy.html', 'privacy data security confidential'],
-    ['About Kindred', 'Why we built this.', 'about.html', 'about mission values contact careers press']
-  ];
-  const overlay = document.getElementById('ksearch');
-  const input = document.getElementById('ksearch-input');
-  const results = document.getElementById('ksearch-results');
-  const btn = document.querySelector('.header-actions .icon-btn[aria-label="Search"]');
-  let items = [];
-
-  function renderResults(q) {
-    const query = q.trim().toLowerCase();
-    const matches = query
-      ? INDEX.filter(([t, d, h, k]) => (t + ' ' + d + ' ' + k).toLowerCase().includes(query)).slice(0, 8)
-      : INDEX.slice(0, 6);
-    items = matches;
-    results.innerHTML = matches.length
-      ? matches.map(([t, d, h], i) => { const u = h === 'APP' ? (window.KINDRED_APP_URL || '/app/') : h; return `<a class="ksearch-item${i === 0 ? ' active' : ''}" href="${u}"${u.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}><strong>${t}</strong><span>${d}</span></a>`; }).join('')
-      : '<p class="ksearch-empty">Nothing matched — try "anxiety", "sleep", or "tools". Or start where you are: <a href="start-here.html" style="text-decoration:underline;">Start Here</a>.</p>';
-  }
-  function open() {
-    overlay.hidden = false;
-    input.value = '';
-    renderResults('');
-    setTimeout(() => input.focus(), 30);
-  }
-  function close() { overlay.hidden = true; }
-
-  if (btn) btn.addEventListener('click', open);
-  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && !overlay.hidden) close();
-    if (e.key === '/' && overlay.hidden && !/input|textarea/i.test(document.activeElement.tagName)) { e.preventDefault(); open(); }
-  });
-  input.addEventListener('input', () => renderResults(input.value));
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && items.length) window.location.href = items[0][2];
-  });
-})();
-</script>
-
 <script src="site.js?v=11"></script>
+<script>
+  const navToggle = document.querySelector('.nav-toggle');
+  const mainNav = document.querySelector('.main-nav');
+  if (navToggle && mainNav) {
+    navToggle.addEventListener('click', () => {
+      const open = mainNav.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', open);
+    });
+  }
+
+  const PEOPLE = [
+    {
+      name: 'Desirae Tarris',
+      creds: 'LPC • EMDR · she/her',
+      facts: ['Telluride, CO', 'Online'],
+      verified: true,
+      statement: 'I work best with people who are ready to make a change.',
+      prompts: [
+        { label: 'What you can expect in session', text: 'I’m kind yet direct. I’ll tell you how it is.' },
+        { label: 'I look forward to helping you with', text: 'The things in life that make you feel like you’re stuck.' },
+        { label: 'I won’t shut up about', text: 'The importance of feeling your feelings.' }
+      ],
+      specs: ['Anxiety', 'Trauma', 'Grief', 'Burnout', 'ADHD', 'Life Transitions'],
+      photo: 'assets/therapist-desirae.jpg?v=2',
+      photoPos: 'center 18%',
+      live: true,
+      href: 'desirae-tarris/',
+      viewLabel: 'Read her full Kindred page'
+    },
+    {
+      name: 'Maya Chen',
+      creds: 'LMFT · she/her',
+      facts: ['Oakland, CA', 'Online & in-person'],
+      statement: 'You may be right for each other if you look fine on paper but feel exhausted from being the strong one.',
+      prompts: [
+        { label: 'What sessions feel like', text: 'Warm, honest, and we don’t stay on the surface for long.' },
+        { label: 'My therapy style is', text: 'Collaborative and direct — we name what’s happening, then we work it.' }
+      ],
+      specs: ['Anxiety', 'Life Transitions', 'Relationship issues', 'Burnout', 'Self-Esteem'],
+      photo: 'assets/therapist-maya.jpg',
+      photoPos: 'center 22%',
+      live: false
+    },
+    {
+      name: 'Devon Brooks',
+      creds: 'LPC · he/him',
+      facts: ['Austin, TX', 'Online & in-person'],
+      statement: 'A real conversation — warm, honest, and with somewhere to go.',
+      prompts: [
+        { label: 'What you can expect in session', text: 'Practical, grounded, and we leave with something you can use this week.' },
+        { label: 'I look forward to helping you with', text: 'The weight you carry because it never felt like yours to put down.' }
+      ],
+      specs: ['Depression', 'Men’s Mental Health', 'Stress', 'Career', 'Grief'],
+      photo: 'assets/therapist-devon.jpg',
+      photoPos: 'center 18%',
+      live: false
+    }
+  ];
+
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  const dotsWrap = document.getElementById('match-dots');
+  PEOPLE.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'dot' + (i === 0 ? ' active' : '');
+    b.dataset.idx = String(i);
+    b.setAttribute('aria-label', 'Therapist ' + (i + 1));
+    b.setAttribute('role', 'tab');
+    dotsWrap.appendChild(b);
+  });
+
+  let idx = 0;
+  function show(i) {
+    idx = (i + PEOPLE.length) % PEOPLE.length;
+    const t = PEOPLE[idx];
+    const facts = (t.facts || []).map(f => '<span>' + esc(f) + '</span>').join('');
+    const prompts = t.prompts.map(p =>
+      '<div class="pv-prompt"><dt>' + esc(p.label) + '</dt><dd>' + esc(p.text) + '</dd></div>'
+    ).join('');
+    const specs = t.specs.map(s => '<li>' + esc(s) + '</li>').join('');
+    const foot = t.live
+      ? '<a class="pillar-link" href="' + esc(t.href) + '">' +
+          esc(t.viewLabel || 'Read the full profile') + ' <span aria-hidden="true">→</span></a>'
+      : '<p class="pv-ex">Example of a Kindred profile — not a live listing yet.</p>';
+
+    document.getElementById('match-inner').innerHTML =
+      '<div class="pv-photo">' +
+        '<span class="pv-badge">' + (t.live ? 'On Kindred' : 'Example') + '</span>' +
+        '<img src="' + esc(t.photo) + '" alt="' + esc(t.name) + '" style="object-position:' + esc(t.photoPos || 'center') + '">' +
+      '</div>' +
+      '<div class="pv-body">' +
+        '<h2>' + esc(t.name) + '</h2>' +
+        '<p class="pv-creds">' + esc(t.creds) + '</p>' +
+        '<div class="pv-facts">' + facts + '</div>' +
+        (t.verified ? '<p class="pv-verified">License verified with the state board</p>' : '') +
+        '<p class="pv-statement">' + esc(t.statement) + '</p>' +
+        '<dl class="pv-prompts">' + prompts + '</dl>' +
+        '<ul class="pv-chips">' + specs + '</ul>' +
+        foot +
+      '</div>';
+
+    dotsWrap.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('active', j === idx));
+    document.getElementById('match-count').textContent = (idx + 1) + ' of ' + PEOPLE.length;
+    document.getElementById('match-live').textContent = 'Showing ' + t.name;
+  }
+  show(0);
+  document.getElementById('match-prev').addEventListener('click', () => show(idx - 1));
+  document.getElementById('match-next').addEventListener('click', () => show(idx + 1));
+  dotsWrap.addEventListener('click', (e) => {
+    const d = e.target.closest('.dot');
+    if (d) show(Number(d.dataset.idx));
+  });
+
+  const STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','DC'];
+  const stSel = document.getElementById('pv-state');
+  STATES.forEach(s => {
+    const o = document.createElement('option');
+    o.value = s; o.textContent = s;
+    stSel.appendChild(o);
+  });
+
+  const notify = document.getElementById('notify');
+  function openNotify(e) {
+    if (e) e.preventDefault();
+    notify.hidden = false;
+    notify.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    document.getElementById('pv-email').focus();
+    history.replaceState(null, '', '#notify');
+  }
+  document.getElementById('pv-find').addEventListener('click', openNotify);
+  document.querySelectorAll('a[href="#notify"]').forEach(a => a.addEventListener('click', openNotify));
+  if (location.hash === '#notify') openNotify();
+
+  const SB  = 'https://izukppxgoerqtustfbnk.supabase.co';
+  const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml6dWtwcHhnb2VycXR1c3RmYm5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4NTAzMTYsImV4cCI6MjEwMDQyNjMxNn0.FeJFOu4PmOJAbk2OqfMH1sQX6DlynKmTyhc-dtKfvZk';
+  document.getElementById('pv-wait').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = (document.getElementById('pv-email').value || '').trim();
+    const state = stSel.value;
+    const note = document.getElementById('pv-wait-note');
+    const btn = e.target.querySelector('button[type="submit"]');
+    const okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!okEmail) { note.textContent = 'That address looks incomplete — mind checking it?'; note.classList.add('is-err'); return; }
+    if (!state) { note.textContent = 'Pick the state you want us to watch.'; note.classList.add('is-err'); return; }
+    note.classList.remove('is-err');
+    const label = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+      localStorage.setItem('kindred-area-wait', JSON.stringify({ email, state, at: Date.now() }));
+    } catch (err) {}
+    /* Email only on the server — same rule as the existing waitlist: an address
+       beside "looking for therapy in Colorado" is health information; the
+       address on its own is not. State stays on the device so the thank-you
+       can name it. HQ already has the notify list. */
+    try {
+      await fetch(SB + '/rest/v1/client_notify', {
+        method: 'POST',
+        headers: {
+          apikey: KEY, Authorization: 'Bearer ' + KEY,
+          'Content-Type': 'application/json', Prefer: 'return=minimal'
+        },
+        body: JSON.stringify({ email, contact_pref: 'email' })
+      });
+    } catch (err) {}
+    e.target.reset();
+    note.textContent = 'We’ll write when a verified therapist in ' + state + ' is live.';
+    btn.disabled = false; btn.textContent = label;
+  });
+</script>
 <script src="analytics.js?v=15"></script>
-<!-- Persistent route to help. Someone in crisis should not have to reach the
-     footer to find 988. Quiet by default so it never nags. -->
 <a class="crisis-mini" href="tel:988" aria-label="In crisis? Call or text 988"><span aria-hidden="true">&#9679;</span> In crisis? Call 988</a>
 <script src="ui.js?v=1" defer></script>
 </body>
