@@ -31,14 +31,32 @@
   .inv-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center;
     padding: clamp(1.25rem, 5vw, 3.5rem); box-sizing: border-box; }
   .inv-card { background: var(--cream, #FCFCFE); max-width: 620px; width: 100%;
+    background-image:
+      radial-gradient(rgba(43,34,51,.022) 1px, transparent 1px),
+      radial-gradient(rgba(43,34,51,.018) 1px, transparent 1px);
+    background-size: 13px 13px, 21px 21px;
+    background-position: 0 0, 7px 9px;
     border: 1px solid var(--line-warm, #E9E7F0); border-radius: 20px;
     padding: clamp(2rem, 6vw, 3.6rem);
     box-shadow: 0 24px 60px -30px rgba(43, 34, 51, .28); }
 
-  .inv-mark { width: 34px; height: 34px; display: block; }
-  .inv-eyebrow { font-family: 'Inter', system-ui, sans-serif; font-size: .72rem; font-weight: 600;
-    letter-spacing: .18em; text-transform: uppercase; color: var(--clay-text, #8F5340);
-    margin: 1.4rem 0 .9rem; }
+  /* Invitation conventions, borrowed carefully: the mark centred like a crest,
+     a double rule under the header, generous margins. NOT centred body text --
+     long centred prose is hard to read, and this still has to be read. */
+  .inv-head { text-align: center; padding-bottom: 1.6rem; margin-bottom: 1.9rem;
+    border-bottom: 3px double var(--line-warm, #E9E7F0); }
+
+  /* The mark as a pressed seal rather than a logo in a corner. */
+  .inv-seal { width: 58px; height: 58px; margin: 0 auto; display: flex;
+    align-items: center; justify-content: center; border-radius: 50%;
+    background: var(--cream-2, #F4F4F9);
+    box-shadow: inset 0 0 0 1px var(--line-warm, #E9E7F0),
+                inset 0 2px 5px rgba(43, 34, 51, .07); }
+  .inv-mark { width: 26px; height: 26px; display: block; }
+  .inv-eyebrow { font-family: 'Inter', system-ui, sans-serif; font-size: .68rem; font-weight: 600;
+    letter-spacing: .3em; text-transform: uppercase; color: var(--clay-text, #8F5340);
+    margin: 1.1rem 0 0; }
+  .inv-card h1 { text-align: center; }
   .inv-card h1 { font-family: 'Literata', Georgia, serif; font-weight: 500;
     font-size: clamp(1.75rem, 4.6vw, 2.5rem); line-height: 1.18; letter-spacing: -.01em;
     color: var(--aubergine, #422448); margin: 0 0 1.5rem; text-wrap: balance; }
@@ -48,6 +66,14 @@
   .inv-body p { margin: 0 0 1.05rem; }
   .inv-greet { font-family: 'Literata', Georgia, serif; font-size: 1.1rem;
     color: var(--aubergine, #422448); margin-bottom: 1.1rem; }
+
+  /* The personal line. Set apart and in the serif so it reads as written to
+     this person, not as another paragraph of the same template. */
+  .inv-note { margin: 0 0 1.35rem; padding: .1rem 0 .1rem 1.15rem;
+    border-left: 2px solid var(--clay, #BE765F);
+    font-family: 'Literata', Georgia, serif; font-style: italic;
+    font-size: 1.03rem; line-height: 1.66; color: var(--ink, #2B2233); }
+  .inv-note[hidden] { display: none; }
 
   .inv-points { list-style: none; margin: 1.6rem 0; padding: 0;
     border-top: 1px solid var(--line-warm, #E9E7F0); }
@@ -88,17 +114,25 @@
 
 <main class="inv-wrap">
   <article class="inv-card">
+    <div class="inv-head">
+    <div class="inv-seal">
     <svg class="inv-mark" viewBox="0 0 100 100" aria-label="Kindred" role="img">
       <path d="M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z" fill="#422448"/>
       <path d="M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z" fill="#B8A3C4"/>
       <path d="M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z" fill="#BE765F"/>
     </svg>
 
+    </div>
     <p class="inv-eyebrow">An invitation</p>
+    </div>
     <h1>You&rsquo;re invited to be one of the first therapists on Kindred.</h1>
 
     <div class="inv-body">
       <p class="inv-greet" id="inv-greet">Hello,</p>
+
+      <!-- Optional. Absent by default and hidden unless a note is passed, so an
+           invitation without one reads as finished rather than as missing a bit. -->
+      <blockquote class="inv-note" id="inv-note" hidden></blockquote>
 
       <p>Kindred is a new way for clients to find a therapist. Instead of scrolling a
       list and guessing, they answer a few questions about what they need and how they
@@ -142,11 +176,24 @@
   (function () {
     try {
       var raw = new URLSearchParams(location.search).get('to');
-      if (!raw) return;
+      var rawNote = new URLSearchParams(location.search).get('note');
+      if (!raw && !rawNote) return;
+      raw = raw || '';
       var name = raw.replace(/[^\p{L}\p{M}'’.\- ]/gu, '').trim().slice(0, 40);
-      if (!name) return;
-      document.getElementById('inv-greet').textContent = 'Hello, ' + name + ',';
-    } catch (e) { /* the default greeting is already correct */ }
+      if (name) document.getElementById('inv-greet').textContent = 'Hello, ' + name + ',';
+      /* A note is prose, so it cannot be reduced to a name's character set.
+         Instead: strip angle brackets and backslashes outright, cap the length,
+         and write with textContent. Nothing here can become markup, and the
+         cap stops a link carrying a wall of text under Kindred's name. */
+      if (rawNote) {
+        var note = rawNote.replace(/[<>\\]/g, '').trim().slice(0, 280);
+        if (note) {
+          var el = document.getElementById('inv-note');
+          el.textContent = note;
+          el.hidden = false;
+        }
+      }
+    } catch (e) { /* the defaults are already correct */ }
   })();
 </script>
 
