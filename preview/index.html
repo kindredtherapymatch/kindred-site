@@ -37,7 +37,7 @@
   .mock-banner a { color: var(--gold, #E8C687); }
 
   .pv-hero {
-    max-width: 780px; margin: 0 auto; padding: clamp(2.4rem, 7vh, 4.6rem) 1.4rem 1.1rem;
+    max-width: 780px; margin: 0 auto; padding: clamp(1.6rem, 5vh, 3.2rem) 1.4rem .6rem;
     text-align: center;
   }
   .pv-kicker {
@@ -85,25 +85,131 @@
   .pv-notify-note.is-err { color: #8a3a32; }
   .pv-notify-fine { font-size: .8rem; color: var(--ink-soft); margin: .7rem 0 0; line-height: 1.5; }
 
-  .pv-stage { max-width: 920px; margin: 2rem auto 0; padding: 0 1.2rem 1rem; }
-  .pv-stage .match-card {
-    width: 100%;
+  .pv-stage { max-width: 1180px; margin: 1.6rem auto 0; padding: 0 1.2rem 1rem; }
+  .pv-profile {
     background: #FFFCFA;
-    box-shadow: 0 24px 60px -30px rgba(43, 34, 51, .28);
+    background-image:
+      radial-gradient(rgba(43,34,51,.022) 1px, transparent 1px),
+      radial-gradient(rgba(43,34,51,.018) 1px, transparent 1px);
+    background-size: 13px 13px, 21px 21px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 28px 64px -32px rgba(43, 34, 51, .35);
+    position: relative;
   }
-  .pv-stage .match-photo img { object-position: center 18%; }
-  .pv-stage .match-controls {
-    position: absolute; bottom: .85rem; left: 1.2rem; right: 1.2rem;
-    margin-top: 0; justify-content: center;
+  .pv-head {
+    display: grid;
+    grid-template-columns: minmax(300px, 42%) 1fr;
+    min-height: 640px;
   }
-  .pv-ex { font-size: .8rem; color: var(--ink-soft); font-style: italic; }
+  .pv-photo { position: relative; min-height: 640px; background: #E8DFD4; }
+  .pv-photo img { width: 100%; height: 100%; object-fit: cover; display: block; position: absolute; inset: 0; }
+  .pv-badge {
+    position: absolute; top: 1.1rem; left: 1.1rem; z-index: 2;
+    background: var(--aubergine); color: #F6EFE4; font-size: .66rem; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; padding: .4rem .75rem; border-radius: 999px;
+  }
+  .pv-intro {
+    padding: 2.2rem 2.2rem 2rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .pv-intro h2 { font-size: clamp(1.75rem, 3.2vw, 2.35rem); margin: 0 0 .2rem; letter-spacing: -.02em; }
+  .pv-creds { color: var(--ink-soft); font-size: 1rem; margin: 0 0 .85rem; }
+  .pv-facts {
+    display: flex; flex-wrap: wrap; gap: .35rem 1.15rem;
+    font-size: .9rem; color: var(--ink-soft); margin: 0 0 .9rem;
+  }
+  .pv-verified {
+    display: inline-block; width: max-content;
+    font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    background: rgba(95,115,85,.12); color: #4d5f45;
+    border: 1px solid rgba(95,115,85,.25);
+    padding: .34em .85em; border-radius: 999px; margin: 0 0 1.15rem;
+  }
+  .pv-statement {
+    font-family: 'Literata', Georgia, serif; font-style: italic;
+    font-size: clamp(1.22rem, 2.2vw, 1.55rem); line-height: 1.4;
+    margin: 0; color: var(--ink);
+  }
 
+  .pv-section { padding: 1.55rem 2.2rem 1.7rem; border-top: 1px solid var(--line); }
+  .pv-section h3, .pv-story-head h3 {
+    font-family: 'Literata', Georgia, serif; font-style: italic;
+    font-size: 1.22rem; font-weight: 600; color: var(--clay-text);
+    margin: 0 0 1rem;
+  }
+  .pv-prompts { display: grid; gap: 1.15rem; }
+  .pv-prompt dt {
+    font-size: .68rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--clay-text); margin: 0 0 .3rem;
+  }
+  .pv-prompt dd {
+    font-family: 'Literata', Georgia, serif; font-style: italic;
+    font-size: 1.1rem; line-height: 1.5; margin: 0; color: var(--ink);
+  }
+
+  .pv-story-head { border-top: 1px solid var(--line); padding: 1.4rem 2.2rem .85rem; }
+  .pv-story-head h3 { margin: 0; }
+  .pv-feed { border-top: none; }
+  .pv-pair {
+    display: grid;
+    grid-template-columns: minmax(220px, 40%) 1fr;
+    min-height: 280px;
+    border-top: 1px solid var(--line);
+  }
+  .pv-pair:first-child { border-top: none; }
+  .pv-pair:nth-child(even) { grid-template-columns: 1fr minmax(220px, 40%); }
+  .pv-pair:nth-child(even) .pv-pair-photo { order: 2; }
+  .pv-pair-photo { position: relative; min-height: 280px; background: #E8DFD4; }
+  .pv-pair-photo img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .pv-pair-copy {
+    padding: 1.7rem 2rem; margin: 0;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .pv-pair-copy dt {
+    font-size: .68rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--clay-text); margin: 0 0 .4rem;
+  }
+  .pv-pair-copy dd {
+    font-family: 'Literata', Georgia, serif; font-style: italic;
+    font-size: clamp(1.15rem, 2vw, 1.38rem); line-height: 1.45; margin: 0;
+  }
+
+  .pv-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+  .pv-chips li {
+    font-size: .8rem; color: var(--ink-soft); background: var(--cream-2);
+    padding: .28rem .65rem; border-radius: 999px;
+  }
+  .pv-know { display: grid; gap: .55rem; font-size: .95rem; color: var(--ink-soft); }
+  .pv-know b { color: var(--ink); font-weight: 600; }
+  .pv-foot { padding: 1.15rem 2.2rem 1.5rem; border-top: 1px solid var(--line); }
+  .pv-profile .pillar-link { font-weight: 600; }
+  .pv-ex { font-size: .88rem; color: var(--ink-soft); font-style: italic; margin: 0; }
+  .pv-controls {
+    position: sticky; bottom: 0; z-index: 3;
+    display: flex; align-items: center; justify-content: center; gap: .55rem;
+    padding: .75rem 1.4rem;
+    background: rgba(255,252,250,.92);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line);
+  }
+  .pv-controls .match-count { margin-left: .35rem; }
   .pv-rest {
-    max-width: 640px; margin: 0 auto 4rem; padding: 0 1.4rem;
+    max-width: 640px; margin: 1.2rem auto 4rem; padding: 0 1.4rem;
     color: var(--ink-soft); font-size: .95rem; line-height: 1.65; text-align: center;
   }
-  @media (max-width: 760px) {
-    .pv-stage .match-controls { position: static; padding: .4rem 0 .2rem; }
+  @media (max-width: 820px) {
+    .pv-head { grid-template-columns: 1fr; min-height: 0; }
+    .pv-photo { min-height: 0; aspect-ratio: 4/5; }
+    .pv-intro, .pv-section, .pv-foot, .pv-story-head { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .pv-pair, .pv-pair:nth-child(even) { grid-template-columns: 1fr; min-height: 0; }
+    .pv-pair:nth-child(even) .pv-pair-photo { order: 0; }
+    .pv-pair-photo { min-height: 0; aspect-ratio: 4/5; max-height: 380px; }
+    .pv-pair-copy { padding: 1.2rem 1.25rem 1.4rem; }
   }
 </style>
 </head>
@@ -175,26 +281,10 @@
   </section>
 
   <div class="pv-stage">
-    <article class="match-card" id="match-card">
-      <div class="match-photo">
-        <span class="match-badge" id="match-badge">On Kindred</span>
-        <div class="match-portrait" id="match-portrait"></div>
-      </div>
-      <div class="match-info">
-        <h3 class="match-name" id="match-name"></h3>
-        <p class="match-meta" id="match-meta"></p>
-        <div class="match-pills" id="match-pills"></div>
-        <p class="match-prompt-label" id="match-prompt-label"></p>
-        <blockquote class="match-quote" id="match-quote"></blockquote>
-      </div>
-      <div class="match-side">
-        <p class="match-spec-label">Specialties</p>
-        <ul id="match-specs"></ul>
-        <a class="pillar-link" id="match-view" href="/desirae-tarris">View profile <span aria-hidden="true">→</span></a>
-        <p class="pv-ex" id="match-ex" hidden>Example of a Kindred profile — not a live listing yet.</p>
-      </div>
+    <article class="pv-profile" id="match-card">
+      <div id="match-inner"></div>
       <p class="sr-only" id="match-live" role="status" aria-live="polite"></p>
-      <div class="match-controls">
+      <div class="pv-controls">
         <button class="match-arrow" id="match-prev" type="button" aria-label="Previous therapist">&#8249;</button>
         <div class="match-dots" role="tablist" aria-label="Featured therapists" id="match-dots"></div>
         <button class="match-arrow" id="match-next" type="button" aria-label="Next therapist">&#8250;</button>
@@ -217,42 +307,103 @@
     });
   }
 
+  const MEDIA = 'https://izukppxgoerqtustfbnk.supabase.co/storage/v1/object/public/therapist-media/763b37fe-3b62-4d12-9bd0-47f8d5850c8a/';
   const PEOPLE = [
     {
-      name: 'Desirae Tarris, LPC • EMDR',
-      meta: 'Telluride, CO',
-      pills: ['Kind', 'Direct'],
-      promptLabel: 'I work best with…',
-      quote: 'People who are ready to make a change. I’m kind, yet direct — I’ll tell you how it is.',
-      specs: ['Anxiety', 'Trauma', 'Grief', 'Burnout', 'ADHD', 'Life Transitions'],
+      first: 'Desirae',
+      name: 'Desirae Tarris',
+      creds: 'LPC • EMDR · she/her',
+      facts: ['Telluride, CO', 'Online', 'From $165/session', 'LGBTQ affirming'],
+      verified: true,
+      statement: 'I work best with people who are ready to make a change.',
+      feed: [
+        {
+          label: 'I look forward to helping you with…',
+          text: 'The things in life that make you feel like you’re stuck.',
+          photo: MEDIA + '0a5d8adf-eba9-45a2-a402-495dcf6f4864.jpg',
+          photoPos: 'center 22%'
+        },
+        {
+          label: 'What can you expect in session with me?',
+          text: 'I’m kind yet direct. I’ll tell you how it is.',
+          photo: MEDIA + 'd3235044-34bc-4b02-b37e-944d2d001b53.jpg',
+          photoPos: 'center 18%'
+        },
+        {
+          label: 'Out of session, you’ll find me…',
+          text: 'Out on an adventure with my dog.',
+          photo: MEDIA + '03c1bf05-033c-4961-9f44-0b3685e7f2ca.jpg',
+          photoPos: 'center 20%'
+        },
+        {
+          label: 'I won’t shut up about…',
+          text: 'The importance of feeling your feelings.',
+          photo: MEDIA + '096b6034-071d-4c3d-b54f-8444802e0f40.jpg',
+          photoPos: 'center 40%'
+        },
+        {
+          label: 'We’re the same type of weird if…',
+          text: 'You also thought it’d be fun to own your own business.',
+          photo: MEDIA + '93d48a47-2f75-4eaa-9ef2-03d8b7543785.jpg',
+          photoPos: 'center 40%'
+        }
+      ],
+      specs: ['Anxiety','Trauma','Grief','Burnout','ADHD','Life Transitions','Alcohol Use','Family Conflict','Anorexia','Behavioral Issues','Cancer','Career Counseling','Chronic Illness','Complex PTSD','Chronic Pain','Codependency','Driving Anxiety','First Responders','Health Anxiety','Hoarding','Life Coaching','Medical Trauma','Men’s Issues','Relationship Anxiety','Self Esteem','Sexual Abuse','Social Anxiety','Sleep or Insomnia','Sports Performance','Stress','Trauma and PTSD','Traumatic Brain Injury (TBI)','Veterans','Women’s Issues'],
+      modalities: ['EMDR','Somatic','Compassion Focused','ACT','Motivational Interviewing','Coaching','Emotionally Focused (EFT)','Cognitive Behavioral (CBT)'],
+      know: [
+        { label: 'Insurance', text: 'Aetna, BCBS, Cigna, United, Medicaid, TRICARE and 30 more' },
+        { label: 'Session fee', text: 'From $165' },
+        { label: 'Format', text: 'Online' },
+        { label: 'Elsewhere', text: 'instagram.com/balancedintherapy' }
+      ],
       photo: '/assets/therapist-desirae.jpg?v=2',
-      photoPos: 'center 22%',
+      photoPos: 'center 18%',
       live: true,
-      href: '/desirae-tarris'
+      href: '/desirae-tarris',
+      viewLabel: 'Read her full Kindred page'
     },
     {
-      name: 'Maya Chen, LMFT',
-      meta: 'She/Her • Licensed in CA',
-      pills: ['Warm', 'Direct', 'Collaborative'],
-      promptLabel: 'You may be right for each other if…',
-      quote: 'You look fine on paper but feel exhausted from being the strong one.',
+      first: 'Maya',
+      name: 'Maya Chen',
+      creds: 'LMFT · she/her',
+      facts: ['Oakland, CA', 'Online & in-person', 'Licensed in CA'],
+      statement: 'You may be right for each other if you look fine on paper but feel exhausted from being the strong one.',
+      feed: [
+        { label: 'What sessions feel like', text: 'Warm, honest, and we don’t stay on the surface for long.' },
+        { label: 'My therapy style is', text: 'Collaborative and direct — we name what’s happening, then we work it.' },
+        { label: 'I look forward to helping you with', text: 'The part of you that keeps performing while the rest of you is tired.' },
+        { label: 'Out of session, you’ll find me', text: 'Walking the hills with a coffee and a too-long voice note.' }
+      ],
       specs: ['Anxiety', 'Life Transitions', 'Relationship issues', 'Burnout', 'Self-Esteem'],
+      modalities: ['Emotionally Focused (EFT)', 'CBT', 'Mindfulness'],
       photo: '/assets/therapist-maya.jpg',
       photoPos: 'center 22%',
       live: false
     },
     {
-      name: 'Devon Brooks, LPC',
-      meta: 'He/Him • Licensed in TX',
-      pills: ['Grounded', 'Encouraging', 'Practical'],
-      promptLabel: 'My therapy style is…',
-      quote: 'A real conversation — warm, honest, and with somewhere to go.',
+      first: 'Devon',
+      name: 'Devon Brooks',
+      creds: 'LPC · he/him',
+      facts: ['Austin, TX', 'Online & in-person', 'Licensed in TX'],
+      statement: 'A real conversation — warm, honest, and with somewhere to go.',
+      feed: [
+        { label: 'What you can expect in session', text: 'Practical, grounded, and we leave with something you can use this week.' },
+        { label: 'I look forward to helping you with', text: 'The weight you carry because it never felt like yours to put down.' },
+        { label: 'I won’t shut up about', text: 'How much better it gets when men actually talk.' },
+        { label: 'Out of session, you’ll find me', text: 'On a trail before the city is awake.' }
+      ],
       specs: ['Depression', 'Men’s Mental Health', 'Stress', 'Career', 'Grief'],
+      modalities: ['CBT', 'Motivational Interviewing', 'Person-Centered'],
       photo: '/assets/therapist-devon.jpg',
       photoPos: 'center 18%',
       live: false
     }
   ];
+
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  const chips = list => '<ul class="pv-chips">' + list.map(s => '<li>' + esc(s) + '</li>').join('') + '</ul>';
 
   const dotsWrap = document.getElementById('match-dots');
   PEOPLE.forEach((_, i) => {
@@ -269,30 +420,52 @@
   function show(i) {
     idx = (i + PEOPLE.length) % PEOPLE.length;
     const t = PEOPLE[idx];
-    document.getElementById('match-name').textContent = t.name;
-    document.getElementById('match-meta').textContent = t.meta;
-    document.getElementById('match-badge').textContent = t.live ? 'On Kindred' : 'Example';
-    document.getElementById('match-pills').innerHTML = t.pills.map(p => '<span>' + p + '</span>').join('');
-    document.getElementById('match-prompt-label').textContent = t.promptLabel;
-    document.getElementById('match-quote').textContent = '“' + t.quote + '”';
-    document.getElementById('match-specs').innerHTML = t.specs.map(s => '<li>' + s + '</li>').join('');
-    const img = document.createElement('img');
-    img.src = t.photo;
-    img.alt = t.name;
-    img.style.objectPosition = t.photoPos;
-    const port = document.getElementById('match-portrait');
-    port.innerHTML = '';
-    port.appendChild(img);
-    const view = document.getElementById('match-view');
-    const ex = document.getElementById('match-ex');
-    if (t.live) {
-      view.hidden = false;
-      view.href = t.href;
-      ex.hidden = true;
-    } else {
-      view.hidden = true;
-      ex.hidden = false;
-    }
+    const facts = (t.facts || []).map(f => '<span>' + esc(f) + '</span>').join('');
+    const hasPhotos = (t.feed || []).some(p => p.photo);
+    const feed = hasPhotos
+      ? '<div class="pv-feed">' + t.feed.map(p =>
+          '<div class="pv-pair">' +
+            (p.photo
+              ? '<div class="pv-pair-photo"><img src="' + esc(p.photo) + '" alt="" style="object-position:' + esc(p.photoPos || 'center') + '"></div>'
+              : '') +
+            '<dl class="pv-pair-copy"><dt>' + esc(p.label) + '</dt><dd>' + esc(p.text) + '</dd></dl>' +
+          '</div>'
+        ).join('') + '</div>'
+      : '<section class="pv-section"><h3>Get to know ' + esc(t.first) + '</h3>' +
+          '<dl class="pv-prompts">' + t.feed.map(p =>
+            '<div class="pv-prompt"><dt>' + esc(p.label) + '</dt><dd>' + esc(p.text) + '</dd></div>'
+          ).join('') + '</dl></section>';
+    const know = t.know && t.know.length
+      ? '<section class="pv-section"><h3>Good to know</h3><div class="pv-know">' +
+          t.know.map(k => '<span><b>' + esc(k.label) + '</b> — ' + esc(k.text) + '</span>').join('') +
+        '</div></section>'
+      : '';
+    const foot = t.live
+      ? '<div class="pv-foot"><a class="pillar-link" href="' + esc(t.href) + '">' +
+          esc(t.viewLabel || 'Read the full profile') + ' <span aria-hidden="true">→</span></a></div>'
+      : '<div class="pv-foot"><p class="pv-ex">Example of a Kindred profile — not a live listing yet.</p></div>';
+
+    document.getElementById('match-inner').innerHTML =
+      '<div class="pv-head">' +
+        '<div class="pv-photo">' +
+          '<span class="pv-badge">' + (t.live ? 'On Kindred' : 'Example') + '</span>' +
+          '<img src="' + esc(t.photo) + '" alt="' + esc(t.name) + '" style="object-position:' + esc(t.photoPos || 'center') + '">' +
+        '</div>' +
+        '<div class="pv-intro">' +
+          '<h2>' + esc(t.name) + '</h2>' +
+          '<p class="pv-creds">' + esc(t.creds) + '</p>' +
+          '<div class="pv-facts">' + facts + '</div>' +
+          (t.verified ? '<p class="pv-verified">License verified with the state board</p>' : '') +
+          '<p class="pv-statement">' + esc(t.statement) + '</p>' +
+        '</div>' +
+      '</div>' +
+      (hasPhotos ? '<div class="pv-story-head"><h3>Get to know ' + esc(t.first) + '</h3></div>' : '') +
+      feed +
+      (t.specs && t.specs.length ? '<section class="pv-section"><h3>What I work with</h3>' + chips(t.specs) + '</section>' : '') +
+      (t.modalities && t.modalities.length ? '<section class="pv-section"><h3>How I work</h3>' + chips(t.modalities) + '</section>' : '') +
+      know +
+      foot;
+
     dotsWrap.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('active', j === idx));
     document.getElementById('match-count').textContent = (idx + 1) + ' of ' + PEOPLE.length;
     document.getElementById('match-live').textContent = 'Showing ' + t.name;
