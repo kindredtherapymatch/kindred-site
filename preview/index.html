@@ -12,15 +12,33 @@
 <link rel="stylesheet" href="/style.css?v=51">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z' fill='%23422448'/><path d='M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z' fill='%23B8A3C4'/><path d='M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z' fill='%23BE765F'/></svg>">
 <style>
+  /* Same field as the therapist create-account page. */
   body { background: #F1EBF3; }
+  body::before, body::after {
+    content: "";
+    position: fixed; pointer-events: none; z-index: 0;
+    border-radius: 50% 60% 55% 45% / 55% 45% 60% 50%;
+    filter: blur(2px);
+  }
+  body::before {
+    width: 280px; height: 320px; background: #E7B9A8; opacity: .42;
+    top: -80px; right: -70px;
+  }
+  body::after {
+    width: 240px; height: 280px; background: var(--lilac, #B8A3C4); opacity: .38;
+    left: -90px; bottom: 8%;
+  }
+  .mock-banner, .site-header, main { position: relative; z-index: 1; }
+  .site-header { background: rgba(252, 252, 254, .78); }
   .mock-banner {
     background: var(--aubergine); color: #F6EFE4; text-align: center;
     padding: .7rem 1rem; font-size: .88rem; font-weight: 500;
   }
   .mock-banner a { color: var(--gold, #E8C687); }
+
   .pv-hero {
-    max-width: 780px; margin: 0 auto; padding: clamp(2.8rem, 8vh, 5.5rem) 1.4rem 1.2rem;
-    text-align: center; position: relative; z-index: 1;
+    max-width: 780px; margin: 0 auto; padding: clamp(2.4rem, 7vh, 4.6rem) 1.4rem 1.1rem;
+    text-align: center;
   }
   .pv-kicker {
     font-family: 'Literata', Georgia, serif; font-style: italic;
@@ -31,33 +49,62 @@
     letter-spacing: -.02em; margin: 0 0 .8rem; text-wrap: balance;
   }
   .pv-hero h1 span { display: block; color: var(--clay-text); font-size: .72em; font-weight: 500; margin-top: .25em; }
-  .pv-sub { color: var(--ink-soft); font-size: 1.08rem; line-height: 1.55; max-width: 38ch; margin: 0 auto 1.6rem; }
+  .pv-sub { color: var(--ink-soft); font-size: 1.08rem; line-height: 1.55; max-width: 40ch; margin: 0 auto 1.6rem; }
   .pv-ctas { display: flex; flex-wrap: wrap; gap: .7rem; justify-content: center; }
   .pv-fine { margin: 1rem 0 0; font-size: .85rem; color: var(--ink-soft); }
-  .pv-cards {
-    max-width: 1100px; margin: 1.6rem auto 0; padding: 0 1.2rem 4rem;
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+
+  .pv-notify {
+    max-width: 520px; margin: 1.4rem auto 0; text-align: left;
+    background: #FFFCFA;
+    background-image:
+      radial-gradient(rgba(43,34,51,.022) 1px, transparent 1px),
+      radial-gradient(rgba(43,34,51,.018) 1px, transparent 1px);
+    background-size: 13px 13px, 21px 21px;
+    background-position: 0 0, 7px 9px;
+    border: 1px solid var(--line); border-radius: 20px;
+    padding: 1.4rem 1.4rem 1.25rem;
+    box-shadow: 0 24px 60px -30px rgba(43, 34, 51, .28);
   }
-  .pv-card {
-    background: #FFFCFA; border: 1px solid var(--line); border-radius: 18px;
-    overflow: hidden; text-decoration: none; color: inherit;
-    box-shadow: 0 18px 40px -28px rgba(43,34,51,.3);
-    display: flex; flex-direction: column;
-    transition: transform .15s ease;
+  .pv-notify h2 {
+    font-size: 1.35rem; margin: 0 0 .45rem; letter-spacing: -.015em;
   }
-  .pv-card:hover { transform: translateY(-3px); }
-  .pv-card img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
-  .pv-card-body { padding: 1rem 1.05rem 1.15rem; }
-  .pv-card h3 { font-size: 1.05rem; margin: 0 0 .2rem; }
-  .pv-card p { font-size: .82rem; color: var(--ink-soft); margin: 0 0 .55rem; line-height: 1.45; }
-  .pv-tag { display: inline-block; font-size: .68rem; font-weight: 600; letter-spacing: .06em;
-    text-transform: uppercase; color: var(--clay-text); }
+  .pv-notify p { color: var(--ink-soft); font-size: .95rem; line-height: 1.6; margin: 0 0 1rem; }
+  .pv-notify label {
+    display: block; font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+    text-transform: uppercase; color: var(--ink-soft); margin: .85rem 0 .35rem;
+  }
+  .pv-notify input, .pv-notify select {
+    width: 100%; font: inherit; font-size: 1rem; padding: .75rem .9rem;
+    border: 1.5px solid var(--line); border-radius: 12px; background: #fff; color: var(--ink);
+  }
+  .pv-notify input:focus, .pv-notify select:focus {
+    outline: 2px solid var(--clay); outline-offset: 2px; border-color: transparent;
+  }
+  .pv-notify .btn { margin-top: 1.1rem; width: 100%; }
+  .pv-notify-note { font-size: .85rem; margin: .8rem 0 0; min-height: 1.2em; }
+  .pv-notify-note.is-err { color: #8a3a32; }
+  .pv-notify-fine { font-size: .8rem; color: var(--ink-soft); margin: .7rem 0 0; line-height: 1.5; }
+
+  .pv-stage { max-width: 920px; margin: 2rem auto 0; padding: 0 1.2rem 1rem; }
+  .pv-stage .match-card {
+    width: 100%;
+    background: #FFFCFA;
+    box-shadow: 0 24px 60px -30px rgba(43, 34, 51, .28);
+  }
+  .pv-stage .match-photo img { object-position: center 18%; }
+  .pv-stage .match-controls {
+    position: absolute; bottom: .85rem; left: 1.2rem; right: 1.2rem;
+    margin-top: 0; justify-content: center;
+  }
+  .pv-ex { font-size: .8rem; color: var(--ink-soft); font-style: italic; }
+
   .pv-rest {
     max-width: 640px; margin: 0 auto 4rem; padding: 0 1.4rem;
     color: var(--ink-soft); font-size: .95rem; line-height: 1.65; text-align: center;
   }
-  @media (max-width: 900px) { .pv-cards { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 540px) { .pv-cards { grid-template-columns: 1fr; max-width: 360px; } }
+  @media (max-width: 760px) {
+    .pv-stage .match-controls { position: static; padding: .4rem 0 .2rem; }
+  }
 </style>
 </head>
 <body>
@@ -87,10 +134,10 @@
         <a href="/therapy.html">Therapy</a>
       </div>
     </details>
-    <a class="nav-cta nav-cta-dark" href="/app/#match">Find a Therapist</a>
+    <a class="nav-cta nav-cta-dark" href="#notify">Find a Therapist</a>
   </nav>
   <div class="header-actions">
-    <a class="btn btn-dark btn-sm" href="/app/#match">Find a Therapist</a>
+    <a class="btn btn-dark btn-sm" href="#notify">Find a Therapist</a>
     <span class="header-sep" aria-hidden="true"></span>
     <a class="nav-pro" href="/therapists.html">For Therapists</a>
   </div>
@@ -105,49 +152,60 @@
     <h1>Find a therapist who fits.<span>Or be the one they find.</span></h1>
     <p class="pv-sub">Matched by how you work and what you need — never by who pays more. Free to start, on both sides.</p>
     <div class="pv-ctas">
-      <a class="btn btn-dark" href="/app/#match">Find a therapist</a>
+      <a class="btn btn-dark" id="pv-find" href="#notify">Find a therapist</a>
       <a class="btn btn-outline" href="/app/#therapist-signup">I&rsquo;m a therapist</a>
     </div>
-    <p class="pv-fine">About 10 questions for clients. A profile, then six months free, for therapists.</p>
+    <p class="pv-fine">Every therapist is license-checked and identity-verified before anyone sees them.</p>
+
+    <div class="pv-notify" id="notify" hidden>
+      <h2>We&rsquo;re still building the list.</h2>
+      <p>Kindred is onboarding founding therapists now. When someone in your area is live and verified, we&rsquo;ll write — not before. Leave an email and where you are.</p>
+      <form id="pv-wait" novalidate>
+        <label for="pv-email">Email</label>
+        <input id="pv-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+        <label for="pv-state">Your state</label>
+        <select id="pv-state" name="state" required>
+          <option value="">Select a state&hellip;</option>
+        </select>
+        <button class="btn btn-dark" type="submit">Notify me when someone is live</button>
+        <p class="pv-notify-note" id="pv-wait-note" role="status" aria-live="polite"></p>
+        <p class="pv-notify-fine">Your email, so we can write. Nothing about why you&rsquo;re looking. We&rsquo;ll only send when someone in that state is live and verified.</p>
+      </form>
+    </div>
   </section>
 
-  <div class="pv-cards">
-    <a class="pv-card" href="/desirae-tarris">
-      <img src="/assets/therapist-desirae.jpg" alt="Desirae Tarris">
-      <div class="pv-card-body">
-        <span class="pv-tag">On Kindred</span>
-        <h3>Desirae Tarris, LPC</h3>
-        <p>Telluride, CO. Kind, and direct. Ready when you are.</p>
+  <div class="pv-stage">
+    <article class="match-card" id="match-card">
+      <div class="match-photo">
+        <span class="match-badge" id="match-badge">On Kindred</span>
+        <div class="match-portrait" id="match-portrait"></div>
       </div>
-    </a>
-    <a class="pv-card" href="/app/#match">
-      <img src="/assets/therapist-maya.jpg" alt="Maya Chen">
-      <div class="pv-card-body">
-        <span class="pv-tag">Example match</span>
-        <h3>Maya Chen, LMFT</h3>
-        <p>Warm, direct, collaborative. For the one who looks fine on paper.</p>
+      <div class="match-info">
+        <h3 class="match-name" id="match-name"></h3>
+        <p class="match-meta" id="match-meta"></p>
+        <div class="match-pills" id="match-pills"></div>
+        <p class="match-prompt-label" id="match-prompt-label"></p>
+        <blockquote class="match-quote" id="match-quote"></blockquote>
       </div>
-    </a>
-    <a class="pv-card" href="/app/#match">
-      <img src="/assets/therapist-devon.jpg" alt="Devon Brooks">
-      <div class="pv-card-body">
-        <span class="pv-tag">Example match</span>
-        <h3>Devon Brooks, LPC</h3>
-        <p>Grounded and practical. A real conversation, with somewhere to go.</p>
+      <div class="match-side">
+        <p class="match-spec-label">Specialties</p>
+        <ul id="match-specs"></ul>
+        <a class="pillar-link" id="match-view" href="/desirae-tarris">View profile <span aria-hidden="true">→</span></a>
+        <p class="pv-ex" id="match-ex" hidden>Example of a Kindred profile — not a live listing yet.</p>
       </div>
-    </a>
-    <a class="pv-card" href="/app/#match">
-      <img src="/assets/therapist-sofia.jpg" alt="Sofia Reyes">
-      <div class="pv-card-body">
-        <span class="pv-tag">Example match</span>
-        <h3>Sofia Reyes, LCSW</h3>
-        <p>Gentle map-making. We move at your pace, but we do move.</p>
+      <p class="sr-only" id="match-live" role="status" aria-live="polite"></p>
+      <div class="match-controls">
+        <button class="match-arrow" id="match-prev" type="button" aria-label="Previous therapist">&#8249;</button>
+        <div class="match-dots" role="tablist" aria-label="Featured therapists" id="match-dots"></div>
+        <button class="match-arrow" id="match-next" type="button" aria-label="Next therapist">&#8250;</button>
+        <span class="match-count" id="match-count"></span>
       </div>
-    </a>
+    </article>
   </div>
 
-  <p class="pv-rest">On the live site this would continue into check-in, tools, and the rest. This mockup is only the first screen: one promise, two doors, people you can actually look at.</p>
+  <p class="pv-rest">Desirae is live. The others are examples of how a Kindred profile reads — arrows to look, not a roster to pick from.</p>
 </main>
+
 <script src="/site.js?v=11"></script>
 <script>
   const navToggle = document.querySelector('.nav-toggle');
@@ -158,6 +216,150 @@
       navToggle.setAttribute('aria-expanded', open);
     });
   }
+
+  const PEOPLE = [
+    {
+      name: 'Desirae Tarris, LPC • EMDR',
+      meta: 'Telluride, CO',
+      pills: ['Kind', 'Direct'],
+      promptLabel: 'I work best with…',
+      quote: 'People who are ready to make a change. I’m kind, yet direct — I’ll tell you how it is.',
+      specs: ['Anxiety', 'Trauma', 'Grief', 'Burnout', 'ADHD', 'Life Transitions'],
+      photo: '/assets/therapist-desirae.jpg',
+      photoPos: 'center 12%',
+      live: true,
+      href: '/desirae-tarris'
+    },
+    {
+      name: 'Maya Chen, LMFT',
+      meta: 'She/Her • Licensed in CA',
+      pills: ['Warm', 'Direct', 'Collaborative'],
+      promptLabel: 'You may be right for each other if…',
+      quote: 'You look fine on paper but feel exhausted from being the strong one.',
+      specs: ['Anxiety', 'Life Transitions', 'Relationship issues', 'Burnout', 'Self-Esteem'],
+      photo: '/assets/therapist-maya.jpg',
+      photoPos: 'center 22%',
+      live: false
+    },
+    {
+      name: 'Devon Brooks, LPC',
+      meta: 'He/Him • Licensed in TX',
+      pills: ['Grounded', 'Encouraging', 'Practical'],
+      promptLabel: 'My therapy style is…',
+      quote: 'A real conversation — warm, honest, and with somewhere to go.',
+      specs: ['Depression', 'Men’s Mental Health', 'Stress', 'Career', 'Grief'],
+      photo: '/assets/therapist-devon.jpg',
+      photoPos: 'center 18%',
+      live: false
+    }
+  ];
+
+  const dotsWrap = document.getElementById('match-dots');
+  PEOPLE.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'dot' + (i === 0 ? ' active' : '');
+    b.dataset.idx = String(i);
+    b.setAttribute('aria-label', 'Therapist ' + (i + 1));
+    b.setAttribute('role', 'tab');
+    dotsWrap.appendChild(b);
+  });
+
+  let idx = 0;
+  function show(i) {
+    idx = (i + PEOPLE.length) % PEOPLE.length;
+    const t = PEOPLE[idx];
+    document.getElementById('match-name').textContent = t.name;
+    document.getElementById('match-meta').textContent = t.meta;
+    document.getElementById('match-badge').textContent = t.live ? 'On Kindred' : 'Example';
+    document.getElementById('match-pills').innerHTML = t.pills.map(p => '<span>' + p + '</span>').join('');
+    document.getElementById('match-prompt-label').textContent = t.promptLabel;
+    document.getElementById('match-quote').textContent = '“' + t.quote + '”';
+    document.getElementById('match-specs').innerHTML = t.specs.map(s => '<li>' + s + '</li>').join('');
+    const img = document.createElement('img');
+    img.src = t.photo;
+    img.alt = t.name;
+    img.style.objectPosition = t.photoPos;
+    const port = document.getElementById('match-portrait');
+    port.innerHTML = '';
+    port.appendChild(img);
+    const view = document.getElementById('match-view');
+    const ex = document.getElementById('match-ex');
+    if (t.live) {
+      view.hidden = false;
+      view.href = t.href;
+      ex.hidden = true;
+    } else {
+      view.hidden = true;
+      ex.hidden = false;
+    }
+    dotsWrap.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('active', j === idx));
+    document.getElementById('match-count').textContent = (idx + 1) + ' of ' + PEOPLE.length;
+    document.getElementById('match-live').textContent = 'Showing ' + t.name;
+  }
+  show(0);
+  document.getElementById('match-prev').addEventListener('click', () => show(idx - 1));
+  document.getElementById('match-next').addEventListener('click', () => show(idx + 1));
+  dotsWrap.addEventListener('click', (e) => {
+    const d = e.target.closest('.dot');
+    if (d) show(Number(d.dataset.idx));
+  });
+
+  const STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','DC'];
+  const stSel = document.getElementById('pv-state');
+  STATES.forEach(s => {
+    const o = document.createElement('option');
+    o.value = s; o.textContent = s;
+    stSel.appendChild(o);
+  });
+
+  const notify = document.getElementById('notify');
+  function openNotify(e) {
+    if (e) e.preventDefault();
+    notify.hidden = false;
+    notify.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    document.getElementById('pv-email').focus();
+    history.replaceState(null, '', '#notify');
+  }
+  document.getElementById('pv-find').addEventListener('click', openNotify);
+  document.querySelectorAll('a[href="#notify"]').forEach(a => a.addEventListener('click', openNotify));
+  if (location.hash === '#notify') openNotify();
+
+  const SB  = 'https://izukppxgoerqtustfbnk.supabase.co';
+  const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml6dWtwcHhnb2VycXR1c3RmYm5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4NTAzMTYsImV4cCI6MjEwMDQyNjMxNn0.FeJFOu4PmOJAbk2OqfMH1sQX6DlynKmTyhc-dtKfvZk';
+  document.getElementById('pv-wait').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = (document.getElementById('pv-email').value || '').trim();
+    const state = stSel.value;
+    const note = document.getElementById('pv-wait-note');
+    const btn = e.target.querySelector('button[type="submit"]');
+    const okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!okEmail) { note.textContent = 'That address looks incomplete — mind checking it?'; note.classList.add('is-err'); return; }
+    if (!state) { note.textContent = 'Pick the state you want us to watch.'; note.classList.add('is-err'); return; }
+    note.classList.remove('is-err');
+    const label = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+      localStorage.setItem('kindred-area-wait', JSON.stringify({ email, state, at: Date.now() }));
+    } catch (err) {}
+    /* Email only on the server — same rule as the existing waitlist: an address
+       beside "looking for therapy in Colorado" is health information; the
+       address on its own is not. State stays on the device so the thank-you
+       can name it. HQ already has the notify list. */
+    try {
+      await fetch(SB + '/rest/v1/client_notify', {
+        method: 'POST',
+        headers: {
+          apikey: KEY, Authorization: 'Bearer ' + KEY,
+          'Content-Type': 'application/json', Prefer: 'return=minimal'
+        },
+        body: JSON.stringify({ email, contact_pref: 'email' })
+      });
+    } catch (err) {}
+    e.target.reset();
+    note.textContent = 'We’ll write when a verified therapist in ' + state + ' is live.';
+    btn.disabled = false; btn.textContent = label;
+  });
 </script>
 </body>
 </html>
