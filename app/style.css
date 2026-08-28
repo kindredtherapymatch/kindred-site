@@ -43,26 +43,33 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background: #d9cfc2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: #F1EBF3;
+  display: block;
   min-height: 100vh;
   color: var(--ink);
+  -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, .logo, .chat-name, .nav-btn span:last-child {
-  font-family: 'Poppins', sans-serif;
+h1, h2, .logo, .chat-name {
+  font-family: 'Literata', Georgia, serif;
+  font-weight: 500;
+}
+.nav-btn span:last-child {
+  font-family: 'Inter', sans-serif;
 }
 
+/* A website, not a phone sitting on a beige table. The 900px breakpoint used
+   to be the only place this was true; below it the fake device chrome was the
+   loudest thing on the page, including after an invitation. */
 .phone {
-  width: 390px;
-  height: 812px;
+  width: 100%;
+  min-height: 100vh;
+  height: 100dvh;
   background: var(--cream);
   position: relative;
   overflow: hidden;
-  border-radius: 40px;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+  border-radius: 0;
+  box-shadow: none;
   display: flex;
   flex-direction: column;
 }
@@ -969,13 +976,15 @@ h1, h2, .logo, .chat-name, .nav-btn span:last-child {
   color: var(--coral-dark);
   border: none;
   padding: 14px;
-  border-radius: 30px;
-  font-family: 'Poppins', sans-serif;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 15px;
   cursor: pointer;
   margin-bottom: 10px;
+  transition: background .15s ease, transform .15s ease, box-shadow .15s ease;
 }
+.primary-btn:hover { transform: translateY(-1px); }
 .primary-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
@@ -1818,10 +1827,17 @@ h1, h2, .logo, .chat-name, .nav-btn span:last-child {
 .t-rate-input {
   width: 100%;
   padding: 12px 14px;
-  border-radius: 14px;
+  border-radius: 12px;
   border: 1.5px solid var(--line);
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
+  background: #fff;
+  color: var(--ink);
+}
+.t-rate-input:focus {
+  outline: 2px solid var(--rust, #BE765F);
+  outline-offset: 2px;
+  border-color: transparent;
 }
 select.t-rate-input,
 #intake-state, #ts-state, #t-state-input, #ethnicity-select, #you-state {
@@ -1997,8 +2013,13 @@ select.t-rate-input,
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 28px;
+  padding: clamp(1.5rem, 6vh, 3.5rem) 28px 2rem;
+  max-width: 440px;
+  margin: 0 auto;
+  width: 100%;
 }
+.welcome-wax { margin: 0 auto 10px; }
+.welcome-kicker { display: block; text-align: center; margin-bottom: .35rem; }
 .brand-lockup-img {
   display: block;
   width: 235px;
@@ -2007,21 +2028,24 @@ select.t-rate-input,
 .welcome-logo {
   font-family: 'Literata', Georgia, serif;
   font-size: 30px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--coral-dark);
   text-align: center;
   margin-bottom: 0;
 }
 .welcome-content h1 {
-  font-size: 26px;
+  font-size: clamp(1.7rem, 4.6vw, 2.2rem);
   text-align: center;
   margin-bottom: 8px;
+  letter-spacing: -.015em;
+  line-height: 1.18;
 }
 .welcome-sub {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--ink-soft);
   text-align: center;
-  margin-bottom: 36px;
+  margin-bottom: 28px;
+  line-height: 1.5;
 }
 .welcome-demo-link {
   display: block; width: 100%; margin-top: 18px; padding: 10px;
@@ -2039,19 +2063,31 @@ select.t-rate-input,
   align-items: center;
   gap: 16px;
   width: 100%;
-  background: white;
-  border: 1.5px solid var(--line);
-  border-radius: 20px;
-  padding: 20px;
-  margin-bottom: 14px;
+  background: #FFFCFA;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px 18px;
+  margin-bottom: 12px;
   cursor: pointer;
   text-align: left;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+  box-shadow: 0 14px 36px -24px rgba(43, 34, 51, .35);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
 }
-.welcome-card-icon { font-size: 28px; flex-shrink: 0; }
+.welcome-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(66, 36, 72, .22);
+  box-shadow: 0 18px 40px -22px rgba(43, 34, 51, .4);
+}
+.welcome-card-icon {
+  width: 42px; height: 42px; flex-shrink: 0;
+  border-radius: 50%;
+  background: #F4EDF2;
+  display: grid; place-items: center;
+}
+.welcome-card-icon svg { width: 20px; height: 20px; display: block; }
 .welcome-card-text { display: flex; flex-direction: column; gap: 3px; }
-.welcome-card-label { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 15px; color: var(--ink); }
-.welcome-card-desc { font-size: 12px; color: var(--ink-soft); }
+.welcome-card-label { font-family: 'Literata', Georgia, serif; font-weight: 500; font-size: 1.05rem; color: var(--aubergine); }
+.welcome-card-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.4; }
 
 .login-form {
   flex: 1;
@@ -2686,7 +2722,7 @@ select.t-rate-input,
 @media (min-width: 900px) {
   body {
     display: block;
-    background: var(--cream);
+    background: #F1EBF3;
   }
 
   .phone {
@@ -2695,6 +2731,7 @@ select.t-rate-input,
     border-radius: 0;
     box-shadow: none;
     overflow: hidden;
+    background: var(--cream);
   }
 
   /* The demo strip spans the full width when it's shown at all. */
@@ -3168,7 +3205,8 @@ select.t-rate-input,
 .getting-started.is-stuck    { border-color: var(--rust); background: #FFFAF7; }
 .getting-started.is-complete { border-color: #A8C79E; background: #F7FBF6; }
 .gs-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-.gs-lead { font-size: 14.5px; line-height: 1.5; margin: 0 0 12px; color: var(--ink); }
+.gs-lead { font-size: 14.5px; line-height: 1.5; margin: 0 0 12px; color: var(--ink);
+  font-family: 'Literata', Georgia, serif; font-weight: 500; }
 .gs-count { font-size: 12px; font-weight: 700; color: var(--ink-soft); white-space: nowrap;
             background: var(--cream-2); border-radius: 999px; padding: 3px 10px; }
 .gs-dismiss { background: none; border: none; color: var(--ink-soft); font-size: 14px; cursor: pointer; padding: 2px 4px; }
@@ -3431,7 +3469,7 @@ select.t-rate-input,
                background: var(--cream-2); border: 1px solid var(--line); }
 .empty-coach.is-blocked { background: var(--rust-light, #FDF2EC);
                           border: 1px dashed var(--clay, #BE765F); }
-.empty-coach-title { font-family: 'Poppins', sans-serif; font-weight: 700;
+.empty-coach-title { font-family: 'Literata', Georgia, serif; font-weight: 500;
                      font-size: 13.5px; color: #8a5a3c; margin: 0 0 5px; }
 /* "No views yet" is not a warning. The rust title is right for is-blocked,
    where something is wrong; here it would turn an ordinary quiet week into an
@@ -3511,12 +3549,10 @@ select.t-rate-input,
 .free-note.is-soon { border-left-color: var(--clay, #B4674A); }
 
 /* ==========================================================================
-   SIGNUP GATE — the page "Accept your invitation" lands on.
+   AUTH GATE — signup and sign-in share the invitation's paper.
    --------------------------------------------------------------------------
-   The rest of the app can still be a phone frame. This screen cannot: it is
-   the next page of a letter, and a beige iPhone chrome after a wax-seal
-   invitation is the break. Full-bleed at every width, paper card, Create
-   first. Sign-in arrivals do not get this class.
+   is-auth-gate is the field and the card. is-signup-gate additionally makes
+   Create the filled action; sign-in keeps Log In filled and Create quiet.
    ========================================================================== */
 .login-mark { display: none; }
 .login-kicker {
@@ -3525,6 +3561,7 @@ select.t-rate-input,
   font-style: italic; font-weight: 400; font-size: 1.02rem;
   color: var(--rust, #BE765F); margin: 0;
 }
+#screen-account-type .login-kicker { display: block; }
 .login-lede {
   font-family: 'Inter', sans-serif;
   font-size: 15px; line-height: 1.6; color: var(--ink-soft);
@@ -3545,53 +3582,53 @@ select.t-rate-input,
 }
 .login-wax svg { width: 30px; height: 30px; display: block; }
 
-body.is-signup-gate {
+body.is-auth-gate {
   background: #F1EBF3;
   display: block;
 }
-body.is-signup-gate::before,
-body.is-signup-gate::after {
+body.is-auth-gate::before,
+body.is-auth-gate::after {
   content: "";
   position: fixed; pointer-events: none; z-index: 0;
   border-radius: 50% 60% 55% 45% / 55% 45% 60% 50%;
   filter: blur(2px);
 }
-body.is-signup-gate::before {
+body.is-auth-gate::before {
   width: 280px; height: 320px; background: #E7B9A8; opacity: .42;
   top: -80px; right: -70px;
 }
-body.is-signup-gate::after {
+body.is-auth-gate::after {
   width: 240px; height: 280px; background: var(--lavender, #B8A3C4); opacity: .38;
   left: -90px; bottom: 8%;
 }
-body.is-signup-gate .phone {
+body.is-auth-gate .phone {
   position: relative; z-index: 1;
   width: 100%; min-height: 100vh; height: auto;
   border-radius: 0; box-shadow: none;
   background: transparent; overflow: visible;
 }
-body.is-signup-gate .demo-banner,
-body.is-signup-gate .bottom-nav,
-body.is-signup-gate .app-footer { display: none !important; }
+body.is-auth-gate .demo-banner,
+body.is-auth-gate .bottom-nav,
+body.is-auth-gate .app-footer { display: none !important; }
 
-body.is-signup-gate #screen-login {
+body.is-auth-gate #screen-login {
   --measure: 460px;
   flex: 1 1 auto;
   justify-content: center;
   overflow-y: auto;
   padding: clamp(1.5rem, 6vh, 4rem) 1.25rem 2.5rem;
 }
-body.is-signup-gate #screen-login > * { max-width: var(--measure); }
+body.is-auth-gate #screen-login > * { max-width: var(--measure); }
 
-body.is-signup-gate #login-back { display: none; }
-body.is-signup-gate #login-bar {
+body.is-auth-gate #login-back { display: none; }
+body.is-auth-gate #login-bar {
   display: flex; flex-direction: column; align-items: center;
   justify-content: center; gap: .35rem;
   padding: 0 0 1.1rem; text-align: center;
 }
-body.is-signup-gate .login-mark { display: flex; margin-bottom: .4rem; }
-body.is-signup-gate .login-kicker { display: block; }
-body.is-signup-gate #login-title {
+body.is-auth-gate .login-mark { display: flex; margin-bottom: .4rem; }
+body.is-auth-gate .login-kicker { display: block; }
+body.is-auth-gate #login-title {
   font-family: 'Literata', Georgia, serif !important;
   font-size: clamp(1.7rem, 4.6vw, 2.2rem);
   font-weight: 500;
@@ -3602,7 +3639,7 @@ body.is-signup-gate #login-title {
   margin: 0;
 }
 
-body.is-signup-gate .login-form {
+body.is-auth-gate .login-form {
   flex: 0 0 auto;
   background: #FFFCFA;
   background-image:
@@ -3616,23 +3653,21 @@ body.is-signup-gate .login-form {
   box-shadow: 0 24px 60px -30px rgba(43, 34, 51, .28);
   margin: 0 auto;
 }
-body.is-signup-gate .login-form .t-form-label {
+body.is-auth-gate .login-form .t-form-label {
   font-size: .72rem; letter-spacing: .04em;
 }
-body.is-signup-gate .login-form .t-rate-input {
+body.is-auth-gate .login-form .t-rate-input {
   font-size: 15px; padding: 13px 14px; border-radius: 12px;
   background: #fff;
 }
-body.is-signup-gate .login-form .t-rate-input:focus {
-  outline: 2px solid var(--rust, #BE765F); outline-offset: 2px;
-  border-color: transparent;
-}
-body.is-signup-gate .primary-btn {
+body.is-auth-gate .primary-btn {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   border-radius: 999px;
   padding: 14px 18px;
 }
+
+/* Signup: Create is the filled action. */
 body.is-signup-gate #login-create-btn {
   box-shadow: 0 8px 20px rgba(66, 36, 72, .28);
 }
@@ -3648,4 +3683,49 @@ body.is-signup-gate #login-submit-btn {
 }
 body.is-signup-gate #login-submit-btn:hover { color: var(--coral-dark) !important; }
 
-body.is-signup-gate .login-context { display: none; }
+/* Sign-in: Log In is filled; create is the quiet line. */
+body.is-signin-gate #login-submit-btn {
+  box-shadow: 0 8px 20px rgba(66, 36, 72, .28);
+}
+body.is-signin-gate #login-submit-btn:hover { background: var(--coral-dark); }
+body.is-signin-gate #login-create-btn {
+  background: transparent !important;
+  border: none !important;
+  color: var(--ink-soft) !important;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 2px 0 0;
+  box-shadow: none;
+}
+body.is-signin-gate #login-create-btn:hover { color: var(--coral-dark) !important; }
+
+body.is-auth-gate .login-context { display: none; }
+
+/* Welcome screen sits on the same field. */
+#screen-account-type {
+  background: transparent;
+  position: relative;
+  z-index: 1;
+}
+body:has(#screen-account-type:not(.hidden)) {
+  background: #F1EBF3;
+}
+body:has(#screen-account-type:not(.hidden)) .phone { background: transparent; }
+body:has(#screen-account-type:not(.hidden)) .app-footer,
+body:has(#screen-account-type:not(.hidden)) .bottom-nav,
+body:has(#screen-account-type:not(.hidden)) .demo-banner { display: none !important; }
+body:has(#screen-account-type:not(.hidden))::before,
+body:has(#screen-account-type:not(.hidden))::after {
+  content: "";
+  position: fixed; pointer-events: none; z-index: 0;
+  border-radius: 50% 60% 55% 45% / 55% 45% 60% 50%;
+  filter: blur(2px);
+}
+body:has(#screen-account-type:not(.hidden))::before {
+  width: 280px; height: 320px; background: #E7B9A8; opacity: .42;
+  top: -80px; right: -70px;
+}
+body:has(#screen-account-type:not(.hidden))::after {
+  width: 240px; height: 280px; background: var(--lavender, #B8A3C4); opacity: .38;
+  left: -90px; bottom: 8%;
+}

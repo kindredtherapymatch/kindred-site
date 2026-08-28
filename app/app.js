@@ -5640,7 +5640,7 @@ function openTherapistOnDemandAgreement(onAgree, onDecline) {
 
 // ===== NAV / SCREENS =====
 function showScreen(name) {
-  if (name !== 'login') setSignupGate(false);
+  if (name !== 'login') setAuthGate(null);
   document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
   document.querySelectorAll('#bottom-nav .nav-btn').forEach(b => b.classList.remove('active'));
   if (name === 'profile') renderProfileScreen();
@@ -5722,8 +5722,7 @@ function openClientWelcome() {
   document.getElementById('welcome-login-btn').addEventListener('click', () => { close(); openLogin(); });
 }
 document.getElementById('choose-therapist-btn').addEventListener('click', () => {
-  accountType = 'therapist';
-  openLogin();
+  presentTherapistSignup();
 });
 
 /* The query string after a hash — /app/#therapist-signup?inv=TOKEN — is not
@@ -5759,8 +5758,13 @@ function markInvitationAccepted() {
   try { sessionStorage.removeItem('kindred-inv'); } catch (e) {}
 }
 
-function setSignupGate(on) {
-  document.body.classList.toggle('is-signup-gate', !!on);
+function setAuthGate(mode) {
+  /* mode: 'signup' | 'signin' | null. Both modes share the invitation paper;
+     signup makes Create the filled action, signin keeps Log In filled. */
+  const on = mode === 'signup' || mode === 'signin';
+  document.body.classList.toggle('is-auth-gate', on);
+  document.body.classList.toggle('is-signup-gate', mode === 'signup');
+  document.body.classList.toggle('is-signin-gate', mode === 'signin');
   const mark = document.getElementById('login-mark');
   const kicker = document.getElementById('login-kicker');
   const lede = document.getElementById('login-lede');
@@ -5771,19 +5775,19 @@ function setSignupGate(on) {
   if (fine) fine.hidden = !on;
   const pw = document.getElementById('login-password');
   if (pw) {
-    pw.autocomplete = on ? 'new-password' : 'current-password';
-    pw.placeholder = on ? 'At least 6 characters' : '••••••••';
+    pw.autocomplete = mode === 'signup' ? 'new-password' : 'current-password';
+    pw.placeholder = mode === 'signup' ? 'At least 6 characters' : 'Your password';
   }
 }
 
 /* #therapist-signup is the front door from the invitation and from Join.
    Create is the action; log in is the quiet second. The visual chrome lives
-   on body.is-signup-gate so a beige phone frame cannot follow a letter. */
+   on body.is-auth-gate so a beige phone frame cannot follow a letter. */
 function presentTherapistSignup() {
   accountType = 'therapist';
   const fromInvite = !!stashInvitationToken();
   openLogin();
-  setSignupGate(true);
+  setAuthGate('signup');
   const title = document.getElementById('login-title');
   if (title) title.textContent = 'Create your account.';
   const kicker = document.getElementById('login-kicker');
@@ -5817,8 +5821,39 @@ function presentTherapistSignup() {
   }
 }
 
+function presentTherapistSignin() {
+  accountType = 'therapist';
+  openLogin();
+  setAuthGate('signin');
+  const title = document.getElementById('login-title');
+  if (title) title.textContent = 'Welcome back.';
+  const kicker = document.getElementById('login-kicker');
+  if (kicker) { kicker.textContent = 'Kindred'; kicker.hidden = false; }
+  const lede = document.getElementById('login-lede');
+  if (lede) {
+    lede.textContent = 'Sign in to your profile. Clients, inquiries and the site you built are all here.';
+    lede.hidden = false;
+  }
+  const ctx = document.getElementById('login-context');
+  if (ctx) { ctx.hidden = true; ctx.textContent = ''; }
+  const fine = document.getElementById('login-fine');
+  if (fine) { fine.textContent = ''; fine.hidden = true; }
+  const create = document.getElementById('login-create-btn');
+  const login  = document.getElementById('login-submit-btn');
+  if (create && login) {
+    create.disabled = false;
+    login.disabled  = false;
+    create.hidden = false;
+    login.textContent = 'Log in';
+    login.style.cssText = 'margin-top:22px;background:var(--coral);color:#fff;';
+    create.textContent = 'New here? Create an account';
+    create.style.cssText = 'background:transparent;border:none;color:var(--ink-soft);margin-top:4px;';
+    login.parentNode.insertBefore(login, create);
+  }
+}
+
 function openLogin() {
-  setSignupGate(false);       // sign-in is a form, not the invitation's next page
+  setAuthGate(null);
   setLoginRestoring(false);   // any earlier restore is finished or irrelevant
   document.getElementById('login-title').textContent = accountType === 'client' ? 'Client Login' : 'Therapist Login';
   /* Reset what the post-checkout path may have changed -- someone who signs
@@ -7663,7 +7698,7 @@ let profileShowOtherLanguage = false; // transient UI flag for the profile edito
 let therapistWelcomeShown = false; // once per login, reset on logout
 
 function showTherapistView() {
-  setSignupGate(false);
+  setAuthGate(null);
   document.getElementById('bottom-nav').classList.add('hidden');
   document.getElementById('therapist-nav').classList.remove('hidden');
   showTScreen('t-insights');
@@ -9741,7 +9776,7 @@ function applyLandingParams() {
      they already said which they were, on the website. */
   if (/therapist-signin/.test(location.hash) && !wantsSignup) {
     accountType = 'therapist';
-    openLogin();
+    presentTherapistSignin();
     /* A session on this device means restoreSession() is already in flight and
        will land them in their portal in a moment. welcome.html sends a
        therapist who has just paid to this exact hash, so showing them a login

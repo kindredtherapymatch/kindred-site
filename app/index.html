@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..600;1,7..72,400..600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=merge56">
+<link rel="stylesheet" href="style.css?v=merge57">
 </head>
 <body>
 
@@ -25,18 +25,29 @@
   <!-- ===== ACCOUNT TYPE (FIRST SCREEN) ===== -->
   <section class="screen" id="screen-account-type">
     <div class="welcome-content">
-      <img class="brand-lockup-img" src="brand-lockup.png" alt="Kindred — Therapy, matched to you">
-      <h1>What brings you to Kindred?</h1>
-      <div class="welcome-sub">Let's get you to the right place.</div>
+      <span class="login-wax welcome-wax" aria-hidden="true">
+        <svg viewBox="0 0 100 100">
+          <path d="M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z" fill="#F6EFE4"/>
+          <path d="M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z" fill="#E8C687"/>
+          <path d="M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z" fill="#E7B9A8"/>
+        </svg>
+      </span>
+      <p class="login-kicker welcome-kicker">Kindred</p>
+      <h1>What brings you here?</h1>
+      <div class="welcome-sub">Therapy, matched to you.</div>
       <button class="welcome-card" id="choose-client-btn">
-        <span class="welcome-card-icon">🔍</span>
-        <span class="welcome-card-text"><span class="welcome-card-label">I'm looking for therapy</span><span class="welcome-card-desc">Find a therapist who actually fits</span></span>
+        <span class="welcome-card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.2" stroke="#BE765F" stroke-width="1.8"/><path d="m16 16 4 4" stroke="#BE765F" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        <span class="welcome-card-text"><span class="welcome-card-label">I&rsquo;m looking for therapy</span><span class="welcome-card-desc">Find a therapist who actually fits</span></span>
       </button>
       <button class="welcome-card" id="choose-therapist-btn">
-        <span class="welcome-card-icon">🩺</span>
-        <span class="welcome-card-text"><span class="welcome-card-label">I'm a therapist</span><span class="welcome-card-desc">Manage your profile and requests</span></span>
+        <span class="welcome-card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8.2" r="3" stroke="#422448" stroke-width="1.8"/><path d="M5.5 19c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8" stroke="#422448" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        <span class="welcome-card-text"><span class="welcome-card-label">I&rsquo;m a therapist</span><span class="welcome-card-desc">Build your profile, meet the right clients</span></span>
       </button>
-      <button class="welcome-demo-link" id="preview-client-demo-btn">👀 Preview a filled-in client account (demo data)</button>
+      <button class="welcome-demo-link" id="preview-client-demo-btn">Preview a filled-in client account (demo data)</button>
     </div>
   </section>
 
@@ -452,7 +463,7 @@
   </footer>
 </div>
 
-<script src="app.js?v=merge110"></script>
+<script src="app.js?v=merge111"></script>
 <script>
   if ('serviceWorker' in navigator) {
     /* A new worker calls skipWaiting() + clients.claim(), so it takes control
