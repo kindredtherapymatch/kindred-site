@@ -203,3 +203,85 @@ body.explore-page .flow-match-fine { color: var(--ink-soft); }
   body.explore-page .lr-hero-inner,
   body.explore-page .tp-hero-inner { padding: 0; }
 }
+
+/* ---------- For Therapists landing ---------- */
+body.explore-page .kt-hero-inner {
+  display: block;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+body.explore-page .kt-hero-copy { text-align: center; }
+body.explore-page .kt-hero h1 { letter-spacing: -.02em; }
+body.explore-page .kt-sub { margin-left: auto; margin-right: auto; }
+body.explore-page .kt-offercard {
+  margin-left: auto; margin-right: auto;
+  text-align: left;
+  background: #FFFCFA;
+  background-image:
+    radial-gradient(rgba(43,34,51,.022) 1px, transparent 1px),
+    radial-gradient(rgba(43,34,51,.018) 1px, transparent 1px);
+  background-size: 13px 13px, 21px 21px;
+}
+body.explore-page .kt-hero .hero-ctas { justify-content: center; }
+body.explore-page .kt-hero-fine { font-style: normal; color: var(--ink-soft); }
+
+body.explore-page .kt-flatten,
+body.explore-page .kt-sections,
+body.explore-page .kt-how,
+body.explore-page .kt-benefits { background: transparent; }
+
+body.explore-page .kt-sectiongrid article,
+body.explore-page .kt-benefitgrid article,
+body.explore-page .kt-pricecard,
+body.explore-page .kt-closing-inner,
+body.explore-page .kt-questions li {
+  background: #FFFCFA;
+  background-image:
+    radial-gradient(rgba(43,34,51,.022) 1px, transparent 1px),
+    radial-gradient(rgba(43,34,51,.018) 1px, transparent 1px);
+  background-size: 13px 13px, 21px 21px;
+  border: 1px solid var(--line);
+}
+
+body.explore-page .kt-questions li { padding: .7rem 1rem; border-radius: 14px; }
+
+body.explore-page .kt-promise-inner {
+  background: #FFFCFA;
+  background-image:
+    radial-gradient(rgba(43,34,51,.022) 1px, transparent 1px),
+    radial-gradient(rgba(43,34,51,.018) 1px, transparent 1px);
+  background-size: 13px 13px, 21px 21px;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px -30px rgba(43, 34, 51, .28);
+}
+body.explore-page .kt-promise-inner > svg { color: var(--clay); }
+body.explore-page .kt-promise-inner h2 { color: var(--aubergine); }
+body.explore-page .kt-promise-inner p { color: var(--ink-soft); }
+
+body.explore-page .kt-claim-inner {
+  background: #FFFCFA;
+  background-image:
+    radial-gradient(rgba(43,34,51,.022) 1px, transparent 1px),
+    radial-gradient(rgba(43,34,51,.018) 1px, transparent 1px);
+  background-size: 13px 13px, 21px 21px;
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px -30px rgba(43, 34, 51, .28);
+}
+body.explore-page .kt-claim-copy h2 { color: var(--aubergine); }
+body.explore-page .kt-claim-copy p { color: var(--ink-soft); }
+body.explore-page .kt-claim-count { color: var(--clay-text) !important; }
+body.explore-page .kt-founding-star { color: var(--clay) !important; }
+body.explore-page .kt-claim-form {
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+body.explore-page .kt-price-fine { font-style: normal; color: var(--ink-soft); }
+body.explore-page .kt-plan-name { color: var(--clay-text); }
+
+body.explore-page .kt-voices { background: transparent; }
+body.explore-page .kt-voices-inner { grid-template-columns: 1fr; }
+body.explore-page .kt-voices-copy { text-align: center; max-width: 40rem; margin: 0 auto; }
