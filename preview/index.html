@@ -28,7 +28,7 @@
     width: 240px; height: 280px; background: var(--lilac, #B8A3C4); opacity: .38;
     left: -90px; bottom: 8%;
   }
-  .mock-banner, .site-header, main { position: relative; z-index: 1; }
+  .mock-banner, .site-header, main, .site-footer { position: relative; z-index: 1; }
   .site-header { background: rgba(252, 252, 254, .78); }
   .mock-banner {
     background: var(--aubergine); color: #F6EFE4; text-align: center;
@@ -149,15 +149,69 @@
   }
   .pv-controls .match-count { margin-left: auto; }
   .pv-rest {
-    max-width: 640px; margin: 1.2rem auto 4rem; padding: 0 1.4rem;
+    max-width: 640px; margin: 1.2rem auto 0; padding: 0 1.4rem;
     color: var(--ink-soft); font-size: .95rem; line-height: 1.65; text-align: center;
   }
+
+  .pv-why { max-width: 1040px; margin: 3.2rem auto 0; padding: 0 1.2rem 1rem; }
+  .pv-why-head { max-width: 38rem; margin: 0 auto 1.8rem; text-align: center; }
+  .pv-why-head h2 {
+    font-size: clamp(1.55rem, 3vw, 2.1rem); margin: 0 0 .75rem; letter-spacing: -.02em;
+  }
+  .pv-why-head p { color: var(--ink-soft); font-size: 1.05rem; line-height: 1.65; margin: 0; }
+  .pv-why-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+  }
+  .pv-claim {
+    background: #FFFCFA;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 1.3rem 1.35rem 1.4rem;
+  }
+  .pv-claim h3 { font-size: 1.12rem; margin: 0 0 .5rem; letter-spacing: -.01em; }
+  .pv-claim p { color: var(--ink-soft); font-size: .94rem; line-height: 1.6; margin: 0; }
+  .pv-sources {
+    margin: 1.15rem auto 0; max-width: 52rem;
+    font-size: .82rem; color: var(--ink-soft); line-height: 1.55;
+  }
+  .pv-sources summary {
+    cursor: pointer; font-weight: 600; color: var(--ink); list-style: none;
+  }
+  .pv-sources summary::-webkit-details-marker { display: none; }
+  .pv-sources summary::after { content: ' +'; color: var(--clay-text); font-weight: 700; }
+  .pv-sources[open] summary::after { content: ' −'; }
+  .pv-sources ul { margin: .65rem 0 0; padding: 0; display: grid; gap: .45rem; }
+  .pv-sources a { text-decoration: underline; text-underline-offset: 2px; }
+
+  .pv-use { max-width: 1040px; margin: 2.6rem auto 0; padding: 0 1.2rem; }
+  .pv-use h2 {
+    text-align: center; font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+    margin: 0 0 1.4rem; letter-spacing: -.015em;
+  }
+  .pv-use-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem 1.6rem; }
+  .pv-use-grid h3 { font-size: 1.05rem; margin: 0 0 .4rem; }
+  .pv-use-grid p { color: var(--ink-soft); font-size: .95rem; line-height: 1.6; margin: 0; }
+
+  .pv-doors {
+    max-width: 1040px; margin: 2.8rem auto 3.6rem; padding: 0 1.2rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  }
+  .pv-door {
+    background: #FFFCFA;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 1.5rem 1.5rem 1.45rem;
+  }
+  .pv-door h2 { font-size: 1.3rem; margin: 0 0 .45rem; letter-spacing: -.015em; }
+  .pv-door p { color: var(--ink-soft); margin: 0 0 1.1rem; font-size: .95rem; line-height: 1.6; }
+
   @media (max-width: 820px) {
     .pv-profile { grid-template-columns: 1fr; }
     .pv-photo { grid-row: auto; min-height: 0; aspect-ratio: 4/5; max-height: 300px; }
     .pv-body { padding: 1.2rem 1.2rem .9rem; }
     .pv-controls { grid-column: 1; justify-content: center; padding: 0 1.2rem 1.05rem; }
     .pv-controls .match-count { margin-left: 0; }
+    .pv-why-grid, .pv-use-grid, .pv-doors { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -242,7 +296,106 @@
   </div>
 
   <p class="pv-rest">Desirae is live. The others are examples of how a Kindred profile reads — arrows to look, not a roster to pick from.</p>
+
+  <section class="pv-why" id="why">
+    <div class="pv-why-head">
+      <p class="pv-kicker">Why the match matters</p>
+      <h2>The person in the chair is not a detail.</h2>
+      <p>Therapy uses methods. What most reliably predicts whether it works for you is whether you and this person can actually work. Directories treat therapists like a filter. The research treats the relationship like part of the treatment.</p>
+    </div>
+    <div class="pv-why-grid">
+      <article class="pv-claim">
+        <h3>The relationship tracks with better outcomes</h3>
+        <p>Across 295 studies and more than 30,000 people, the quality of the working alliance — agreement on what you&rsquo;re doing, and a real bond — is one of the most consistent predictors of how therapy goes. It holds in the room and on video, and it still holds after you account for how someone was doing when they started.</p>
+      </article>
+      <article class="pv-claim">
+        <h3>Fit is how people stay</h3>
+        <p>When clients get a therapist and a style they actually prefer, they improve more and they are about a third less likely to leave early. Matching how a therapist works to how you work is not a nicety. It is one of the more reliable ways to improve the odds.</p>
+      </article>
+      <article class="pv-claim">
+        <h3>Who the therapist is matters</h3>
+        <p>The therapist&rsquo;s half of the relationship matters more than the client&rsquo;s. Some therapists form a working alliance across a range of people, and those clients do better. Who you sit with is not interchangeable — and assignment that ignores that does worse.</p>
+      </article>
+    </div>
+    <details class="pv-sources">
+      <summary>The research this is based on</summary>
+      <ul>
+        <li>Flückiger, Del Re, Wampold &amp; Horvath, 2018. Meta-analysis of the alliance in adult psychotherapy: 295 studies, r ≈ .28 with outcome — a medium effect, and one of the most replicated findings in the field. Same pattern in internet-based therapy. <a href="https://societyforpsychotherapy.org/the-alliance-in-adult-psychotherapy/" target="_blank" rel="noopener">Summary</a></li>
+        <li>Flückiger et al., 2020. The alliance still predicts outcome after you adjust for intake characteristics and other process variables. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7529648/" target="_blank" rel="noopener">Open access</a></li>
+        <li>Norcross &amp; Wampold, 2019. Third APA interdivisional task force on evidence-based relationships: the relationship contributes to improvement as much as the particular treatment method.</li>
+        <li>Swift, Callahan &amp; colleagues. Clients matched to their treatment, role, and therapist preferences have better outcomes and are about a third less likely to drop out.</li>
+        <li>Del Re, Flückiger, Horvath, Symonds &amp; Wampold, 2012. Therapist variability in the alliance matters more than patient variability.</li>
+        <li>Constantino et al., 2021. Matching patients to therapists with a track record on their presenting concerns improved outcomes versus usual assignment. <a href="https://www.ncbi.nlm.nih.gov/books/NBK606376/" target="_blank" rel="noopener">PCORI report</a></li>
+      </ul>
+    </details>
+  </section>
+
+  <section class="pv-use" id="how">
+    <h2>What Kindred does with that.</h2>
+    <div class="pv-use-grid">
+      <div>
+        <h3>You meet a person</h3>
+        <p>Profiles are written in the therapist&rsquo;s own voice — how they work, who they work well with, what a session actually feels like. Specialties come after that, not instead of it.</p>
+      </div>
+      <div>
+        <h3>Nobody buys a better match</h3>
+        <p>Membership makes a therapist matchable. It cannot move them up your list. Ads do not. We match by how you work, never by who pays more.</p>
+      </div>
+      <div>
+        <h3>Then we check the rest</h3>
+        <p>Every license is checked by hand against the issuing state board. Every therapist verifies their identity before a profile can go live. Connection is the point. Credentials still have to be real.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="pv-doors">
+    <article class="pv-door">
+      <h2>Looking for a therapist</h2>
+      <p>Kindred is onboarding founding therapists now. Leave an email and we&rsquo;ll write when someone in your area is live and verified — not before.</p>
+      <a class="btn btn-dark" href="#notify">Get notified</a>
+    </article>
+    <article class="pv-door">
+      <h2>I&rsquo;m a therapist</h2>
+      <p>Build a profile that sounds like you. Six months free for founding therapists. Matched by compatibility, never by paid placement.</p>
+      <a class="btn btn-outline" href="/app/#therapist-signup">Create a profile</a>
+    </article>
+  </div>
 </main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z" fill="#FFF8EF"/>
+        <path d="M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z" fill="#B8A3C4"/>
+        <path d="M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z" fill="#BE765F"/>
+      </svg>
+      <div>
+        <p class="brand-name">Kindred</p>
+        <p class="brand-tag">Therapy, matched to you</p>
+      </div>
+    </div>
+    <nav class="footer-col" aria-label="About">
+      <h4>About</h4>
+      <a href="/about.html">About Us</a><a href="/find-a-therapist.html">For Clients</a><a href="/therapists.html">For Therapists</a>
+    </nav>
+    <nav class="footer-col" aria-label="Support">
+      <h4>Support</h4>
+      <a href="/privacy.html">Privacy</a><a href="/about.html#contact">Contact</a>
+    </nav>
+    <nav class="footer-col" aria-label="Connect">
+      <h4>Connect</h4>
+      <a href="https://www.instagram.com/kindred.therapymatch" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:info@kindredtherapymatch.com">Email us</a>
+    </nav>
+    <div class="footer-crisis">
+      <h4>Need help now?</h4>
+      <p>If you or someone you know is in crisis, help is available 24/7. Call or text <strong>988</strong> (Suicide &amp; Crisis Lifeline).</p>
+      <a class="btn btn-clay" href="tel:988">Get immediate help</a>
+    </div>
+  </div>
+  <p class="footer-fine">© 2026 Kindred. Kindred is not a substitute for professional diagnosis or emergency care.</p>
+</footer>
 
 <script src="/site.js?v=11"></script>
 <script>
