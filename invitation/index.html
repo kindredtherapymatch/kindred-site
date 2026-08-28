@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>An invitation — Kindred</title>
+<meta name="description" content="You're invited to be one of the first therapists on Kindred. Verified therapists, matched to clients by fit. Your first six months are free.">
+
+<!-- This page exists to be SENT, so the link preview is part of the product.
+     No other static page here sets these; if that changes, lift this block. -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kindredtherapymatch.com/invitation">
+<meta property="og:title" content="An invitation to join Kindred">
+<meta property="og:description" content="You're invited to be one of the first therapists on Kindred. Verified therapists, matched by fit — never by who pays more.">
+<meta property="og:image" content="https://kindredtherapymatch.com/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="An invitation to join Kindred">
+<meta name="twitter:description" content="You're invited to be one of the first therapists on Kindred.">
+<meta name="twitter:image" content="https://kindredtherapymatch.com/assets/hero.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..600;1,7..72,400..600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=50">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z' fill='%23422448'/><path d='M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z' fill='%23B8A3C4'/><path d='M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z' fill='%23BE765F'/></svg>">
+
+<style>
+  /* An invitation is a card, not a site. No nav, one column, one action.
+     Anything that invites you to go elsewhere makes it a landing page again. */
+  body { background: var(--cream-2, #F4F4F9); margin: 0; }
+  .inv-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: clamp(1.25rem, 5vw, 3.5rem); box-sizing: border-box; }
+  .inv-card { background: var(--cream, #FCFCFE); max-width: 620px; width: 100%;
+    border: 1px solid var(--line-warm, #E9E7F0); border-radius: 20px;
+    padding: clamp(2rem, 6vw, 3.6rem);
+    box-shadow: 0 24px 60px -30px rgba(43, 34, 51, .28); }
+
+  .inv-mark { width: 34px; height: 34px; display: block; }
+  .inv-eyebrow { font-family: 'Inter', system-ui, sans-serif; font-size: .72rem; font-weight: 600;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--clay-text, #8F5340);
+    margin: 1.4rem 0 .9rem; }
+  .inv-card h1 { font-family: 'Literata', Georgia, serif; font-weight: 500;
+    font-size: clamp(1.75rem, 4.6vw, 2.5rem); line-height: 1.18; letter-spacing: -.01em;
+    color: var(--aubergine, #422448); margin: 0 0 1.5rem; text-wrap: balance; }
+
+  .inv-body { font-family: 'Inter', system-ui, sans-serif; color: var(--ink, #2B2233);
+    font-size: 1.02rem; line-height: 1.72; }
+  .inv-body p { margin: 0 0 1.05rem; }
+  .inv-greet { font-family: 'Literata', Georgia, serif; font-size: 1.1rem;
+    color: var(--aubergine, #422448); margin-bottom: 1.1rem; }
+
+  .inv-points { list-style: none; margin: 1.6rem 0; padding: 0;
+    border-top: 1px solid var(--line-warm, #E9E7F0); }
+  .inv-points li { display: flex; gap: .8rem; align-items: flex-start;
+    padding: .95rem 0; border-bottom: 1px solid var(--line-warm, #E9E7F0);
+    font-family: 'Inter', system-ui, sans-serif; font-size: .95rem; line-height: 1.6;
+    color: var(--ink, #2B2233); }
+  .inv-points b { color: var(--aubergine, #422448); font-weight: 600; }
+  .inv-tick { flex: 0 0 auto; width: 18px; height: 18px; margin-top: .2rem;
+    color: var(--lilac-deep, #8E77A0); }
+
+  .inv-offer { background: var(--cream-2, #F4F4F9); border-radius: 12px;
+    padding: 1rem 1.2rem; margin: 1.7rem 0 1.5rem;
+    font-family: 'Inter', system-ui, sans-serif; font-size: 1rem; color: var(--ink, #2B2233); }
+  .inv-offer s { color: var(--ink-soft, #6E6172); text-decoration-thickness: 1.5px; margin-right: .45rem; }
+  .inv-offer b { color: var(--aubergine, #422448); font-weight: 600; }
+
+  .inv-cta { display: inline-flex; align-items: center; gap: .55rem;
+    background: var(--aubergine, #422448); color: #fff; text-decoration: none;
+    font-family: 'Inter', system-ui, sans-serif; font-weight: 600; font-size: 1rem;
+    padding: .95rem 1.7rem; border-radius: 999px; transition: background .15s ease; }
+  .inv-cta:hover { background: var(--aubergine-deep, #301A35); }
+  .inv-cta:focus-visible { outline: 2px solid var(--clay, #BE765F); outline-offset: 3px; }
+
+  .inv-fine { font-family: 'Inter', system-ui, sans-serif; font-size: .82rem;
+    color: var(--ink-soft, #6E6172); margin: .95rem 0 0; line-height: 1.6; }
+  .inv-sign { font-family: 'Literata', Georgia, serif; font-size: 1rem;
+    color: var(--aubergine, #422448); margin: 2rem 0 0;
+    padding-top: 1.5rem; border-top: 1px solid var(--line-warm, #E9E7F0); }
+  .inv-foot { font-family: 'Inter', system-ui, sans-serif; font-size: .85rem;
+    color: var(--ink-soft, #6E6172); margin: 1.1rem 0 0; }
+  .inv-foot a { color: var(--lilac-text, #6B5480); }
+
+  @media (prefers-reduced-motion: reduce) { .inv-cta { transition: none; } }
+</style>
+</head>
+<body>
+
+<main class="inv-wrap">
+  <article class="inv-card">
+    <svg class="inv-mark" viewBox="0 0 100 100" aria-label="Kindred" role="img">
+      <path d="M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z" fill="#422448"/>
+      <path d="M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z" fill="#B8A3C4"/>
+      <path d="M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z" fill="#BE765F"/>
+    </svg>
+
+    <p class="inv-eyebrow">An invitation</p>
+    <h1>You&rsquo;re invited to be one of the first therapists on Kindred.</h1>
+
+    <div class="inv-body">
+      <p class="inv-greet" id="inv-greet">Hello,</p>
+
+      <p>Kindred is a new way for clients to find a therapist. Instead of scrolling a
+      list and guessing, they answer a few questions about what they need and how they
+      want to be worked with &mdash; and we match them to the therapists who actually fit.</p>
+
+      <p>We&rsquo;re opening to a small founding group before we open to clients at scale.
+      The therapists who join now shape how matching works.</p>
+
+      <ul class="inv-points">
+        <li><svg class="inv-tick" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><b>Verified before anyone sees you.</b> Every license is checked against the state board, and identity is confirmed. No exceptions.</span></li>
+        <li><svg class="inv-tick" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><b>No paid placement, ever.</b> You can&rsquo;t buy your way up the list, and neither can anyone else.</span></li>
+        <li><svg class="inv-tick" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><b>A profile that sounds like you.</b> Your words, your photos, and a website of your own &mdash; not a directory row.</span></li>
+      </ul>
+
+      <div class="inv-offer"><s>$29.99/month</s> <b>Your first 6 months are free</b> &mdash; starting the day you go live, not the day you sign up.</div>
+
+      <a class="inv-cta" href="/app/#therapist-signup">Accept your invitation <span aria-hidden="true">&rarr;</span></a>
+
+      <p class="inv-fine">Free to build, free to be listed, free to be matched. No card up front,
+      and you decide before anything changes.</p>
+
+      <p class="inv-sign">With warmth,<br>The Kindred team</p>
+
+      <p class="inv-foot">
+        Already have a profile? <a href="/app/#therapist-signin">Sign in</a>
+        &nbsp;&middot;&nbsp; Want the detail first? <a href="/therapists.html">Read more for therapists</a>
+      </p>
+    </div>
+  </article>
+</main>
+
+<script>
+  /* Personalise from ?to=Name so this can be sent to someone by name. Written
+     with textContent, never innerHTML -- the value comes from a URL anyone can
+     edit, and this page will be pasted into emails and DMs.
+     Kept short and stripped of anything that isn't a name, so a crafted link
+     can't turn the greeting into a sentence of its own. */
+  (function () {
+    try {
+      var raw = new URLSearchParams(location.search).get('to');
+      if (!raw) return;
+      var name = raw.replace(/[^\p{L}\p{M}'’.\- ]/gu, '').trim().slice(0, 40);
+      if (!name) return;
+      document.getElementById('inv-greet').textContent = 'Hello, ' + name + ',';
+    } catch (e) { /* the default greeting is already correct */ }
+  })();
+</script>
+
+</body>
+</html>
