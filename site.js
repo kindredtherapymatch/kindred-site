@@ -68,6 +68,12 @@ window.KINDRED_APP_URL = '/app/';
 
   function init() { wireAppLinks(); armScrollers(); }
 
+  document.addEventListener('click', (e) => {
+    document.querySelectorAll('details.nav-explore[open]').forEach(d => {
+      if (!d.contains(e.target)) d.removeAttribute('open');
+    });
+  });
+
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
   window.addEventListener('load', init);          /* catch late-rendered strips/links */

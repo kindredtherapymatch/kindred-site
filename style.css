@@ -1756,6 +1756,36 @@ html { overflow-x: clip; } /* safety net: nothing may side-scroll the page */
 }
 .nav-pro:hover { color: var(--aubergine); text-decoration: underline; }
 
+.nav-explore { position: relative; }
+.nav-explore > summary {
+  list-style: none; cursor: pointer;
+  font-size: .88rem; font-weight: 500; color: var(--ink);
+  padding: .35rem 0; border-bottom: 2px solid transparent; white-space: nowrap;
+}
+.nav-explore > summary::-webkit-details-marker,
+.nav-explore > summary::marker { display: none; content: ''; }
+.nav-explore > summary::after { content: ' ⌄'; font-size: .72em; opacity: .55; }
+.nav-explore[open] > summary { color: var(--clay-deep); border-bottom-color: var(--clay); }
+.nav-explore-menu {
+  position: absolute; top: calc(100% + 10px); left: 0; z-index: 60;
+  min-width: 230px;
+  background: var(--paper); border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(43, 34, 51, .14);
+  padding: .45rem;
+  display: flex; flex-direction: column;
+}
+.nav-explore-menu a {
+  padding: .55rem .75rem; border-radius: 10px; border-bottom: none !important;
+  font-size: .9rem;
+}
+.nav-explore-menu a:hover { background: var(--cream-2); color: var(--aubergine); }
+@media (max-width: 1180px) {
+  .nav-explore-menu {
+    position: static; box-shadow: none; border: none; padding: .15rem 0 .15rem .4rem;
+    background: transparent; min-width: 0;
+  }
+}
+
 /* ---------------------------------------------------------------------------
    Button system: primary / secondary / tertiary, with real interaction states.
    Shapes were consistent already; what was missing was focus and active, so

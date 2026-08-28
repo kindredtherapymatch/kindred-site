@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homepage mockup — Kindred</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="A tighter homepage mockup. Not live.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..600;1,7..72,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=51">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z' fill='%23422448'/><path d='M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z' fill='%23B8A3C4'/><path d='M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z' fill='%23BE765F'/></svg>">
+<style>
+  body { background: #F1EBF3; }
+  .mock-banner {
+    background: var(--aubergine); color: #F6EFE4; text-align: center;
+    padding: .7rem 1rem; font-size: .88rem; font-weight: 500;
+  }
+  .mock-banner a { color: var(--gold, #E8C687); }
+  .pv-hero {
+    max-width: 780px; margin: 0 auto; padding: clamp(2.8rem, 8vh, 5.5rem) 1.4rem 1.2rem;
+    text-align: center; position: relative; z-index: 1;
+  }
+  .pv-kicker {
+    font-family: 'Literata', Georgia, serif; font-style: italic;
+    color: var(--clay-text); font-size: 1.05rem; margin: 0 0 .6rem;
+  }
+  .pv-hero h1 {
+    font-size: clamp(2rem, 5.4vw, 3.15rem); line-height: 1.14;
+    letter-spacing: -.02em; margin: 0 0 .8rem; text-wrap: balance;
+  }
+  .pv-hero h1 span { display: block; color: var(--clay-text); font-size: .72em; font-weight: 500; margin-top: .25em; }
+  .pv-sub { color: var(--ink-soft); font-size: 1.08rem; line-height: 1.55; max-width: 38ch; margin: 0 auto 1.6rem; }
+  .pv-ctas { display: flex; flex-wrap: wrap; gap: .7rem; justify-content: center; }
+  .pv-fine { margin: 1rem 0 0; font-size: .85rem; color: var(--ink-soft); }
+  .pv-cards {
+    max-width: 1100px; margin: 1.6rem auto 0; padding: 0 1.2rem 4rem;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+  }
+  .pv-card {
+    background: #FFFCFA; border: 1px solid var(--line); border-radius: 18px;
+    overflow: hidden; text-decoration: none; color: inherit;
+    box-shadow: 0 18px 40px -28px rgba(43,34,51,.3);
+    display: flex; flex-direction: column;
+    transition: transform .15s ease;
+  }
+  .pv-card:hover { transform: translateY(-3px); }
+  .pv-card img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+  .pv-card-body { padding: 1rem 1.05rem 1.15rem; }
+  .pv-card h3 { font-size: 1.05rem; margin: 0 0 .2rem; }
+  .pv-card p { font-size: .82rem; color: var(--ink-soft); margin: 0 0 .55rem; line-height: 1.45; }
+  .pv-tag { display: inline-block; font-size: .68rem; font-weight: 600; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--clay-text); }
+  .pv-rest {
+    max-width: 640px; margin: 0 auto 4rem; padding: 0 1.4rem;
+    color: var(--ink-soft); font-size: .95rem; line-height: 1.65; text-align: center;
+  }
+  @media (max-width: 900px) { .pv-cards { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 540px) { .pv-cards { grid-template-columns: 1fr; max-width: 360px; } }
+</style>
+</head>
+<body>
+<p class="mock-banner">Mockup — not live. Compare with the <a href="/">current homepage</a>.</p>
+
+<a class="skip-link" href="#top">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="/" aria-label="Kindred home">
+    <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z" fill="#422448"/>
+      <path d="M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z" fill="#B8A3C4"/>
+      <path d="M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z" fill="#BE765F"/>
+    </svg>
+    <span class="brand-text">
+      <span class="brand-name">Kindred</span>
+      <span class="brand-tag">Therapy, matched to you</span>
+    </span>
+  </a>
+  <nav class="main-nav" id="primary-nav" aria-label="Primary">
+    <details class="nav-explore">
+      <summary>Explore</summary>
+      <div class="nav-explore-menu">
+        <a href="/start-here.html">Start Here</a>
+        <a href="/understand-yourself.html">Understand Yourself</a>
+        <a href="/feel-better.html">Feel Better</a>
+        <a href="/life-relationships.html">Life &amp; Relationships</a>
+        <a href="/therapy.html">Therapy</a>
+      </div>
+    </details>
+    <a class="nav-cta nav-cta-dark" href="/app/#match">Find a Therapist</a>
+  </nav>
+  <div class="header-actions">
+    <a class="btn btn-dark btn-sm" href="/app/#match">Find a Therapist</a>
+    <span class="header-sep" aria-hidden="true"></span>
+    <a class="nav-pro" href="/therapists.html">For Therapists</a>
+  </div>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<main id="top">
+  <section class="pv-hero">
+    <p class="pv-kicker">Kindred</p>
+    <h1>Find a therapist who fits.<span>Or be the one they find.</span></h1>
+    <p class="pv-sub">Matched by how you work and what you need — never by who pays more. Free to start, on both sides.</p>
+    <div class="pv-ctas">
+      <a class="btn btn-dark" href="/app/#match">Find a therapist</a>
+      <a class="btn btn-outline" href="/app/#therapist-signup">I&rsquo;m a therapist</a>
+    </div>
+    <p class="pv-fine">About 10 questions for clients. A profile, then six months free, for therapists.</p>
+  </section>
+
+  <div class="pv-cards">
+    <a class="pv-card" href="/desirae-tarris">
+      <img src="/assets/therapist-desirae.jpg" alt="Desirae Tarris">
+      <div class="pv-card-body">
+        <span class="pv-tag">On Kindred</span>
+        <h3>Desirae Tarris, LPC</h3>
+        <p>Telluride, CO. Kind, and direct. Ready when you are.</p>
+      </div>
+    </a>
+    <a class="pv-card" href="/app/#match">
+      <img src="/assets/therapist-maya.jpg" alt="Maya Chen">
+      <div class="pv-card-body">
+        <span class="pv-tag">Example match</span>
+        <h3>Maya Chen, LMFT</h3>
+        <p>Warm, direct, collaborative. For the one who looks fine on paper.</p>
+      </div>
+    </a>
+    <a class="pv-card" href="/app/#match">
+      <img src="/assets/therapist-devon.jpg" alt="Devon Brooks">
+      <div class="pv-card-body">
+        <span class="pv-tag">Example match</span>
+        <h3>Devon Brooks, LPC</h3>
+        <p>Grounded and practical. A real conversation, with somewhere to go.</p>
+      </div>
+    </a>
+    <a class="pv-card" href="/app/#match">
+      <img src="/assets/therapist-sofia.jpg" alt="Sofia Reyes">
+      <div class="pv-card-body">
+        <span class="pv-tag">Example match</span>
+        <h3>Sofia Reyes, LCSW</h3>
+        <p>Gentle map-making. We move at your pace, but we do move.</p>
+      </div>
+    </a>
+  </div>
+
+  <p class="pv-rest">On the live site this would continue into check-in, tools, and the rest. This mockup is only the first screen: one promise, two doors, people you can actually look at.</p>
+</main>
+<script src="/site.js?v=11"></script>
+<script>
+  const navToggle = document.querySelector('.nav-toggle');
+  const mainNav = document.querySelector('.main-nav');
+  if (navToggle && mainNav) {
+    navToggle.addEventListener('click', () => {
+      const open = mainNav.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', open);
+    });
+  }
+</script>
+</body>
+</html>

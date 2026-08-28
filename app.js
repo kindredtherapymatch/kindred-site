@@ -86,6 +86,18 @@ const THERAPISTS = [
     specs: ['Trauma', 'Family Dynamics', 'Identity', 'Anxiety', 'First-Gen Experiences'],
     photo: 'assets/therapist-sofia.jpg',
     skin: '#B87A54', hair: '#2A1B14', top: '#BE765F', bg: '#F1E4D8'
+  },
+  {
+    name: 'Desirae Tarris, LPC • EMDR',
+    meta: 'Telluride, CO · Kindred founding therapist',
+    match: 90,
+    pills: ['Kind', 'Direct', 'Ready when you are'],
+    promptLabel: 'I work best with…',
+    quote: '“People who are ready to make a change. I’m kind, yet direct — I’ll tell you how it is.”',
+    specs: ['Anxiety', 'Trauma', 'Grief', 'Burnout', 'ADHD', 'Life Transitions'],
+    photo: 'assets/therapist-desirae.jpg',
+    profileUrl: '/desirae-tarris',
+    skin: '#C4A07A', hair: '#C9A15B', top: '#F4F1EA', bg: '#E8F0EA'
   }
 ];
 
@@ -144,6 +156,12 @@ function showTherapist(i) {
   if (live) live.textContent = `Showing ${t.name}, therapist ${i + 1} of ${THERAPISTS.length}`;
   const countEl = document.getElementById('match-count');
   if (countEl) countEl.textContent = `${i + 1} of ${THERAPISTS.length}`;
+  const view = document.querySelector('#match-card a.pillar-link');
+  if (view) {
+    view.href = t.profileUrl || ((window.KINDRED_APP_URL || '/app/') + '#match');
+    view.removeAttribute('target');
+    view.removeAttribute('rel');
+  }
   rotateIdx = i;                    // arrows and auto-rotate share one position
 }
 

@@ -7686,6 +7686,7 @@ function logout() {
   clearClientState();
   accountType = null;
   therapistWelcomeShown = false;
+  document.body.classList.remove('is-therapist');
   document.getElementById('bottom-nav').classList.add('hidden');
   document.getElementById('therapist-nav').classList.add('hidden');
   showScreen('account-type');
@@ -7699,6 +7700,7 @@ let therapistWelcomeShown = false; // once per login, reset on logout
 
 function showTherapistView() {
   setAuthGate(null);
+  document.body.classList.add('is-therapist');
   document.getElementById('bottom-nav').classList.add('hidden');
   document.getElementById('therapist-nav').classList.remove('hidden');
   showTScreen('t-insights');

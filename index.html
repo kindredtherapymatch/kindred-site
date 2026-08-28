@@ -5,10 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kindred — Therapy, matched to you.</title>
 <meta name="description" content="Kindred makes finding a therapist feel less like searching a database and more like recognizing a person you can actually talk to. Articles, tools, and real support for your mind, your daily life, and your relationships.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kindredtherapymatch.com/">
+<meta property="og:title" content="Kindred — Therapy, matched to you.">
+<meta property="og:description" content="Find a therapist who fits how you work — or join as a founding therapist. Matched by understanding, never by who pays more.">
+<meta property="og:image" content="https://kindredtherapymatch.com/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kindred — Therapy, matched to you.">
+<meta name="twitter:description" content="Find a therapist who fits how you work — or join as a founding therapist.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..600;1,7..72,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=50">
+<link rel="stylesheet" href="style.css?v=51">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z' fill='%23422448'/><path d='M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z' fill='%23B8A3C4'/><path d='M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z' fill='%23BE765F'/></svg>">
 </head>
 <body>
@@ -29,12 +37,17 @@
   </a>
 
   <nav class="main-nav" id="primary-nav" aria-label="Primary">
-    <a href="start-here.html">Start Here</a>
-    <a href="understand-yourself.html">Understand Yourself</a>
-    <a href="feel-better.html">Feel Better</a>
-    <a href="life-relationships.html">Life &amp; Relationships</a>
-    <a href="therapy.html">Therapy</a>
-    <a class="nav-cta nav-cta-dark" data-app-link="match" href="/app/#match" target="_blank" rel="noopener">Find a Therapist</a>
+    <details class="nav-explore">
+      <summary>Explore</summary>
+      <div class="nav-explore-menu">
+        <a href="start-here.html">Start Here</a>
+        <a href="understand-yourself.html">Understand Yourself</a>
+        <a href="feel-better.html">Feel Better</a>
+        <a href="life-relationships.html">Life &amp; Relationships</a>
+        <a href="therapy.html">Therapy</a>
+      </div>
+    </details>
+    <a class="nav-cta nav-cta-dark" data-app-link="match" href="/app/#match">Find a Therapist</a>
   </nav>
 
   <div class="header-actions">
@@ -42,7 +55,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
     </button>
     
-    <a class="btn btn-dark btn-sm" data-app-link="match" href="/app/#match" target="_blank" rel="noopener">Find a Therapist</a>
+    <a class="btn btn-dark btn-sm" data-app-link="match" href="/app/#match">Find a Therapist</a>
     <span class="header-sep" aria-hidden="true"></span>
     <a class="nav-pro" href="therapists.html">For Therapists</a>
   </div>
@@ -65,8 +78,8 @@
       </h1>
       <p class="hero-sub">Articles, tools, and real support for your mind, your daily life, and your relationships.</p>
       <div class="hero-ctas">
-        <a data-app-link="match" class="btn btn-dark" href="/app/#match" target="_blank" rel="noopener">Find a Therapist</a>
-        <a class="btn btn-outline" href="start-here.html">Start Where You Are</a>
+        <a data-app-link="match" class="btn btn-dark" href="/app/#match">Find a Therapist</a>
+        <a class="btn btn-outline" href="therapists.html">I&rsquo;m a therapist</a>
       </div>
       <p class="hero-trust">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
@@ -100,8 +113,8 @@
       <p>Kindred matches beyond specialties and credentials. Discover therapists based on what you need, how you communicate, and what helps you feel understood.</p>
       <p class="match-trustline">Credentials matter. Connection does too.</p>
       <div class="match-ctas">
-        <a data-app-link="match" class="btn btn-dark" href="/app/#match" target="_blank" rel="noopener">Find a Therapist</a>
-        <a class="btn btn-outline home-therapist-cta" href="therapists.html">I'm a Therapist — Build my Profile</a>
+        <a data-app-link="match" class="btn btn-dark" href="/app/#match">Find a Therapist</a>
+        <a class="btn btn-outline home-therapist-cta" href="therapists.html">I&rsquo;m a therapist — build my profile</a>
       </div>
       <!-- The reassurance existed further down the page; it belongs where the
            decision is made. Numbers are real: the questionnaire is 8-10 steps
@@ -137,7 +150,7 @@
         <ul id="match-specs">
           <li>Anxiety</li><li>Life Transitions</li><li>Relationship issues</li><li>Burnout</li><li>Self-Esteem</li>
         </ul>
-        <a data-app-link class="pillar-link" href="/app/#match" target="_blank" rel="noopener">View profile <span aria-hidden="true">→</span></a>
+        <a data-app-link class="pillar-link" href="/app/#match">View profile <span aria-hidden="true">→</span></a>
       </div>
       <p class="sr-only" id="match-live" role="status" aria-live="polite"></p>
         <div class="match-controls">
@@ -146,9 +159,10 @@
           <button class="dot active" data-idx="0" aria-label="Therapist 1"></button>
           <button class="dot" data-idx="1" aria-label="Therapist 2"></button>
           <button class="dot" data-idx="2" aria-label="Therapist 3"></button>
+          <button class="dot" data-idx="3" aria-label="Therapist 4"></button>
         </div>
         <button class="match-arrow" id="match-next" aria-label="Next therapist">&#8250;</button>
-        <span class="match-count" id="match-count">1 of 3</span>
+        <span class="match-count" id="match-count">1 of 4</span>
       </div>
     </div>
   </div>
@@ -613,7 +627,7 @@
 })();
 </script>
 
-<script src="app.js?v=12"></script>
+<script src="app.js?v=13"></script>
 <!-- ======================= SITE SEARCH ======================= -->
 <style>
   .ksearch-overlay {
@@ -718,7 +732,7 @@
 })();
 </script>
 
-<script src="site.js?v=10"></script>
+<script src="site.js?v=11"></script>
 <script src="analytics.js?v=15"></script>
 <!-- Persistent route to help. Someone in crisis should not have to reach the
      footer to find 988. Quiet by default so it never nags. -->
