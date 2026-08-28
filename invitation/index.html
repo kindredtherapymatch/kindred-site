@@ -168,32 +168,62 @@
 </main>
 
 <script>
-  /* Personalise from ?to=Name so this can be sent to someone by name. Written
-     with textContent, never innerHTML -- the value comes from a URL anyone can
-     edit, and this page will be pasted into emails and DMs.
-     Kept short and stripped of anything that isn't a name, so a crafted link
-     can't turn the greeting into a sentence of its own. */
+  /* GREETING SOURCES, IN ORDER OF TRUST.
+     ?i=<token> looks the name and note up from a record, so the recipient
+     cannot edit either and the send is countable. ?to= / ?note= still work for
+     a link typed by hand, but they are only text in a URL.
+     Everything renders with textContent. Both paths degrade to the plain
+     "Hello," the page already shows, so a wrong or expired link never looks
+     broken and never announces that it guessed wrong. */
   (function () {
-    try {
-      var raw = new URLSearchParams(location.search).get('to');
-      var rawNote = new URLSearchParams(location.search).get('note');
-      if (!raw && !rawNote) return;
-      raw = raw || '';
-      var name = raw.replace(/[^\p{L}\p{M}'’.\- ]/gu, '').trim().slice(0, 40);
-      if (name) document.getElementById('inv-greet').textContent = 'Hello, ' + name + ',';
-      /* A note is prose, so it cannot be reduced to a name's character set.
-         Instead: strip angle brackets and backslashes outright, cap the length,
-         and write with textContent. Nothing here can become markup, and the
-         cap stops a link carrying a wall of text under Kindred's name. */
-      if (rawNote) {
-        var note = rawNote.replace(/[<>\\]/g, '').trim().slice(0, 280);
-        if (note) {
+    var SB  = 'https://izukppxgoerqtustfbnk.supabase.co';
+    var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml6dWtwcHhnb2VycXR1c3RmYm5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4NTAzMTYsImV4cCI6MjEwMDQyNjMxNn0.FeJFOu4PmOJAbk2OqfMH1sQX6DlynKmTyhc-dtKfvZk';
+    var q   = new URLSearchParams(location.search);
+
+    function paint(name, note) {
+      if (name) {
+        var n = String(name).replace(/[^\p{L}\p{M}'’.\- ]/gu, '').trim().slice(0, 40);
+        if (n) document.getElementById('inv-greet').textContent = 'Hello, ' + n + ',';
+      }
+      if (note) {
+        /* Prose cannot be reduced to a name's character set: strip anything
+           that could become markup, cap the length, write as text. */
+        var t = String(note).replace(/[<>\\]/g, '').trim().slice(0, 280);
+        if (t) {
           var el = document.getElementById('inv-note');
-          el.textContent = note;
+          el.textContent = t;
           el.hidden = false;
         }
       }
-    } catch (e) { /* the defaults are already correct */ }
+    }
+
+    var token = (q.get('i') || '').replace(/[^a-z0-9]/gi, '').slice(0, 16);
+    if (token) {
+      /* Carry the token to signup so an acceptance can be tied back to the
+         invitation that produced it. */
+      var cta = document.querySelector('.inv-cta');
+      if (cta) cta.href = '/app/#therapist-signup?inv=' + encodeURIComponent(token);
+
+      fetch(SB + '/rest/v1/rpc/invitation_greeting', {
+        method: 'POST',
+        headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ p_token: token })
+      })
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (rows) { if (rows && rows[0]) paint(rows[0].name, rows[0].note); })
+      .catch(function () { /* the plain greeting is already correct */ });
+
+      /* Fire-and-forget: an invitation must render whether or not this lands,
+         and nothing on the page depends on the result. */
+      fetch(SB + '/rest/v1/rpc/invitation_opened', {
+        method: 'POST', keepalive: true,
+        headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ p_token: token })
+      }).catch(function () {});
+      return;
+    }
+
+    paint(q.get('to'), q.get('note'));
   })();
 </script>
 
