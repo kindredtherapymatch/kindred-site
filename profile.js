@@ -986,7 +986,13 @@ function render(t) {
   const contactSec = `
     <section id="contact"><div class="contact-in">
       <h2>Ready when you are.</h2>
-      <p class="soft">Send ${esc(first)} a message and it goes straight to them. All you need is an email address &mdash; you can fill in the rest later, or not at all.</p>
+      <!-- The sub-line has to match the button under it. With the form on, the
+           promise is "an email address is the whole ask". With it off the
+           button hands you to the app, where reaching a therapist means an
+           account -- so "just an email" described a form that was not there. -->
+      <p class="soft">${KINDRED_FLAGS.clientDataPersistence
+        ? `Send ${esc(first)} a message and it goes straight to them. All you need is an email address &mdash; you can fill in the rest later, or not at all.`
+        : `Send ${esc(first)} a message through Kindred. It takes a minute to set up, and it goes straight to them.`}</p>
       ${KINDRED_FLAGS.clientDataPersistence ? `
       <form class="inq" id="inq-form" novalidate>
         <label class="inq-l" for="inq-email">Your email</label>
