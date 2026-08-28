@@ -95,7 +95,7 @@ const THERAPISTS = [
     promptLabel: 'I work best with…',
     quote: '“People who are ready to make a change. I’m kind, yet direct — I’ll tell you how it is.”',
     specs: ['Anxiety', 'Trauma', 'Grief', 'Burnout', 'ADHD', 'Life Transitions'],
-    photo: 'assets/therapist-desirae.jpg',
+    photo: 'assets/therapist-desirae.jpg?v=2',
     profileUrl: '/desirae-tarris',
     skin: '#C4A07A', hair: '#C9A15B', top: '#F4F1EA', bg: '#E8F0EA'
   }
