@@ -1,0 +1,205 @@
+/* Explore pages — same field as the homepage. */
+body.explore-page { background: #F1EBF3; }
+body.explore-page::before,
+body.explore-page::after {
+  content: "";
+  position: fixed; pointer-events: none; z-index: 0;
+  border-radius: 50% 60% 55% 45% / 55% 45% 60% 50%;
+  filter: blur(2px);
+}
+body.explore-page::before {
+  width: 280px; height: 320px; background: #E7B9A8; opacity: .42;
+  top: -80px; right: -70px;
+}
+body.explore-page::after {
+  width: 240px; height: 280px; background: var(--lilac, #B8A3C4); opacity: .38;
+  left: -90px; bottom: 8%;
+}
+body.explore-page main,
+body.explore-page .site-footer { position: relative; z-index: 1; }
+
+body.explore-page .eyebrow {
+  color: var(--clay-text);
+  font-style: normal;
+}
+
+/* Centered heroes. The magazine illustration + heart-card layout is the old site. */
+body.explore-page .uy-hero-inner,
+body.explore-page .fb-hero-inner,
+body.explore-page .lr-hero-inner,
+body.explore-page .tp-hero-inner {
+  display: block;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+body.explore-page .uy-hero-copy,
+body.explore-page .fb-hero-copy,
+body.explore-page .lr-hero-copy,
+body.explore-page .tp-hero-copy { text-align: center; }
+body.explore-page .uy-hero h1,
+body.explore-page .fb-hero h1,
+body.explore-page .lr-hero h1,
+body.explore-page .tp-hero h1 {
+  margin-left: auto; margin-right: auto;
+  letter-spacing: -.02em;
+}
+body.explore-page .uy-hero-sub,
+body.explore-page .fb-sub,
+body.explore-page .lr-sub,
+body.explore-page .tp-sub {
+  margin-left: auto; margin-right: auto;
+}
+body.explore-page .hero-ctas { justify-content: center; }
+body.explore-page .uy-hero-visual,
+body.explore-page .lr-hero-visual,
+body.explore-page .tp-hero-visual { display: none; }
+body.explore-page .hero-trust { display: none; }
+
+/* No scripty italic on lead lines. */
+body.explore-page .uy-hero-fine,
+body.explore-page .fb-sub-em,
+body.explore-page .lr-sub-em,
+body.explore-page .tp-sub-em,
+body.explore-page .uy-editorial {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-style: normal;
+  color: var(--ink-soft);
+}
+
+body.explore-page .nav-explore-menu a[aria-current="page"] {
+  background: var(--cream-2);
+  color: var(--aubergine);
+  font-weight: 600;
+}
+
+/* Paper cards */
+body.explore-page .path-card,
+body.explore-page .uy-explorer-shell,
+body.explore-page .uy-detail,
+body.explore-page .uy-begin-inner,
+body.explore-page .uy-begin-card,
+body.explore-page .sh-close-inner,
+body.explore-page .fb-tool,
+body.explore-page .fb-coll,
+body.explore-page .fb-pick,
+body.explore-page .fb-how,
+body.explore-page .uy-nudge-inner,
+body.explore-page .flow-shell {
+  background-color: #FFFCFA;
+  background-image:
+    radial-gradient(rgba(43,34,51,.022) 1px, transparent 1px),
+    radial-gradient(rgba(43,34,51,.018) 1px, transparent 1px);
+  background-size: 13px 13px, 21px 21px;
+}
+
+body.explore-page .path-now,
+body.explore-page .path-checkin {
+  --card-bg: #FFFCFA;
+  --card-ink: var(--ink);
+  --card-title: var(--aubergine);
+  --card-body: var(--ink-soft);
+  --card-vis: #F4F4F9;
+  --card-cta: var(--aubergine);
+  --card-cta-hover: var(--clay-text);
+  background: #FFFCFA;
+  border-color: var(--line);
+}
+body.explore-page .path-now .path-visual svg [stroke="#FFF3E4"] { stroke: var(--clay); }
+body.explore-page .path-checkin .path-visual svg [stroke="#FFF3E4"] { stroke: var(--aubergine); }
+body.explore-page .path-flag {
+  background: var(--aubergine);
+  color: #F6EFE4;
+  border-color: transparent;
+}
+
+/* Breathing moment: paper, not a dark app panel. */
+body.explore-page .fb-breathe-card {
+  background: #FFFCFA;
+  background-image:
+    radial-gradient(rgba(43,34,51,.022) 1px, transparent 1px),
+    radial-gradient(rgba(43,34,51,.018) 1px, transparent 1px);
+  background-size: 13px 13px, 21px 21px;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px -30px rgba(43, 34, 51, .28);
+  margin-top: 1.6rem;
+}
+body.explore-page .fb-breathe-flag { color: var(--clay-text); }
+body.explore-page .fb-breathe-card h2 { color: var(--aubergine); }
+body.explore-page .fb-breathe-sub { color: var(--ink-soft); }
+body.explore-page .fb-breathe-ring { border-color: var(--line); }
+body.explore-page .fb-breathe-phase { color: var(--aubergine); text-shadow: none; }
+body.explore-page .fb-breathe-dots span { background: var(--line); }
+body.explore-page .fb-breathe-dots span.done { background: var(--clay); }
+body.explore-page .fb-breathe-fine { color: var(--ink-soft); font-style: normal; }
+body.explore-page .fb-breathe-card .btn-dark {
+  background: var(--aubergine); color: #FCFCFE;
+  box-shadow: 0 6px 18px rgba(66,36,72,.3);
+}
+body.explore-page .fb-breathe-card .btn-dark:hover { background: #56305E; }
+
+body.explore-page .fb-how {
+  background: transparent;
+  border: none;
+}
+
+/* Closing on-ramps: waitlist card, not an aubergine takeover. */
+body.explore-page .match-onramp-inner {
+  background: #FFFCFA;
+  background-image:
+    radial-gradient(rgba(43,34,51,.022) 1px, transparent 1px),
+    radial-gradient(rgba(43,34,51,.018) 1px, transparent 1px);
+  background-size: 13px 13px, 21px 21px;
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px -30px rgba(43, 34, 51, .28);
+}
+body.explore-page .match-onramp-inner .eyebrow { color: var(--clay-text); }
+body.explore-page .match-onramp-inner h2 { color: var(--aubergine); }
+body.explore-page .match-onramp-inner > p { color: var(--ink-soft); }
+body.explore-page .match-onramp-inner .btn {
+  background: var(--aubergine); color: #FCFCFE;
+}
+body.explore-page .match-onramp-inner .btn:hover { background: #56305E; }
+body.explore-page .match-onramp-fine { color: var(--ink-soft) !important; }
+
+body.explore-page .tp-match-inner {
+  background: #FFFCFA;
+  background-image:
+    radial-gradient(rgba(43,34,51,.022) 1px, transparent 1px),
+    radial-gradient(rgba(43,34,51,.018) 1px, transparent 1px);
+  background-size: 13px 13px, 21px 21px;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px -30px rgba(43, 34, 51, .28);
+}
+body.explore-page .tp-match-head .eyebrow { color: var(--clay-text); }
+body.explore-page .tp-match-head h2 { color: var(--aubergine); }
+body.explore-page .tp-match-head p { color: var(--ink-soft); }
+body.explore-page .tp-match-ctas .btn-dark {
+  background: var(--aubergine); color: #FCFCFE;
+}
+body.explore-page .tp-match-ctas .btn-dark:hover { background: #56305E; }
+body.explore-page .tp-match-ctas .btn-outline {
+  border-color: var(--aubergine); color: var(--aubergine);
+}
+body.explore-page .tp-match-ctas .btn-outline:hover { background: rgba(66,36,72,.06); }
+body.explore-page .tp-match-fine { color: var(--ink-soft); font-style: normal; }
+body.explore-page .tp-match-fine a { color: var(--aubergine); }
+
+body.explore-page .flow-match-cta {
+  background: #FFFCFA;
+  border: 1px solid var(--line);
+}
+body.explore-page .flow-match-cta > p:first-child { color: var(--ink-soft); }
+body.explore-page .flow-match-cta .btn {
+  background: var(--aubergine); color: #FCFCFE;
+}
+body.explore-page .flow-match-fine { color: var(--ink-soft); }
+
+@media (max-width: 820px) {
+  body.explore-page .uy-hero-inner,
+  body.explore-page .fb-hero-inner,
+  body.explore-page .lr-hero-inner,
+  body.explore-page .tp-hero-inner { padding: 0; }
+}

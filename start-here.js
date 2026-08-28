@@ -282,7 +282,7 @@ const SCREENS = {
       </ul>
       <div class="flow-nextsteps">
         ${step('therapy.html', 'How therapy works', 'Types of therapy, what sessions are like, what it costs, and FAQs.')}
-        ${step('index.html#find-therapist', 'See who you might click with', 'Kindred matches on style, communication, and what helps you feel understood — not just credentials.')}
+        ${step('index.html#notify', 'See who you might click with', 'Kindred matches on style, communication, and what helps you feel understood — not just credentials.')}
       </div>
       <p class="flow-fine">Still unsure? The <button class="linklike" id="therapy-checkin">Kindred Check-In</button> can help you see whether now is the right time.</p>`;
   },
@@ -299,7 +299,7 @@ const SCREENS = {
         <li><strong>Take care of yourself too.</strong> Supporting someone is heavy. Your feelings count here as well.</li>
       </ul>
       <div class="flow-nextsteps">
-        ${step('index.html#life-relationships', 'Guides for supporters', 'How to start the conversation, what to say, and what to avoid.')}
+        ${step('life-relationships.html', 'Guides for supporters', 'How to start the conversation, what to say, and what to avoid.')}
         ${step('therapy.html', 'Help them explore therapy', 'Share what therapy is actually like — it lowers the barrier.')}
       </div>
       <p class="flow-safety-note">If you're worried they might be in crisis, you can call or text <a href="tel:988"><strong>988</strong></a> yourself — counselors also guide people who are supporting someone else.</p>`;
@@ -311,23 +311,17 @@ const SCREENS = {
    pattern as the mood→check-in link). Forward-compatible: the app can read
    these to pre-filter matches. */
 function matchHref() {
-  const parts = [];
-  if (state.feeling && state.feeling !== 'none') parts.push('feeling=' + encodeURIComponent(state.feeling));
-  if (state.mood) parts.push('mood=' + encodeURIComponent(state.mood));
-  if (state.impact) parts.push('impact=' + encodeURIComponent(state.impact));
-  const base = window.KINDRED_APP_URL || '/app/';
-  return parts.length ? `${base}#match&${parts.join('&')}` : base;
+  return 'index.html#notify';
 }
 
 function matchBlock(lead, opts = {}) {
-  const href = opts.prefilled ? matchHref() : '/app/';
   const tag = opts.prefilled ? `<p class="flow-match-tag">Based on what you just shared</p>` : '';
   return `
     <div class="flow-match-cta">
       ${tag}
       <p>${lead}</p>
-      <a class="btn" href="${href}" target="_blank" rel="noopener">${opts.prefilled ? 'See therapists matched to you' : 'Match with a Therapist'}</a>
-      <p class="flow-match-fine">Matched to you — never to the highest bidder. Free for you, always.</p>
+      <a class="btn" href="index.html#notify">Get notified when someone is live</a>
+      <p class="flow-match-fine">We&rsquo;ll write when a verified therapist in your area is live. Matched by how you work, never by who pays more.</p>
     </div>`;
 }
 
