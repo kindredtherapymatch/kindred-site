@@ -911,10 +911,10 @@ const REPORT_REASONS = [
   { key: 'not-a-therapist', label: "Doesn't look like a real therapist" },
   { key: 'other',           label: 'Something else' }
 ];
-/* Six months from going live, not a calendar date. A date counts down: read in
+/* Six months from signup, not a calendar date. A date counts down: read in
    January 2027 "free until March" is an eight-week offer, and it shrinks every
    week a therapist thinks about it. The same promise stated as a length does
-   not decay. Kept in step with migration 0053. */
+   not decay. Starts on the therapists row INSERT -- migration 0055. */
 const FREE_MONTHS       = 6;
 const FREE_PERIOD_LABEL = 'six months';
 /* Always stated WITH the price. "Six months free" on its own invites a
@@ -9924,7 +9924,7 @@ function renderTherapistSettings() {
            /* Clock not started: they have never been findable, so the six
               months have not begun. Saying "free until —" with no date would
               read as a bug. */
-           return `<p class="portal-note" style="margin-top:0;">Your first ${FREE_PERIOD_LABEL} are free &mdash; the clock starts when your profile goes live, not today. Then ${AFTER_FREE_RATE}. No card until then, nothing to cancel.</p>`;
+           return `<p class="portal-note" style="margin-top:0;">Your first ${FREE_PERIOD_LABEL} are free, then ${AFTER_FREE_RATE}. No card until then, nothing to cancel.</p>`;
          })()}`
       : `<p class="portal-note" style="margin-top:0;">Your profile isn't live yet.</p>`}
 
