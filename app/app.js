@@ -5280,19 +5280,14 @@ function sendChatMessage() {
   renderChatMessages(tid);
   renderMatches();
 
-  // Only simulate an auto-reply when the client is sending — this stands in
-  // for "the therapist responded on their own time" without requiring the
-  // person testing this prototype to switch views for every message. When
-  // actually replying as the therapist, no canned reply is injected.
-  if (chatRole === 'client') {
-    setTimeout(() => {
-      chatLog[tid].push({ from: 'them', text: "Thanks for sharing that. I'd love to talk through it more — want to grab a free 15-minute intro call this week?" });
-      renderChatMessages(tid);
-      renderMatches();
-    }, 900);
-  } else {
-    renderRequests();
-  }
+  /* NO SIMULATED REPLIES. A canned "Thanks for sharing that — want to grab a
+     free 15-minute intro call?" used to fire 900ms after every client message,
+     styled exactly like the therapist. It was a prototype convenience so one
+     person could test both sides without switching views, and it read as the
+     therapist answering — putting words about scheduling and free calls into
+     the mouth of a real, named, licensed person who had not said them.
+     The chat now shows only what someone actually typed. */
+  if (chatRole !== 'client') renderRequests();
 }
 
 document.getElementById('chat-back').addEventListener('click', () => {
