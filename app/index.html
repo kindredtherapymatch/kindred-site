@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..600;1,7..72,400..600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=merge55">
+<link rel="stylesheet" href="style.css?v=merge56">
 </head>
 <body>
 
@@ -42,9 +42,19 @@
 
   <!-- ===== LOGIN ===== -->
   <section class="screen hidden" id="screen-login">
-    <header class="top-bar">
-      <button class="icon-btn back-btn" id="login-back">←</button>
-      <div class="logo" id="login-title">Log In</div>
+    <header class="top-bar" id="login-bar">
+      <button class="icon-btn back-btn" id="login-back" aria-label="Back">←</button>
+      <div class="login-mark" id="login-mark" hidden>
+        <span class="login-wax" aria-hidden="true">
+          <svg viewBox="0 0 100 100">
+            <path d="M30 8 C44 8 46 20 46 34 L46 66 C46 82 42 92 30 92 C24 92 22 84 22 66 L22 34 C22 16 24 8 30 8 Z" fill="#F6EFE4"/>
+            <path d="M52 34 C52 20 62 10 78 8 C80 22 72 36 56 38 C53.5 38.3 52 37 52 34 Z" fill="#E8C687"/>
+            <path d="M52 46 C68 46 78 56 80 72 C66 74 52 66 52 50 Z" fill="#E7B9A8"/>
+          </svg>
+        </span>
+      </div>
+      <p class="login-kicker" id="login-kicker" hidden>An invitation</p>
+      <h1 class="logo" id="login-title">Log In</h1>
     </header>
     <!-- Shown INSTEAD of the form when a session already exists on this device
          and restoreSession() is still in flight — welcome.html sends a
@@ -54,13 +64,15 @@
          form below replaces this. -->
     <p class="login-context" id="login-restoring" hidden>Signing you in…</p>
     <div class="login-form" id="login-form">
+      <p class="login-lede" id="login-lede" hidden></p>
       <p class="login-context" id="login-context" hidden></p>
-      <div class="t-form-label">Email</div>
-      <input type="email" class="t-rate-input" id="login-email" placeholder="you@example.com">
-      <div class="t-form-label">Password</div>
-      <input type="password" class="t-rate-input" id="login-password" placeholder="••••••••">
+      <label class="t-form-label" for="login-email">Email</label>
+      <input type="email" class="t-rate-input" id="login-email" placeholder="you@example.com" autocomplete="email">
+      <label class="t-form-label" for="login-password">Password</label>
+      <input type="password" class="t-rate-input" id="login-password" placeholder="••••••••" autocomplete="current-password">
       <button class="primary-btn" style="margin-top:20px;background:var(--coral);color:white;" id="login-submit-btn">Log In</button>
       <button class="primary-btn" style="background:white;border:1.5px solid var(--coral);color:var(--coral-dark);" id="login-create-btn">New here? Create an Account</button>
+      <p class="login-fine" id="login-fine" hidden></p>
     </div>
   </section>
 
@@ -440,7 +452,7 @@
   </footer>
 </div>
 
-<script src="app.js?v=merge109"></script>
+<script src="app.js?v=merge110"></script>
 <script>
   if ('serviceWorker' in navigator) {
     /* A new worker calls skipWaiting() + clients.claim(), so it takes control

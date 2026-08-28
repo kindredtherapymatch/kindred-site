@@ -102,6 +102,7 @@ h1, h2, .logo, .chat-name, .nav-btn span:last-child {
   color: var(--coral-dark);
   letter-spacing: 0.2px;
 }
+#login-title { margin: 0; }
 #screen-discover .top-bar { justify-content: center; position: relative; }
 
 /* ===== EXPERIENCE SWITCHING (matching app <-> explore/website) ===== */
@@ -3508,3 +3509,143 @@ select.t-rate-input,
    get the warm border so it reads as a nudge rather than as decoration. */
 .free-note { border-left: 3px solid var(--line); padding-left: 12px; margin-top: 12px; }
 .free-note.is-soon { border-left-color: var(--clay, #B4674A); }
+
+/* ==========================================================================
+   SIGNUP GATE — the page "Accept your invitation" lands on.
+   --------------------------------------------------------------------------
+   The rest of the app can still be a phone frame. This screen cannot: it is
+   the next page of a letter, and a beige iPhone chrome after a wax-seal
+   invitation is the break. Full-bleed at every width, paper card, Create
+   first. Sign-in arrivals do not get this class.
+   ========================================================================== */
+.login-mark { display: none; }
+.login-kicker {
+  display: none;
+  font-family: 'Literata', Georgia, serif;
+  font-style: italic; font-weight: 400; font-size: 1.02rem;
+  color: var(--rust, #BE765F); margin: 0;
+}
+.login-lede {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px; line-height: 1.6; color: var(--ink-soft);
+  margin: 0 0 18px;
+}
+.login-fine {
+  font-size: 12.5px; line-height: 1.55; color: var(--ink-soft);
+  margin: 14px 0 0; text-align: center;
+}
+.login-wax {
+  width: 64px; height: 64px; display: flex;
+  align-items: center; justify-content: center; border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #6A3D72 0%, #422448 48%, #301A35 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    inset 0 -4px 8px rgba(0,0,0,.28),
+    0 8px 18px rgba(66, 36, 72, .32);
+}
+.login-wax svg { width: 30px; height: 30px; display: block; }
+
+body.is-signup-gate {
+  background: #F1EBF3;
+  display: block;
+}
+body.is-signup-gate::before,
+body.is-signup-gate::after {
+  content: "";
+  position: fixed; pointer-events: none; z-index: 0;
+  border-radius: 50% 60% 55% 45% / 55% 45% 60% 50%;
+  filter: blur(2px);
+}
+body.is-signup-gate::before {
+  width: 280px; height: 320px; background: #E7B9A8; opacity: .42;
+  top: -80px; right: -70px;
+}
+body.is-signup-gate::after {
+  width: 240px; height: 280px; background: var(--lavender, #B8A3C4); opacity: .38;
+  left: -90px; bottom: 8%;
+}
+body.is-signup-gate .phone {
+  position: relative; z-index: 1;
+  width: 100%; min-height: 100vh; height: auto;
+  border-radius: 0; box-shadow: none;
+  background: transparent; overflow: visible;
+}
+body.is-signup-gate .demo-banner,
+body.is-signup-gate .bottom-nav,
+body.is-signup-gate .app-footer { display: none !important; }
+
+body.is-signup-gate #screen-login {
+  --measure: 460px;
+  flex: 1 1 auto;
+  justify-content: center;
+  overflow-y: auto;
+  padding: clamp(1.5rem, 6vh, 4rem) 1.25rem 2.5rem;
+}
+body.is-signup-gate #screen-login > * { max-width: var(--measure); }
+
+body.is-signup-gate #login-back { display: none; }
+body.is-signup-gate #login-bar {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: .35rem;
+  padding: 0 0 1.1rem; text-align: center;
+}
+body.is-signup-gate .login-mark { display: flex; margin-bottom: .4rem; }
+body.is-signup-gate .login-kicker { display: block; }
+body.is-signup-gate #login-title {
+  font-family: 'Literata', Georgia, serif !important;
+  font-size: clamp(1.7rem, 4.6vw, 2.2rem);
+  font-weight: 500;
+  letter-spacing: -.015em;
+  line-height: 1.18;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+}
+
+body.is-signup-gate .login-form {
+  flex: 0 0 auto;
+  background: #FFFCFA;
+  background-image:
+    radial-gradient(rgba(43,34,51,.022) 1px, transparent 1px),
+    radial-gradient(rgba(43,34,51,.018) 1px, transparent 1px);
+  background-size: 13px 13px, 21px 21px;
+  background-position: 0 0, 7px 9px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 1.7rem 1.55rem 1.5rem;
+  box-shadow: 0 24px 60px -30px rgba(43, 34, 51, .28);
+  margin: 0 auto;
+}
+body.is-signup-gate .login-form .t-form-label {
+  font-size: .72rem; letter-spacing: .04em;
+}
+body.is-signup-gate .login-form .t-rate-input {
+  font-size: 15px; padding: 13px 14px; border-radius: 12px;
+  background: #fff;
+}
+body.is-signup-gate .login-form .t-rate-input:focus {
+  outline: 2px solid var(--rust, #BE765F); outline-offset: 2px;
+  border-color: transparent;
+}
+body.is-signup-gate .primary-btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 14px 18px;
+}
+body.is-signup-gate #login-create-btn {
+  box-shadow: 0 8px 20px rgba(66, 36, 72, .28);
+}
+body.is-signup-gate #login-create-btn:hover { background: var(--coral-dark); }
+body.is-signup-gate #login-submit-btn {
+  background: transparent !important;
+  border: none !important;
+  color: var(--ink-soft) !important;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 2px 0 0;
+  box-shadow: none;
+}
+body.is-signup-gate #login-submit-btn:hover { color: var(--coral-dark) !important; }
+
+body.is-signup-gate .login-context { display: none; }

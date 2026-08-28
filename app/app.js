@@ -5640,6 +5640,7 @@ function openTherapistOnDemandAgreement(onAgree, onDecline) {
 
 // ===== NAV / SCREENS =====
 function showScreen(name) {
+  if (name !== 'login') setSignupGate(false);
   document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
   document.querySelectorAll('#bottom-nav .nav-btn').forEach(b => b.classList.remove('active'));
   if (name === 'profile') renderProfileScreen();
@@ -5725,7 +5726,99 @@ document.getElementById('choose-therapist-btn').addEventListener('click', () => 
   openLogin();
 });
 
+/* The query string after a hash — /app/#therapist-signup?inv=TOKEN — is not
+   in location.search. Invitation tokens live there because the accept link
+   is a hash route, and putting ?inv= before the hash would drop the route. */
+function hashQuery() {
+  const h = location.hash.slice(1);
+  const i = h.indexOf('?');
+  return new URLSearchParams(i === -1 ? '' : h.slice(i + 1));
+}
+
+function stashInvitationToken() {
+  const inv = (hashQuery().get('inv') || '').replace(/[^a-z0-9]/gi, '').slice(0, 16);
+  if (inv) {
+    try { sessionStorage.setItem('kindred-inv', inv); } catch (e) {}
+  }
+  try { return sessionStorage.getItem('kindred-inv') || inv || ''; } catch (e) { return inv; }
+}
+
+function markInvitationAccepted() {
+  let token = '';
+  try { token = (sessionStorage.getItem('kindred-inv') || '').replace(/[^a-z0-9]/gi, '').slice(0, 16); } catch (e) {}
+  if (!token) token = (hashQuery().get('inv') || '').replace(/[^a-z0-9]/gi, '').slice(0, 16);
+  if (!token || !dbReady()) return;
+  /* Void RPC: do not wait, do not parse a body. Same fire-and-forget as the
+     invitation page's open tracking — signup must not depend on this landing. */
+  const c = dbConfig();
+  fetch(`${c.url.replace(/\/$/, '')}/rest/v1/rpc/invitation_accepted`, {
+    method: 'POST', keepalive: true,
+    headers: { 'Content-Type': 'application/json', apikey: c.key, Authorization: 'Bearer ' + c.key },
+    body: JSON.stringify({ p_token: token })
+  }).catch(function () {});
+  try { sessionStorage.removeItem('kindred-inv'); } catch (e) {}
+}
+
+function setSignupGate(on) {
+  document.body.classList.toggle('is-signup-gate', !!on);
+  const mark = document.getElementById('login-mark');
+  const kicker = document.getElementById('login-kicker');
+  const lede = document.getElementById('login-lede');
+  const fine = document.getElementById('login-fine');
+  if (mark) mark.hidden = !on;
+  if (kicker) kicker.hidden = !on;
+  if (lede) lede.hidden = !on;
+  if (fine) fine.hidden = !on;
+  const pw = document.getElementById('login-password');
+  if (pw) {
+    pw.autocomplete = on ? 'new-password' : 'current-password';
+    pw.placeholder = on ? 'At least 6 characters' : '••••••••';
+  }
+}
+
+/* #therapist-signup is the front door from the invitation and from Join.
+   Create is the action; log in is the quiet second. The visual chrome lives
+   on body.is-signup-gate so a beige phone frame cannot follow a letter. */
+function presentTherapistSignup() {
+  accountType = 'therapist';
+  const fromInvite = !!stashInvitationToken();
+  openLogin();
+  setSignupGate(true);
+  const title = document.getElementById('login-title');
+  if (title) title.textContent = 'Create your account.';
+  const kicker = document.getElementById('login-kicker');
+  if (kicker) {
+    kicker.textContent = fromInvite ? 'An invitation' : 'For therapists';
+    kicker.hidden = false;
+  }
+  const lede = document.getElementById('login-lede');
+  if (lede) {
+    lede.textContent = 'Email and a password, then you can build the profile clients will meet you on. Your first six months are free.';
+    lede.hidden = false;
+  }
+  const ctx = document.getElementById('login-context');
+  if (ctx) { ctx.hidden = true; ctx.textContent = ''; }
+  const fine = document.getElementById('login-fine');
+  if (fine) {
+    fine.textContent = 'Free to build, free to be listed, free to be matched. No card up front.';
+    fine.hidden = false;
+  }
+  const create = document.getElementById('login-create-btn');
+  const login  = document.getElementById('login-submit-btn');
+  if (create && login) {
+    create.disabled = false;
+    login.disabled  = false;
+    create.hidden = false;
+    create.textContent = 'Create account';
+    create.style.cssText = 'margin-top:22px;background:var(--coral);color:#fff;';
+    login.textContent = 'Already have an account? Log in';
+    login.style.cssText = 'background:transparent;border:none;color:var(--ink-soft);margin-top:4px;';
+    create.parentNode.insertBefore(create, login);
+  }
+}
+
 function openLogin() {
+  setSignupGate(false);       // sign-in is a form, not the invitation's next page
   setLoginRestoring(false);   // any earlier restore is finished or irrelevant
   document.getElementById('login-title').textContent = accountType === 'client' ? 'Client Login' : 'Therapist Login';
   /* Reset what the post-checkout path may have changed -- someone who signs
@@ -5781,13 +5874,16 @@ document.getElementById('login-submit-btn').addEventListener('click', async () =
   }
   const email = (document.getElementById('login-email').value || '').trim();
   const password = document.getElementById('login-password').value || '';
-  // Empty fields (or no auth configured) = demo therapist portal, as before.
-  if (!authReady() || (!email && !password)) { showTherapistView(); return; }
+  // No auth configured = demo therapist portal. Empty fields with auth live
+  // used to take that same shortcut, so a misfire on Create/Log in after an
+  // invitation dumped someone into a portal they did not sign up for.
+  if (!authReady()) { showTherapistView(); return; }
   if (!email || !password) { showToast('Enter your email and password.'); return; }
   const btn = document.getElementById('login-submit-btn'); const label = btn.textContent;
   btn.disabled = true; btn.textContent = 'Logging in…';
   try {
     await authSignIn(email, password);
+      markInvitationAccepted();
       const row = await loadTherapistRow();
       await loadReviewStatus();          // an open report hides them; see 0040
       // 0013 creates a stub row the moment someone pays, so "a row exists" no
@@ -5844,9 +5940,10 @@ document.getElementById('login-create-btn').addEventListener('click', async () =
   if (accountType === 'client') { await createClientAccount(); return; }
   const email = (document.getElementById('login-email').value || '').trim();
   const password = document.getElementById('login-password').value || '';
-  /* Demo fallback (no auth configured). Lands the same way, so what gets
-     demonstrated is the product people will actually get. */
-  if (!authReady() || (!email && !password)) { startTherapistSignup(); finishTherapistSignup(); return; }
+  /* Demo fallback only when auth is not configured. Empty fields with a live
+     backend used to skip the form and mint a demo portal — after an invitation,
+     that looked like the accept button was broken. */ 
+  if (!authReady()) { startTherapistSignup(); finishTherapistSignup(); return; }
   if (!email || password.length < 6) { showToast('Enter an email and a password of at least 6 characters.'); return; }
   const btn = document.getElementById('login-create-btn'); const label = btn.textContent;
   btn.disabled = true; btn.textContent = 'Creating account…';
@@ -5857,6 +5954,7 @@ document.getElementById('login-create-btn').addEventListener('click', async () =
        Mirrors the same event in activate.js so the two routes into a therapist
        account land in one number instead of two half-numbers. */
     kTrack('therapist_account_created', true);
+    markInvitationAccepted();
     if (needsConfirmation) {
       showToast('Account created — check your email to confirm, then log in.');
       btn.disabled = false; btn.textContent = label;
@@ -7565,6 +7663,7 @@ let profileShowOtherLanguage = false; // transient UI flag for the profile edito
 let therapistWelcomeShown = false; // once per login, reset on logout
 
 function showTherapistView() {
+  setSignupGate(false);
   document.getElementById('bottom-nav').classList.add('hidden');
   document.getElementById('therapist-nav').classList.remove('hidden');
   showTScreen('t-insights');
@@ -9682,28 +9781,15 @@ function applyLandingParams() {
 
   if (wantsSignup) {
     accountType = 'therapist';
-    openLogin();
-    /* #therapist-signup with NO email is the front door: the landing page
-       sends brand-new therapists straight here to build a profile before
-       paying anything.
-
-       This used to flip the buttons -- swap the order, repaint "Create my
-       account" as the filled primary, demote Log In to "I already have an
-       account" -- on the theory that a stranger should not be asked to sign
-       in. What it actually produced was a screen that rearranged itself
-       depending on how you arrived, so the same two choices sat in different
-       places with different names and different weights. The pair is now
-       fixed everywhere: Log In on top, New here? Create an Account below.
-       The CONTEXT LINE is what says which one you probably want -- that is
-       text, and text is free to change. */
+    /* #therapist-signup with NO email is the front door: the invitation and
+       the Join buttons send brand-new therapists here. Create is the action
+       they just accepted; log in is the quiet second. A paid arrival with
+       ?email= still uses the ordinary login form — that person already has
+       an account, or is about to set a password on one. */
     if (!email) {
-      const title = document.getElementById('login-title');
-      if (title) title.textContent = 'Create your account';
-      const ctx = document.getElementById('login-context');
-      if (ctx) {
-        ctx.innerHTML = '<strong>Build your profile free.</strong> No card, nothing to pay &mdash; you only activate once it&rsquo;s ready and you&rsquo;ve seen how you look to clients.<br><br>New to Kindred? <strong>Create an Account</strong> below.';
-        ctx.hidden = false;
-      }
+      presentTherapistSignup();
+    } else {
+      openLogin();
     }
   }
   if (email) {
